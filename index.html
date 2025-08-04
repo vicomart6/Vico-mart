@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vico-ভিকো - অনলাইন শপিং</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(90deg, #0f3460, #22333b);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideIn 1s ease-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+        .header .logo {
+            font-size: 40px;
+            font-weight: bold;
+            color: #ff6f61;
+            text-shadow: 2px 2px 10px #ff6f61;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .header .search-bar {
+            flex-grow: 1;
+            margin: 0 30px;
+            position: relative;
+        }
+        .header .search-bar input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+        .header .search-bar input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+        }
+        .header .search-bar button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 10px;
+            background: #ff6f61;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #fff;
+            transition: transform 0.3s;
+        }
+        .header .search-bar button:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+        .header .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        .header .social-links a {
+            color: #fff;
+            font-size: 20px;
+            text-decoration: none;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .header .social-links a:hover {
+            color: #ff6f61;
+            transform: rotate(15deg);
+        }
+        .nav {
+            background: linear-gradient(90deg, #0f3460, #1a535c);
+            padding: 10px 20px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            border-bottom: 1px solid #ff6f61;
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .nav span {
+            padding: 10px 20px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .nav span:hover {
+            background: #ff6f61;
+            transform: translateY(-3px) scale(1.1);
+            color: #fff;
+        }
+        .cart-summary {
+            max-width: 1400px;
+            margin: 10px auto;
+            padding: 15px;
+            background: rgba(26, 26, 46, 0.9);
+            border-radius: 10px;
+            border: 1px solid #ff6f61;
+            box-shadow: 0 2px 10px rgba(255, 111, 97, 0.3);
+            position: sticky;
+            top: 80px;
+            z-index: 90;
+            display: none;
+            animation: slideUp 0.5s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .cart-summary h3 {
+            color: #ff6f61;
+            margin: 0 0 10px;
+        }
+        .cart-summary ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .cart-summary li {
+            padding: 5px 0;
+            color: #fff;
+        }
+        .cart-summary .total {
+            font-weight: bold;
+            color: #ff6f61;
+            margin-top: 10px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+            perspective: 1000px;
+            display: none;
+        }
+        .product-card {
+            background: linear-gradient(135deg, #16213e, #0f3460);
+            border: 1px solid #ff6f61;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.2);
+            transition: all 0.5s;
+            transform-style: preserve-3d;
+            overflow: hidden;
+            cursor: pointer;
+            animation: bounceIn 0.8s ease-out;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .product-card:hover {
+            transform: rotateY(15deg) scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 111, 97, 0.4);
+        }
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
+        .product-card h3 {
+            margin: 15px 0;
+            font-size: 18px;
+            color: #ff6f61;
+            transition: color 0.3s;
+        }
+        .product-card:hover h3 {
+            color: #fff;
+        }
+        .product-card p {
+            margin: 10px 0;
+            color: #ff6f61;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .login-section, .signup-section, .product-details-modal, .payment-section, .customer-service {
+            background: linear-gradient(135deg, #16213e, #0f3460);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #ff6f61;
+            box-shadow: 0 8px 20px rgba(255, 111, 97, 0.3);
+            animation: zoomIn 0.5s ease-out;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            z-index: 1000;
+            text-align: center;
+            display: none;
+        }
+        @keyframes zoomIn {
+            from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        .login-section.show, .signup-section.show, .product-details-modal.show, .payment-section.show, .customer-service.show {
+            display: block;
+        }
+        .login-section label, .signup-section label, .product-details-modal label, .payment-section label, .customer-service label {
+            display: block;
+            margin: 15px 0 10px;
+            color: #ff6f61;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .login-section input[type="text"], .login-section input[type="password"], .signup-section input[type="text"], .signup-section input[type="password"], .product-details-modal select, .product-details-modal input[type="number"], .payment-section input[type="text"], .customer-service input[type="text"] {
+            width: 50%;
+            padding: 10px;
+            margin: 0 auto 15px;
+            border: 2px solid #ff6f61;
+            border-radius: 10px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: all 0.3s;
+        }
+        .login-section input[type="text"]:focus, .login-section input[type="password"]:focus, .signup-section input[type="text"]:focus, .signup-section input[type="password"]:focus, .product-details-modal select:focus, .product-details-modal input[type="number"]:focus, .payment-section input[type="text"]:focus, .customer-service input[type="text"]:focus {
+            border-color: #fff;
+            box-shadow: 0 0 10px #ff6f61;
+            outline: none;
+        }
+        .login-section button, .signup-section button, .product-details-modal button, .payment-section button, .customer-service button {
+            background: linear-gradient(90deg, #ff6f61, #ff8c61);
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-section button:hover, .signup-section button:hover, .product-details-modal button:hover, .payment-section button:hover, .customer-service button:hover {
+            background: linear-gradient(90deg, #ff8c61, #ff6f61);
+            transform: scale(1.05);
+        }
+        .login-section button::after, .signup-section button::after, .product-details-modal button::after, .payment-section button::after, .customer-service button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            top: 0;
+            left: 0;
+            transition: width 0.3s;
+        }
+        .login-section button:hover::after, .signup-section button:hover::after, .product-details-modal button:hover::after, .payment-section button:hover::after, .customer-service button::after {
+            width: 100%;
+        }
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ff6f61;
+            transition: all 0.3s;
+        }
+        .close-btn:hover {
+            transform: rotate(180deg) scale(1.2);
+            color: #fff;
+        }
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #ff6f61;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .logout-btn:hover {
+            background: #ff8c61;
+            transform: scale(1.1);
+        }
+        .auth-toggle {
+            margin-top: 10px;
+            color: #ff6f61;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .auth-toggle:hover {
+            color: #fff;
+        }
+        .product-details-modal img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            animation: fadeInImage 0.5s ease-in;
+        }
+        @keyframes fadeInImage {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .product-details-modal p.description {
+            color: #fff;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+    </style>
+    <script>
+        let cart = [];
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        let currentUser = localStorage.getItem('currentUser');
+
+        // অ্যাকাউন্ট চেক
+        function checkAuth() {
+            if (!isLoggedIn) {
+                document.querySelector('.login-section').style.display = 'block';
+                document.querySelector('.signup-section').style.display = 'none';
+                document.querySelector('.products').style.display = 'none';
+                document.querySelector('.cart-summary').style.display = 'none';
+                document.querySelector('.logout-btn')?.remove();
+            } else {
+                document.querySelector('.login-section').style.display = 'none';
+                document.querySelector('.signup-section').style.display = 'none';
+                document.querySelector('.products').style.display = 'grid';
+                document.querySelector('.cart-summary').style.display = 'block';
+                if (!document.querySelector('.logout-btn')) {
+                    const logoutBtn = document.createElement('button');
+                    logoutBtn.textContent = 'লগআউট';
+                    logoutBtn.className = 'logout-btn';
+                    logoutBtn.onclick = logout;
+                    document.querySelector('.header').appendChild(logoutBtn);
+                }
+            }
+        }
+
+        // সাইন আপ
+        function signup() {
+            const username = document.getElementById('signup-username').value;
+            const password = document.getElementById('signup-password').value;
+
+            if (username && password) {
+                if (users.some(user => user.username === username)) {
+                    alert('এই ইউজারনেম ইতিমধ্যে ব্যবহৃত!');
+                    return;
+                }
+                users.push({ username, password });
+                localStorage.setItem('users', JSON.stringify(users));
+                alert('অ্যাকাউন্ট তৈরি সফল!');
+                document.querySelector('.signup-section').style.display = 'none';
+                document.querySelector('.login-section').style.display = 'block';
+            } else {
+                alert('দয়া করে ইউজারনেম এবং পাসওয়ার্ড দিন!');
+            }
+        }
+
+        // লগইন
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            const user = users.find(u => u.username === username && u.password === password);
+            if (user) {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', username);
+                isLoggedIn = true;
+                checkAuth();
+                alert('লগইন সফল!');
+            } else {
+                alert('অবৈধ ইউজারনেম বা পাসওয়ার্ড!');
+            }
+        }
+
+        // লগআউট
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            isLoggedIn = false;
+            cart = [];
+            checkAuth();
+            updateCartSummary();
+            alert('লগআউট সফল!');
+        }
+
+        // সাইন আপ/লগইন টগল
+        function toggleAuth(section) {
+            document.querySelector('.login-section').style.display = section === 'signup' ? 'none' : 'block';
+            document.querySelector('.signup-section').style.display = section === 'signup' ? 'block' : 'none';
+        }
+
+        // পণ্যের বিস্তারিত দেখানো
+        function showProductDetails(product) {
+            if (!isLoggedIn) {
+                alert('দয়া করে প্রথমে লগইন করুন!');
+                return;
+            }
+            const modal = document.querySelector('.product-details-modal');
+            modal.querySelector('h3').textContent = product.name;
+            modal.querySelector('img').src = product.image;
+            modal.querySelector('.price').textContent = `মূল্য: ৳${product.price}`;
+            modal.querySelector('p.description').textContent = product.description || 'এই পণ্যের বিস্তারিত বর্ণনা পাওয়া যায়নি।';
+            modal.classList.add('show');
+        }
+
+        function closeProductDetails() {
+            document.querySelector('.product-details-modal').classList.remove('show');
+        }
+
+        function addToCart() {
+            if (!isLoggedIn) {
+                alert('দয়া করে প্রথমে লগইন করুন!');
+                return;
+            }
+            const modal = document.querySelector('.product-details-modal');
+            const productName = modal.querySelector('h3').textContent;
+            const price = parseInt(modal.querySelector('.price').textContent.replace('মূল্য: ৳', ''));
+            const size = modal.querySelector('#size').value;
+            const color = modal.querySelector('#color').value;
+            const quantity = parseInt(modal.querySelector('#quantity').value);
+            const total = price * quantity;
+
+            cart.push({ productName, size, color, quantity, total });
+            alert(`কার্টে যোগ করা হয়েছে!\nপণ্য: ${productName}\nসাইজ: ${size}\nরঙ: ${color}\nপরিমাণ: ${quantity}\nমোট: ৳${total}`);
+            closeProductDetails();
+            updateCartSummary();
+            showPaymentSection(cart[cart.length - 1]);
+        }
+
+        function updateCartSummary() {
+            const cartSummary = document.getElementById('cart-summary');
+            const cartList = cartSummary.querySelector('ul');
+            cartList.innerHTML = '';
+            let grandTotal = 0;
+
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.productName} (সাইজ: ${item.size}, রঙ: ${item.color}, পরিমাণ: ${item.quantity}) - ৳${item.total}`;
+                cartList.appendChild(li);
+                grandTotal += item.total;
+            });
+
+            cartSummary.querySelector('.total').textContent = `মোট: ৳${grandTotal}`;
+        }
+
+        function showPaymentSection(item) {
+            if (!isLoggedIn) {
+                alert('দয়া করে প্রথমে লগইন করুন!');
+                return;
+            }
+            const paymentSection = document.getElementById('payment-section');
+            paymentSection.querySelector('#product-name').textContent = item.productName;
+            paymentSection.querySelector('#total-price').textContent = `মোট: ৳${item.total}`;
+            paymentSection.querySelector('#quantity').textContent = `পরিমাণ: ${item.quantity} টি`;
+            paymentSection.querySelector('#customer-name').value = '';
+            paymentSection.querySelector('#customer-phone').value = '';
+            paymentSection.querySelector('#address').value = '';
+            paymentSection.classList.add('show');
+        }
+
+        function closePaymentSection() {
+            document.getElementById('payment-section').classList.remove('show');
+        }
+
+        function submitPayment() {
+            if (!isLoggedIn) {
+                alert('দয়া করে প্রথমে লগইন করুন!');
+                return;
+            }
+            const transactionId = document.querySelector('#payment-section input[placeholder="ট্রানজাকশন আইডি দিন"]').value;
+            const customerName = document.getElementById('customer-name').value;
+            const customerPhone = document.getElementById('customer-phone').value;
+            const address = document.getElementById('address').value;
+
+            // নম্বরের বৈধতা চেক (বাংলাদেশী মোবাইল নম্বর ফরম্যাট: 11 ডিজিট, শুরু 01)
+            const phoneRegex = /^01[0-9]{9}$/;
+            if (!phoneRegex.test(customerPhone)) {
+                alert('দয়া করে বৈধ মোবাইল নম্বর দিন (যেমন: 017XXXXXXXX)!');
+                return;
+            }
+
+            if (transactionId && customerName && customerPhone && address) {
+                const item = cart[cart.length - 1];
+                const message = `নতুন পেমেন্ট রিকোয়েস্ট:\nপণ্য: ${item.productName}\nসাইজ: ${item.size}\nরঙ: ${item.color}\nপরিমাণ: ${item.quantity} টি\nমোট: ৳${item.total}\nকাস্টমার নাম: ${customerName}\nকাস্টমার নম্বর: ${customerPhone}\nঠিকানা: ${address}\nট্রানজাকশন আইডি: ${transactionId}`;
+                const whatsappUrl = `https://wa.me/+8801339221633?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+                alert('পেমেন্ট রিকোয়েস্ট হোয়াটসঅ্যাপে পাঠানো হয়েছে।');
+                closePaymentSection();
+            } else {
+                alert('দয়া করে নাম, নম্বর, ঠিকানা এবং ট্রানজাকশন আইডি দিন!');
+            }
+        }
+
+        function showCustomerService() {
+            if (!isLoggedIn) {
+                alert('দয়া করে প্রথমে লগইন করুন!');
+                return;
+            }
+            document.getElementById('customer-service').classList.add('show');
+        }
+
+        function closeCustomerService() {
+            document.getElementById('customer-service').classList.remove('show');
+        }
+
+        function submitCustomerQuery() {
+            if (!isLoggedIn) {
+                alert('দয়া করে প্রথমে লগইন করুন!');
+                return;
+            }
+            const query = document.getElementById('customer-query').value;
+            if (query) {
+                const message = `নতুন কোয়েরি:\nকোয়েরি: ${query}\nকাস্টমার নম্বর: 01343555482`;
+                const whatsappUrl = `https://wa.me/+8801339221633?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+                alert('আপনার কোয়েরি WhatsApp-এ পাঠানো হয়েছে। আমরা শীঘ্রই যোগাযোগ করবো!');
+                closeCustomerService();
+            } else {
+                alert('দয়া করে আপনার কোয়েরি লিখুন!');
+            }
+        }
+
+        window.onload = function() {
+            checkAuth();
+            updateCartSummary();
+
+            const products = [
+                { name: 'টি-শার্ট', image: 'tshirt.jpg', price: 500, description: 'উচ্চ মানের তৈরি টি-শার্ট, আরামদায়ক এবং স্টাইলিশ।' },
+                { name: 'শার্ট', image: 'shirt.jpg', price: 700, description: 'ফরমাল এবং ক্যাজুয়াল উভয় ক্ষেত্রে উপযোগী শার্ট।' },
+                { name: 'প্যান্ট', image: 'pants.jpg', price: 800, description: 'টেকসই এবং স্টাইলিশ প্যান্ট।' },
+                { name: 'জিন্স প্যান্ট', image: 'jeans.jpg', price: 1000, description: 'আধুনিক ডিজাইনের জিন্স প্যান্ট।' },
+                { name: 'জুতা', image: 'shoes.jpg', price: 1200, description: 'আকর্ষণীয় এবং আরামদায়ক জুতা।' },
+                { name: 'হুডি', image: 'hoodie.jpg', price: 600, description: 'তাপমাত্রা নিয়ন্ত্রণে সাহায্যকারী হুডি।' },
+                { name: 'ক্যাপ', image: 'cap.jpg', price: 300, description: 'স্টাইলিশ এবং সূর্যের আলো থেকে রক্ষা করা ক্যাপ।' },
+                { name: 'ব্যাগ', image: 'bag.jpg', price: 1500, description: 'বহুমুখী ব্যাগ, দৈনন্দিন ব্যবহারের জন্য।' },
+                { name: 'হ্যাট', image: 'hat.jpg', price: 400, description: 'আকর্ষণীয় ডিজাইনের হ্যাট।' },
+                { name: 'স্পোর্টস শ্যুজ', image: 'sports_shoes.jpg', price: 1300, description: 'খেলাধুলার জন্য উপযোগী শ্যুজ।' },
+                { name: 'হিজাবি টি-শার্ট', image: 'hijabi_tshirt.jpg', price: 550, description: 'মহিলাদের জন্য ডিজাইন করা হিজাবি টি-শার্ট, আরামদায়ক এবং স্টাইলিশ।' },
+                { name: 'হিজাবি স্কার্ফ', image: 'hijabi_scarf.jpg', price: 400, description: 'উচ্চ মানের স্কার্ফ, বিভিন্ন রঙে উপলব্ধ।' },
+            ];
+
+            products.forEach((product, index) => {
+                const card = document.querySelectorAll('.product-card')[index];
+                if (card) card.onclick = () => showProductDetails(product);
+            });
+        };
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">vico-ভিকো</div>
+        <div class="search-bar">
+            <input type="text" placeholder="উৎপাদন খুঁজুন...">
+            <button>🔍</button>
+        </div>
+        <div class="social-links">
+            <a href="https://facebook.com/yourpage" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://instagram.com/yourpage" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/8801339221633" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </div>
+    <div class="nav">
+        <span>হোম</span>
+        <span>টি-শার্ট</span>
+        <span>শার্ট</span>
+        <span>প্যান্ট</span>
+        <span>জুতা</span>
+        <span>অর্ডার ট্র্যাক</span>
+        <span onclick="showCustomerService()">কাস্টমার সার্ভিস</span>
+    </div>
+    <div class="cart-summary" id="cart-summary">
+        <h3>কার্ট সামারি</h3>
+        <ul></ul>
+        <p class="total"></p>
+    </div>
+    <div class="container">
+        <h2 style="text-align: center; color: #ff6f61; font-size: 28px; text-shadow: 1px 1px 10px #ff6f61; animation: glow 2s infinite;">vico-ভিকো-এর জনপ্রিয় পণ্যসমূহ</h2>
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px #ff6f61; }
+            50% { text-shadow: 0 0 10px #ff8c61; }
+            100% { text-shadow: 0 0 5px #ff6f61; }
+        }
+        <div class="products">
+            <div class="product-card">
+                <img src="tshirt.jpg" alt="টি-শার্ট">
+                <h3>টি-শার্ট</h3>
+                <p>মূল্য: ৳500</p>
+            </div>
+            <div class="product-card">
+                <img src="shirt.jpg" alt="শার্ট">
+                <h3>শার্ট</h3>
+                <p>মূল্য: ৳700</p>
+            </div>
+            <div class="product-card">
+                <img src="pants.jpg" alt="প্যান্ট">
+                <h3>প্যান্ট</h3>
+                <p>মূল্য: ৳800</p>
+            </div>
+            <div class="product-card">
+                <img src="jeans.jpg" alt="জিন্স">
+                <h3>জিন্স প্যান্ট</h3>
+                <p>মূল্য: ৳1000</p>
+            </div>
+            <div class="product-card">
+                <img src="shoes.jpg" alt="জুতা">
+                <h3>জুতা</h3>
+                <p>মূল্য: ৳1200</p>
+            </div>
+            <div class="product-card">
+                <img src="hoodie.jpg" alt="হুডি">
+                <h3>হুডি</h3>
+                <p>মূল্য: ৳600</p>
+            </div>
+            <div class="product-card">
+                <img src="cap.jpg" alt="ক্যাপ">
+                <h3>ক্যাপ</h3>
+                <p>মূল্য: ৳300</p>
+            </div>
+            <div class="product-card">
+                <img src="bag.jpg" alt="ব্যাগ">
+                <h3>ব্যাগ</h3>
+                <p>মূল্য: ৳1500</p>
+            </div>
+            <div class="product-card">
+                <img src="hat.jpg" alt="হ্যাট">
+                <h3>হ্যাট</h3>
+                <p>মূল্য: ৳400</p>
+            </div>
+            <div class="product-card">
+                <img src="sports_shoes.jpg" alt="স্পোর্টস শ্যুজ">
+                <h3>স্পোর্টস শ্যুজ</h3>
+                <p>মূল্য: ৳1300</p>
+            </div>
+            <div class="product-card">
+                <img src="hijabi_tshirt.jpg" alt="হিজাবি টি-শার্ট">
+                <h3>হিজাবি টি-শার্ট</h3>
+                <p>মূল্য: ৳550</p>
+            </div>
+            <div class="product-card">
+                <img src="hijabi_scarf.jpg" alt="হিজাবি স্কার্ফ">
+                <h3>হিজাবি স্কার্ফ</h3>
+                <p>মূল্য: ৳400</p>
+            </div>
+        </div>
+        <div class="login-section">
+            <h3 style="color: #ff6f61; text-align: center;">লগইন</h3>
+            <label>ইউজারনেম:</label>
+            <input type="text" id="login-username" placeholder="আপনার ইউজারনেম দিন">
+            <label>পাসওয়ার্ড:</label>
+            <input type="password" id="login-password" placeholder="আপনার পাসওয়ার্ড দিন">
+            <button onclick="login()">লগইন করুন</button>
+            <p class="auth-toggle" onclick="toggleAuth('signup')">নতুন অ্যাকাউন্ট তৈরি করুন?</p>
+        </div>
+        <div class="signup-section">
+            <h3 style="color: #ff6f61; text-align: center;">অ্যাকাউন্ট তৈরি</h3>
+            <label>ইউজারনেম:</label>
+            <input type="text" id="signup-username" placeholder="নতুন ইউজারনেম দিন">
+            <label>পাসওয়ার্ড:</label>
+            <input type="password" id="signup-password" placeholder="নতুন পাসওয়ার্ড দিন">
+            <button onclick="signup()">অ্যাকাউন্ট তৈরি করুন</button>
+            <p class="auth-toggle" onclick="toggleAuth('login')">ইতিমধ্যে অ্যাকাউন্ট আছে? লগইন করুন</p>
+        </div>
+        <div class="product-details-modal">
+            <span class="close-btn" onclick="closeProductDetails()">×</span>
+            <img src="" alt="পণ্যের ছবি">
+            <h3 style="color: #ff6f61; text-align: center;"></h3>
+            <p class="price" style="color: #ff6f61; font-weight: bold; text-align: center;"></p>
+            <p class="description"></p>
+            <label>সাইজ:</label>
+            <select id="size" style="background: rgba(255, 255, 255, 0.1); border-color: #ff6f61; width: 50%; margin: 0 auto; color: #fff;">
+                <option value="S">ছোট (S)</option>
+                <option value="M">মাঝারি (M)</option>
+                <option value="L">বড় (L)</option>
+                <option value="XL">খুব বড় (XL)</option>
+            </select>
+            <label>রঙ:</label>
+            <select id="color" style="background: rgba(255, 255, 255, 0.1); border-color: #ff6f61; width: 50%; margin: 0 auto; color: #fff;">
+                <option value="লাল">লাল</option>
+                <option value="নীল">নীল</option>
+                <option value="কালো">কালো</option>
+                <option value="হলুদ">হলুদ</option>
+            </select>
+            <label>পরিমাণ:</label>
+            <input type="number" id="quantity" min="1" value="1" style="background: rgba(255, 255, 255, 0.1); border-color: #ff6f61; width: 50%; margin: 0 auto; color: #fff;">
+            <button onclick="addToCart()">কার্টে যোগ করুন</button>
+        </div>
+        <div class="payment-section" id="payment-section">
+            <span class="close-btn" onclick="closePaymentSection()">×</span>
+            <h3 style="color: #ff6f61; text-align: center;">পেমেন্ট পৃষ্ঠা</h3>
+            <p id="product-name" style="color: #fff; font-weight: bold;"></p>
+            <p id="total-price" style="color: #ff6f61; font-weight: bold;"></p>
+            <p id="quantity" style="color: #fff;"></p>
+            <label>কাস্টমার নাম:</label>
+            <input type="text" id="customer-name" placeholder="আপনার নাম দিন">
+            <label>কাস্টমার নম্বর:</label>
+            <input type="text" id="customer-phone" placeholder="আপনার নম্বর দিন (যেমন: 017XXXXXXXX)">
+            <label>ঠিকানা:</label>
+            <input type="text" id="address" placeholder="আপনার ঠিকানা দিন">
+            <label>ট্রানজাকশন আইডি:</label>
+            <input type="text" placeholder="ট্রানজাকশন আইডি দিন">
+            <button onclick="submitPayment()">পেমেন্ট নিশ্চিত করুন</button>
+            <p style="font-size: 14px; color: #ccc; margin-top: 15px;">**বিকাশ/নগদ/রকেট/ব্যাংক ট্রান্সফারের মাধ্যমে পেমেনট নিশ্চিত করুন।**</p>
+            <p style="color: #25D366; font-weight: bold; margin-top: 10px;">পেমেন্ট রিকোয়েস্ট হোয়াটসঅ্যাপে (+8801339221633) পাঠানো হবে।</p>
+        </div>
+        <div class="customer-service" id="customer-service">
+            <span class="close-btn" onclick="closeCustomerService()">×</span>
+            <h3 style="color: #ff6f61; text-align: center;">কাস্টমার সার্ভিস</h3>
+            <p style="color: #fff;">যোগাযোগ করুন:</p>
+            <p>WhatsApp: <a href="https://wa.me/8801339221633" target="_blank" style="color: #25D366;">+8801339221633</a></p>
+            <p>ইমেইল: <a href="mailto:support@vico-bhiko.com" style="color: #25D366;">support@vico-bhiko.com</a></p>
+            <p>লাইভ চ্যাট: <a href="https://livechat.com" target="_blank" style="color: #25D366;">এখানে ক্লিক করুন</a></p>
+            <label>আপনার কোয়েরি:</label>
+            <input type="text" id="customer-query" placeholder="আপনার প্রশ্ন লিখুন">
+            <button onclick="submitCustomerQuery()">সাবমিট করুন</button>
+        </div>
+    </div>
+</body>
+              </html>
