@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vico Mart - অনলাইন শপিং</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" onerror="console.warn('Font Awesome failed to load')">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" onerror="console.warn('Google Fonts failed to load')">
     <style>
         * {
             margin: 0;
@@ -16,13 +16,12 @@
             font-family: 'Poppins', 'SolaimanLipi', Arial, sans-serif;
             background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460, #22333b);
             background-size: 400% 400%;
-            animation: gradientAnimation 15s ease infinite;
+            animation: gradientAnimation 10s ease infinite; /* সময় কমানো */
             color: #e0f7fa;
             overflow-x: hidden;
-            overflow-y: auto; /* Enable vertical scrolling */
+            overflow-y: auto;
             line-height: 1.6;
         }
-        /* Prevent scrolling when modals are open */
         body.modal-open {
             overflow: hidden;
         }
@@ -54,16 +53,17 @@
             pointer-events: none;
         }
         .loader::before {
-            content: 'Loading Vico Mart...';
-            font-size: 24px;
-            color: #ffca28;
-            text-shadow: 0 0 10px #ffca28;
-            animation: pulse 1.5s infinite;
+            content: '';
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ffca28;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         .header {
             background: linear-gradient(90deg, #0f3460, #22333b);
@@ -161,7 +161,7 @@
             justify-content: center;
             border-bottom: 1px solid #ffca28;
             animation: fadeIn 1s ease-in;
-            z-index: 90; /* Ensure nav is below header but above content */
+            z-index: 90;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -191,8 +191,7 @@
             box-shadow: 0 2px 10px rgba(255, 202, 40, 0.3);
             position: sticky;
             top: 80px;
-            z-index: 80; /* Below nav */
-            display: none;
+            z-index: 80;
             animation: slideUp 0.5s ease-out;
         }
         @keyframes slideUp {
@@ -221,14 +220,13 @@
             max-width: 1400px;
             margin: 30px auto;
             padding: 20px;
-            min-height: 100vh; /* Ensure container has enough height for scrolling */
+            min-height: 100vh;
         }
         .products {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 25px;
             perspective: 1000px;
-            display: none;
         }
         .product-card {
             background: linear-gradient(135deg, #16213e, #0f3460);
@@ -249,7 +247,7 @@
             100% { transform: scale(1); }
         }
         .product-card:hover {
-            transform: rotateY(15deg) scale(1.05);
+            transform: rotateY(5deg) scale(1.02);
             box-shadow: 0 10px 25px rgba(255, 202, 40, 0.4);
         }
         .product-card img {
@@ -257,9 +255,10 @@
             height: auto;
             border-radius: 10px;
             transition: transform 0.3s;
+            loading: lazy; /* Lazy loading যোগ করা */
         }
         .product-card:hover img {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
         .product-card h3 {
             margin: 15px 0;
@@ -270,13 +269,66 @@
         .product-card:hover h3 {
             color: #b2ff59;
         }
-        .product-card p {
+        .product-card p.price {
             margin: 10px 0;
             color: #ffca28;
             font-weight: bold;
             font-size: 18px;
         }
-        .login-section, .signup-section, .product-details-modal, .payment-section, .customer-service {
+        .product-card p.original-price {
+            margin: 5px 0;
+            color: #b0bec5;
+            text-decoration: line-through;
+            font-size: 14px;
+        }
+        .discount-button {
+            display: inline-block;
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: linear-gradient(45deg, #ff4500, #ffca28);
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            animation: fireGlow 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes fireGlow {
+            0% { box-shadow: 0 0 5px #ff4500, 0 0 10px #ffca28, 0 0 15px #ffd54f; }
+            100% { box-shadow: 0 0 10px #ff4500, 0 0 20px #ffca28, 0 0 30px #ffd54f; }
+        }
+        .discount-button:hover::before, .discount-button:hover::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: #ff4500;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: spark 2s infinite;
+        }
+        .discount-button:hover::after {
+            background: #ffd54f;
+            animation: spark 2.5s infinite 0.5s;
+        }
+        @keyframes spark {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -100px) scale(0.5);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translate(-50%, -150px) scale(0);
+                opacity: 0;
+            }
+        }
+        .product-details-modal, .payment-section, .customer-service {
             background: linear-gradient(135deg, #16213e, #0f3460);
             padding: 30px;
             border-radius: 20px;
@@ -296,17 +348,17 @@
             from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
             to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
-        .login-section.show, .signup-section.show, .product-details-modal.show, .payment-section.show, .customer-service.show {
+        .product-details-modal.show, .payment-section.show, .customer-service.show {
             display: block;
         }
-        .login-section label, .signup-section label, .product-details-modal label, .payment-section label, .customer-service label {
+        .product-details-modal label, .payment-section label, .customer-service label {
             display: block;
             margin: 15px 0 10px;
             color: #ffca28;
             font-weight: 600;
             font-size: 16px;
         }
-        .login-section input[type="text"], .login-section input[type="password"], .signup-section input[type="text"], .signup-section input[type="password"], .product-details-modal select, .product-details-modal input[type="number"], .payment-section input[type="text"], .customer-service input[type="text"] {
+        .product-details-modal select, .product-details-modal input[type="number"], .payment-section input[type="text"], .customer-service input[type="text"] {
             width: 50%;
             padding: 10px;
             margin: 0 auto 15px;
@@ -317,12 +369,12 @@
             color: #e0f7fa;
             transition: all 0.3s;
         }
-        .login-section input[type="text"]:focus, .login-section input[type="password"]:focus, .signup-section input[type="text"]:focus, .signup-section input[type="password"]:focus, .product-details-modal select:focus, .product-details-modal input[type="number"]:focus, .payment-section input[type="text"]:focus, .customer-service input[type="text"]:focus {
+        .product-details-modal select:focus, .product-details-modal input[type="number"]:focus, .payment-section input[type="text"]:focus, .customer-service input[type="text"]:focus {
             border-color: #b2ff59;
             box-shadow: 0 0 10px #ffca28;
             outline: none;
         }
-        .login-section button, .signup-section button, .product-details-modal button, .payment-section button, .customer-service button {
+        .product-details-modal button, .payment-section button, .customer-service button {
             background: linear-gradient(90deg, #ffca28, #ffd54f);
             color: #1a1a2e;
             padding: 12px 25px;
@@ -341,12 +393,12 @@
             from { box-shadow: 0 0 10px #ffca28, 0 0 20px #ffca28, 0 0 30px #ffd54f; }
             to { box-shadow: 0 0 20px #ffca28, 0 0 30px #ffca28, 0 0 40px #ffd54f; }
         }
-        .login-section button:hover, .signup-section button:hover, .product-details-modal button:hover, .payment-section button:hover, .customer-service button:hover {
+        .product-details-modal button:hover, .payment-section button:hover, .customer-service button:hover {
             background: linear-gradient(90deg, #ffd54f, #ffca28);
             transform: scale(1.05);
             color: #b2ff59;
         }
-        .login-section button::after, .signup-section button::after, .product-details-modal button::after, .payment-section button::after, .customer-service button::after {
+        .product-details-modal button::after, .payment-section button::after, .customer-service button::after {
             content: '';
             position: absolute;
             width: 0;
@@ -356,7 +408,7 @@
             left: 0;
             transition: width 0.3s;
         }
-        .login-section button:hover::after, .signup-section button:hover::after, .product-details-modal button:hover::after, .payment-section button:hover::after, .customer-service button:hover::after {
+        .product-details-modal button:hover::after, .payment-section button:hover::after, .customer-service button:hover::after {
             width: 100%;
         }
         .close-btn {
@@ -372,37 +424,12 @@
             transform: rotate(180deg) scale(1.2);
             color: #b2ff59;
         }
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background: #ffca28;
-            color: #1a1a2e;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .logout-btn:hover {
-            background: #ffd54f;
-            color: #b2ff59;
-            transform: scale(1.1);
-        }
-        .auth-toggle {
-            margin-top: 10px;
-            color: #ffca28;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        .auth-toggle:hover {
-            color: #b2ff59;
-        }
         .product-details-modal img {
             max-width: 100%;
             border-radius: 10px;
             margin-bottom: 15px;
             animation: fadeInImage 0.5s ease-in;
+            loading: lazy; /* Lazy loading যোগ করা */
         }
         @keyframes fadeInImage {
             from { opacity: 0; }
@@ -420,7 +447,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 25px;
-            display: none;
         }
         .service-card {
             background: linear-gradient(135deg, #16213e, #0f3460);
@@ -460,7 +486,6 @@
             border-radius: 10px;
             border: 1px solid #ffca28;
             box-shadow: 0 2px 10px rgba(255, 202, 40, 0.3);
-            display: none;
         }
         .testimonials-section h2 {
             text-align: center;
@@ -503,146 +528,72 @@
     </style>
     <script>
         let cart = [];
-        let users = JSON.parse(localStorage.getItem('users')) || [];
-        let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-        let currentUser = localStorage.getItem('currentUser');
 
         window.onload = function() {
-            const loader = document.querySelector('.loader');
-            setTimeout(() => {
-                loader.classList.add('hidden');
-            }, 2000);
+            try {
+                const loader = document.querySelector('.loader');
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                }, 500); // বিলম্ব কমানো
 
-            checkAuth();
-            updateCartSummary();
-            renderServices();
-            renderTestimonials();
-
-            const products = [
-                { name: 'টি-শার্ট', image: 'https://i.postimg.cc/GmnR3Z6Y/grok-image-x7tebae.jpg', price: 500, description: 'উচ্চ মানের তৈরি টি-শার্ট, আরামদায়ক এবং স্টাইলিশ।' },
-                { name: 'শার্ট', image: 'https://i.postimg.cc/25c850QD/grok-image-xr2espk.jpg', price: 600, description: 'ফরমাল এবং ক্যাজুয়াল উভয় ক্ষেত্রে উপযোগী শার্ট।' },
-                { name: 'প্যান্ট', image: 'https://i.postimg.cc/wj96cCFz/grok-image-uxaf0c.jpg', price: 600, description: 'টেকসই এবং স্টাইলিশ প্যান্ট।' },
-                { name: 'জিন্স প্যান্ট', image: 'https://i.postimg.cc/fRNbBCpt/1a78b19954d54596b73f10215031705a.jpg', price: 700, description: 'আধুনিক ডিজাইনের জিন্স প্যান্ট।' },
-                { name: 'জুতা', image: 'https://i.postimg.cc/hjtsLtQm/Screenshot-2025-08-05-08-44-59-08-f9b251d62f6eb22790b83e2e3c410dd0.jpg', price: 1200, description: 'আকর্ষণীয় এবং আরামদায়ক জুতা।' },
-                { name: 'হুডি', image: 'https://i.postimg.cc/XYxQp5pW/B01.jpg', price: 600, description: 'তাপমাত্রা নিয়ন্ত্রণে সাহায্যকারী হুডি।' },
-                { name: 'ক্যাপ', image: 'https://i.postimg.cc/d1ZBHSnQ/d9420cd84073f84658919b0a33055bba-jpg-720x720q80.jpg', price: 180, description: 'স্টাইলিশ এবং সূর্যের আলো থেকে রক্ষা করা ক্যাপ।' },
-                { name: 'ব্যাগ', image: 'https://i.postimg.cc/Qt7QkKxH/s1-school-and-college-bag.jpg', price: 1500, description: 'বহুমুখী ব্যাগ, দৈনন্দিন ব্যবহারের জন্য।' },
-                { name: 'হ্যাট', image: 'https://i.postimg.cc/6qNdH6yz/61-NRk-WX1a-L-AC-SL1500.jpg', price: 400, description: 'আকর্ষণীয় ডিজাইনের হ্যাট।' },
-                { name: 'স্পোর্টস শ্যুজ', image: 'https://i.postimg.cc/GmYbRc2v/f817faec-387e-45d8-b49c-07be4825656b.jpg', price: 1300, description: 'খেলাধুলার জন্য উপযোগী শ্যুজ।' },
-                { name: 'হিজাবি টি-শার্ট', image: 'https://i.postimg.cc/QMJsB0ct/DSCF5353.jpg', price: 550, description: 'মহিলাদের জন্য ডিজাইন করা হিজাবি টি-শার্ট, আরামদায়ক এবং স্টাইলিশ।' },
-                { name: 'হিজাবি স্কার্ফ', image: 'https://i.postimg.cc/8z1g2L2g/Screenshot-2025-08-05-09-06-25-59-74158c69f0af68fbf38b28b8774cd491.jpg', price: 150, description: 'উচ্চ মানের স্কার্ফ, বিভিন্ন রঙে উপলব্ধ।' },
-                // New products added
-                { name: 'সানগ্লাস', image: 'https://i.postimg.cc/7Z7Y2k6S/sunglasses.jpg', price: 350, description: 'আধুনিক এবং স্টাইলিশ সানগ্লাস, UV সুরক্ষা সহ।' },
-                { name: 'ঘড়ি', image: 'https://i.postimg.cc/1tTqFz3W/watch.jpg', price: 800, description: 'আকর্ষণীয় ডিজাইনের কব্জির ঘড়ি, দৈনন্দিন ব্যবহারের জন্য।' },
-                { name: 'বেল্ট', image: 'https://i.postimg.cc/m2C9YkW6/belt.jpg', price: 400, description: 'টেকসই চামড়ার বেল্ট, ফরমাল এবং ক্যাজুয়াল উভয়ের জন্য।' },
-                { name: 'মহিলাদের টপ', image: 'https://i.postimg.cc/3J7nqLqW/womens-top.jpg', price: 600, description: 'আরামদায়ক এবং ফ্যাশনেবল মহিলাদের টপ।' },
-                { name: 'ব্যাকপ্যাক', image: 'https://i.postimg.cc/8zX9qK7W/backpack.jpg', price: 1200, description: 'টেকসই এবং প্রশস্ত ব্যাকপ্যাক, ভ্রমণ এবং দৈনন্দিন ব্যবহারের জন্য।' }
-            ];
-
-            products.forEach((product, index) => {
-                const card = document.querySelectorAll('.product-card')[index];
-                if (card) card.onclick = () => showProductDetails(product);
-            });
-        };
-
-        // অ্যাকাউন্ট চেক
-        function checkAuth() {
-            if (!isLoggedIn) {
-                document.querySelector('.login-section').style.display = 'block';
-                document.querySelector('.signup-section').style.display = 'none';
-                document.querySelector('.products').style.display = 'none';
-                document.querySelector('.cart-summary').style.display = 'none';
-                document.querySelector('.service-section').style.display = 'none';
-                document.querySelector('.testimonials-section').style.display = 'none';
-                document.querySelector('.logout-btn')?.remove();
-                document.body.classList.remove('modal-open');
-            } else {
-                document.querySelector('.login-section').style.display = 'none';
-                document.querySelector('.signup-section').style.display = 'none';
+                // ডিফল্টভাবে কন্টেন্ট দেখানো
                 document.querySelector('.products').style.display = 'grid';
                 document.querySelector('.cart-summary').style.display = 'block';
                 document.querySelector('.service-section').style.display = 'grid';
                 document.querySelector('.testimonials-section').style.display = 'block';
-                if (!document.querySelector('.logout-btn')) {
-                    const logoutBtn = document.createElement('button');
-                    logoutBtn.textContent = 'লগআউট';
-                    logoutBtn.className = 'logout-btn';
-                    logoutBtn.onclick = logout;
-                    document.querySelector('.header').appendChild(logoutBtn);
-                }
+
+                updateCartSummary();
+                renderServices();
+                renderTestimonials();
+
+                const products = [
+                    { name: 'টি-শার্ট', image: 'https://i.postimg.cc/GmnR3Z6Y/grok-image-x7tebae.jpg', price: 500, originalPrice: 600, description: 'উচ্চ মানের তৈরি টি-শার্ট, আরামদায়ক এবং স্টাইলিশ।' },
+                    { name: 'শার্ট', image: 'https://i.postimg.cc/25c850QD/grok-image-xr2espk.jpg', price: 600, originalPrice: 750, description: 'ফরমাল এবং ক্যাজুয়াল উভয় ক্ষেত্রে উপযোগী শার্ট।' },
+                    { name: 'প্যান্ট', image: 'https://i.postimg.cc/wj96cCFz/grok-image-uxaf0c.jpg', price: 600, originalPrice: 720, description: 'টেকসই এবং স্টাইলিশ প্যান্ট।' },
+                    { name: 'জিন্স প্যান্ট', image: 'https://i.postimg.cc/fRNbBCpt/1a78b19954d54596b73f10215031705a.jpg', price: 700, originalPrice: 850, description: 'আধুনিক ডিজাইনের জিন্স প্যান্ট।' },
+                    { name: 'জুতা', image: 'https://i.postimg.cc/hjtsLtQm/Screenshot-2025-08-05-08-44-59-08-f9b251d62f6eb22790b83e2e3c410dd0.jpg', price: 1200, originalPrice: 1500, description: 'আকর্ষণীয় এবং আরামদায়ক জুতা।' },
+                    { name: 'হুডি', image: 'https://i.postimg.cc/XYxQp5pW/B01.jpg', price: 600, originalPrice: 750, description: 'তাপমাত্রা নিয়ন্ত্রণে সাহায্যকারী হুডি।' },
+                    { name: 'ক্যাপ', image: 'https://i.postimg.cc/d1ZBHSnQ/d9420cd84073f84658919b0a33055bba-jpg-720x720q80.jpg', price: 180, originalPrice: 250, description: 'স্টাইলিশ এবং সূর্যের আলো থেকে রক্ষা করা ক্যাপ।' },
+                    { name: 'ব্যাগ', image: 'https://i.postimg.cc/Qt7QkKxH/s1-school-and-college-bag.jpg', price: 1500, originalPrice: 1800, description: 'বহুমুখী ব্যাগ, দৈনন্দিন ব্যবহারের জন্য।' },
+                    { name: 'হ্যাট', image: 'https://i.postimg.cc/6qNdH6yz/61-NRk-WX1a-L-AC-SL1500.jpg', price: 400, originalPrice: 500, description: 'আকর্ষণীয় ডিজাইনের হ্যাট।' },
+                    { name: 'স্পোর্টস শ্যুজ', image: 'https://i.postimg.cc/GmYbRc2v/f817faec-387e-45d8-b49c-07be4825656b.jpg', price: 1300, originalPrice: 1600, description: 'খেলাধুলার জন্য উপযোগী শ্যুজ।' },
+                    { name: 'হিজাবি টি-শার্ট', image: 'https://i.postimg.cc/QMJsB0ct/DSCF5353.jpg', price: 550, originalPrice: 700, description: 'মহিলাদের জন্য ডিজাইন করা হিজাবি টি-শার্ট, আরামদায়ক এবং স্টাইলিশ।' },
+                    { name: 'হিজাবি স্কার্ফ', image: 'https://i.postimg.cc/8z1g2L2g/Screenshot-2025-08-05-09-06-25-59-74158c69f0af68fbf38b28b8774cd491.jpg', price: 150, originalPrice: 200, description: 'উচ্চ মানের স্কার্ফ, বিভিন্ন রঙে উপলব্ধ।' },
+                    { name: 'সানগ্লাস', image: 'https://i.postimg.cc/7Z7Y2k6S/sunglasses.jpg', price: 350, originalPrice: 450, description: 'আধুনিক এবং স্টাইলিশ সানগ্লাস, UV সুরক্ষা সহ।' },
+                    { name: 'ঘড়ি', image: 'https://i.postimg.cc/1tTqFz3W/watch.jpg', price: 800, originalPrice: 1000, description: 'আকর্ষণীয় ডিজাইনের কব্জির ঘড়ি, দৈনন্দিন ব্যবহারের জন্য।' },
+                    { name: 'বেল্ট', image: 'https://i.postimg.cc/m2C9YkW6/belt.jpg', price: 400, originalPrice: 500, description: 'টেকসই চামড়ার বেল্ট, ফরমাল এবং ক্যাজুয়াল উভয়ের জন্য।' },
+                    { name: 'মহিলাদের টপ', image: 'https://i.postimg.cc/3J7nqLqW/womens-top.jpg', price: 600, originalPrice: 750, description: 'আরামদায়ক এবং ফ্যাশনেবল মহিলাদের টপ।' },
+                    { name: 'ব্যাকপ্যাক', image: 'https://i.postimg.cc/8zX9qK7W/backpack.jpg', price: 1200, originalPrice: 1500, description: 'টেকসই এবং প্রশস্ত ব্যাকপ্যাক, ভ্রমণ এবং দৈনন্দিন ব্যবহারের জন্য।' }
+                ];
+
+                products.forEach((product, index) => {
+                    const card = document.querySelectorAll('.product-card')[index];
+                    if (card) {
+                        const discountPercentage = ((product.originalPrice - product.price) / product.originalPrice * 100).toFixed(0);
+                        card.querySelector('.discount-button').textContent = `${discountPercentage}% ছাড়!`;
+                        card.onclick = () => showProductDetails(product);
+                    }
+                });
+            } catch (error) {
+                console.error('পেজ লোডিংয়ে ত্রুটি:', error);
             }
-        }
+        };
 
-        // সাইন আপ
-        function signup() {
-            const username = document.getElementById('signup-username').value;
-            const password = document.getElementById('signup-password').value;
-
-            if (username && password) {
-                if (users.some(user => user.username === username)) {
-                    alert('এই ইউজারনেম ইতিমধ্যে ব্যবহৃত!');
-                    return;
-                }
-                users.push({ username, password });
-                localStorage.setItem('users', JSON.stringify(users));
-                alert('অ্যাকাউন্ট তৈরি সফল!');
-                document.querySelector('.signup-section').style.display = 'none';
-                document.querySelector('.login-section').style.display = 'block';
-                document.body.classList.add('modal-open');
-            } else {
-                alert('দয়া করে ইউজারনেম এবং পাসওয়ার্ড দিন!');
-            }
-        }
-
-        // লগইন
-        function login() {
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
-
-            const user = users.find(u => u.username === username && u.password === password);
-            if (user) {
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('currentUser', username);
-                isLoggedIn = true;
-                checkAuth();
-                alert('লগইন সফল!');
-                document.body.classList.remove('modal-open');
-            } else {
-                alert('অবৈধ ইউজারনেম বা পাসওয়ার্ড!');
-            }
-        }
-
-        // লগআউট
-        function logout() {
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('currentUser');
-            isLoggedIn = false;
-            cart = [];
-            checkAuth();
-            updateCartSummary();
-            alert('লগআউট সফল!');
-        }
-
-        // সাইন আপ/লগইন টগল
-        function toggleAuth(section) {
-            document.querySelector('.login-section').style.display = section === 'signup' ? 'none' : 'block';
-            document.querySelector('.signup-section').style.display = section === 'signup' ? 'block' : 'none';
-            document.body.classList.add('modal-open');
-        }
-
-        // পণ্যের বিস্তারিত দেখানো
         function showProductDetails(product) {
-            if (!isLoggedIn) {
-                alert('দয়া করে প্রথমে লগইন করুন!');
-                return;
+            try {
+                const modal = document.querySelector('.product-details-modal');
+                const discountPercentage = ((product.originalPrice - product.price) / product.originalPrice * 100).toFixed(0);
+                modal.querySelector('h3').textContent = product.name;
+                modal.querySelector('img').src = product.image;
+                modal.querySelector('.price').textContent = `মূল্য: ৳${product.price}`;
+                modal.querySelector('.original-price').textContent = `মূল মূল্য: ৳${product.originalPrice}`;
+                modal.querySelector('.discount-button').textContent = `${discountPercentage}% ছাড়!`;
+                modal.querySelector('p.description').textContent = product.description || 'এই পণ্যের বিস্তারিত বর্ণনা পাওয়া যায়নি।';
+                modal.classList.add('show');
+                document.body.classList.add('modal-open');
+            } catch (error) {
+                console.error('প্রোডাক্ট ডিটেইল দেখানোর ত্রুটি:', error);
             }
-            const modal = document.querySelector('.product-details-modal');
-            modal.querySelector('h3').textContent = product.name;
-            modal.querySelector('img').src = product.image;
-            modal.querySelector('.price').textContent = `মূল্য: ৳${product.price}`;
-            modal.querySelector('p.description').textContent = product.description || 'এই পণ্যের বিস্তারিত বর্ণনা পাওয়া যায়নি।';
-            modal.classList.add('show');
-            document.body.classList.add('modal-open');
         }
 
         function closeProductDetails() {
@@ -651,55 +602,59 @@
         }
 
         function addToCart() {
-            if (!isLoggedIn) {
-                alert('দয়া করে প্রথমে লগইন করুন!');
-                return;
-            }
-            const modal = document.querySelector('.product-details-modal');
-            const productName = modal.querySelector('h3').textContent;
-            const price = parseInt(modal.querySelector('.price').textContent.replace('মূল্য: ৳', ''));
-            const size = modal.querySelector('#size').value;
-            const color = modal.querySelector('#color').value;
-            const quantity = parseInt(modal.querySelector('#quantity').value);
-            const total = price * quantity;
+            try {
+                const modal = document.querySelector('.product-details-modal');
+                const productName = modal.querySelector('h3').textContent;
+                const price = parseInt(modal.querySelector('.price').textContent.replace('মূল্য: ৳', ''));
+                const size = modal.querySelector('#size').value;
+                const color = modal.querySelector('#color').value;
+                const quantity = parseInt(modal.querySelector('#quantity').value);
+                const total = price * quantity;
 
-            cart.push({ productName, size, color, quantity, total });
-            alert(`কার্টে যোগ করা হয়েছে!\nপণ্য: ${productName}\nসাইজ: ${size}\nরঙ: ${color}\nপরিমাণ: ${quantity}\nমোট: ৳${total}`);
-            closeProductDetails();
-            updateCartSummary();
-            showPaymentSection(cart[cart.length - 1]);
+                cart.push({ productName, size, color, quantity, total });
+                alert(`কার্টে যোগ করা হয়েছে!\nপণ্য: ${productName}\nসাইজ: ${size}\nরঙ: ${color}\nপরিমাণ: ${quantity}\nমোট: ৳${total}`);
+                closeProductDetails();
+                updateCartSummary();
+                showPaymentSection(cart[cart.length - 1]);
+            } catch (error) {
+                console.error('কার্টে যোগ করার ত্রুটি:', error);
+            }
         }
 
         function updateCartSummary() {
-            const cartSummary = document.getElementById('cart-summary');
-            const cartList = cartSummary.querySelector('ul');
-            cartList.innerHTML = '';
-            let grandTotal = 0;
+            try {
+                const cartSummary = document.getElementById('cart-summary');
+                const cartList = cartSummary.querySelector('ul');
+                cartList.innerHTML = '';
+                let grandTotal = 0;
 
-            cart.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = `${item.productName} (সাইজ: ${item.size}, রঙ: ${item.color}, পরিমাণ: ${item.quantity}) - ৳${item.total}`;
-                cartList.appendChild(li);
-                grandTotal += item.total;
-            });
+                cart.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = `${item.productName} (সাইজ: ${item.size}, রঙ: ${item.color}, পরিমাণ: ${item.quantity}) - ৳${item.total}`;
+                    cartList.appendChild(li);
+                    grandTotal += item.total;
+                });
 
-            cartSummary.querySelector('.total').textContent = `মোট: ৳${grandTotal}`;
+                cartSummary.querySelector('.total').textContent = `মোট: ৳${grandTotal}`;
+            } catch (error) {
+                console.error('কার্ট সামারি আপডেট ত্রুটি:', error);
+            }
         }
 
         function showPaymentSection(item) {
-            if (!isLoggedIn) {
-                alert('দয়া করে প্রথমে লগইন করুন!');
-                return;
+            try {
+                const paymentSection = document.getElementById('payment-section');
+                paymentSection.querySelector('#product-name').textContent = item.productName;
+                paymentSection.querySelector('#total-price').textContent = `মোট: ৳${item.total}`;
+                paymentSection.querySelector('#quantity').textContent = `পরিমাণ: ${item.quantity} টি`;
+                paymentSection.querySelector('#customer-name').value = '';
+                paymentSection.querySelector('#customer-phone').value = '';
+                paymentSection.querySelector('#address').value = '';
+                paymentSection.classList.add('show');
+                document.body.classList.add('modal-open');
+            } catch (error) {
+                console.error('পেমেন্ট সেকশন দেখানোর ত্রুটি:', error);
             }
-            const paymentSection = document.getElementById('payment-section');
-            paymentSection.querySelector('#product-name').textContent = item.productName;
-            paymentSection.querySelector('#total-price').textContent = `মোট: ৳${item.total}`;
-            paymentSection.querySelector('#quantity').textContent = `পরিমাণ: ${item.quantity} টি`;
-            paymentSection.querySelector('#customer-name').value = '';
-            paymentSection.querySelector('#customer-phone').value = '';
-            paymentSection.querySelector('#address').value = '';
-            paymentSection.classList.add('show');
-            document.body.classList.add('modal-open');
         }
 
         function closePaymentSection() {
@@ -708,40 +663,40 @@
         }
 
         function submitPayment() {
-            if (!isLoggedIn) {
-                alert('দয়া করে প্রথমে লগইন করুন!');
-                return;
-            }
-            const transactionId = document.querySelector('#payment-section input[placeholder="ট্রানজাকশন আইডি দিন"]').value;
-            const customerName = document.getElementById('customer-name').value;
-            const customerPhone = document.getElementById('customer-phone').value;
-            const address = document.getElementById('address').value;
+            try {
+                const transactionId = document.querySelector('#payment-section input[placeholder="ট্রানজাকশন আইডি দিন"]').value;
+                const customerName = document.getElementById('customer-name').value;
+                const customerPhone = document.getElementById('customer-phone').value;
+                const address = document.getElementById('address').value;
 
-            const phoneRegex = /^01[0-9]{9}$/;
-            if (!phoneRegex.test(customerPhone)) {
-                alert('দয়া করে বৈধ মোবাইল নম্বর দিন (যেমন: 017XXXXXXXX)!');
-                return;
-            }
+                const phoneRegex = /^01[0-9]{9}$/;
+                if (!phoneRegex.test(customerPhone)) {
+                    alert('দয়া করে বৈধ মোবাইল নম্বর দিন (যেমন: 017XXXXXXXX)!');
+                    return;
+                }
 
-            if (transactionId && customerName && customerPhone && address) {
-                const item = cart[cart.length - 1];
-                const message = `নতুন পেমেন্ট রিকোয়েস্ট:\nপণ্য: ${item.productName}\nসাইজ: ${item.size}\nরঙ: ${item.color}\nপরিমাণ: ${item.quantity} টি\nমোট: ৳${item.total}\nকাস্টমার নাম: ${customerName}\nকাস্টমার নম্বর: ${customerPhone}\nঠিকানা: ${address}\nট্রানজাকশন আইডি: ${transactionId}`;
-                const whatsappUrl = `https://wa.me/+8801339221633?text=${encodeURIComponent(message)}`;
-                window.open(whatsappUrl, '_blank');
-                alert('পেমেন্ট রিকোয়েস্ট হোয়াটসঅ্যাপে পাঠানো হয়েছে।');
-                closePaymentSection();
-            } else {
-                alert('দয়া করে নাম, নম্বর, ঠিকানা এবং ট্রানজাকশন আইডি দিন!');
+                if (transactionId && customerName && customerPhone && address) {
+                    const item = cart[cart.length - 1];
+                    const message = `নতুন পেমেন্ট রিকোয়েস্ট:\nপণ্য: ${item.productName}\nসাইজ: ${item.size}\nরঙ: ${item.color}\nপরিমাণ: ${item.quantity} টি\nমোট: ৳${item.total}\nকাস্টমার নাম: ${customerName}\nকাস্টমার নম্বর: ${customerPhone}\nঠিকানা: ${address}\nট্রানজাকশন আইডি: ${transactionId}`;
+                    const whatsappUrl = `https://wa.me/+8801339221633?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+                    alert('পেমেন্ট রিকোয়েস্ট হোয়াটসঅ্যাপে পাঠানো হয়েছে।');
+                    closePaymentSection();
+                } else {
+                    alert('দয়া করে নাম, নম্বর, ঠিকানা এবং ট্রানজাকশন আইডি দিন!');
+                }
+            } catch (error) {
+                console.error('পেমেন্ট সাবমিট ত্রুটি:', error);
             }
         }
 
         function showCustomerService() {
-            if (!isLoggedIn) {
-                alert('দয়া করে প্রথমে লগইন করুন!');
-                return;
+            try {
+                document.getElementById('customer-service').classList.add('show');
+                document.body.classList.add('modal-open');
+            } catch (error) {
+                console.error('কাস্টমার সার্ভিস দেখানোর ত্রুটি:', error);
             }
-            document.getElementById('customer-service').classList.add('show');
-            document.body.classList.add('modal-open');
         }
 
         function closeCustomerService() {
@@ -750,19 +705,19 @@
         }
 
         function submitCustomerQuery() {
-            if (!isLoggedIn) {
-                alert('দয়া করে প্রথমে লগইন করুন!');
-                return;
-            }
-            const query = document.getElementById('customer-query').value;
-            if (query) {
-                const message = `নতুন কোয়েরি:\nকোয়েরি: ${query}\nকাস্টমার নম্বর: 01343555482`;
-                const whatsappUrl = `https://wa.me/+8801339221633?text=${encodeURIComponent(message)}`;
-                window.open(whatsappUrl, '_blank');
-                alert('আপনার কোয়েরি WhatsApp-এ পাঠানো হয়েছে। আমরা শীঘ্রই যোগাযোগ করবো!');
-                closeCustomerService();
-            } else {
-                alert('দয়া করে আপনার কোয়েরি লিখুন!');
+            try {
+                const query = document.getElementById('customer-query').value;
+                if (query) {
+                    const message = `নতুন কোয়েরি:\nকোয়েরি: ${query}\nকাস্টমার নম্বর: 01343555482`;
+                    const whatsappUrl = `https://wa.me/+8801339221633?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+                    alert('আপনার কোয়েরি WhatsApp-এ পাঠানো হয়েছে। আমরা শীঘ্রই যোগাযোগ করবো!');
+                    closeCustomerService();
+                } else {
+                    alert('দয়া করে আপনার কোয়েরি লিখুন!');
+                }
+            } catch (error) {
+                console.error('কোয়েরি সাবমিট ত্রুটি:', error);
             }
         }
 
@@ -773,17 +728,21 @@
         ];
 
         function renderServices() {
-            const serviceSection = document.querySelector('.service-section');
-            services.forEach(service => {
-                const card = document.createElement('div');
-                card.className = 'service-card';
-                card.innerHTML = `
-                    <i class="${service.icon}"></i>
-                    <h3>${service.name}</h3>
-                    <a href="${service.link}" target="_blank">এখনই জয়েন করুন</a>
-                `;
-                serviceSection.appendChild(card);
-            });
+            try {
+                const serviceSection = document.querySelector('.service-section');
+                services.forEach(service => {
+                    const card = document.createElement('div');
+                    card.className = 'service-card';
+                    card.innerHTML = `
+                        <i class="${service.icon}"></i>
+                        <h3>${service.name}</h3>
+                        <a href="${service.link}" target="_blank">এখনই জয়েন করুন</a>
+                    `;
+                    serviceSection.appendChild(card);
+                });
+            } catch (error) {
+                console.error('সার্ভিস রেন্ডার ত্রুটি:', error);
+            }
         }
 
         const testimonials = [
@@ -793,17 +752,21 @@
         ];
 
         function renderTestimonials() {
-            const testimonialSection = document.querySelector('.testimonials-section');
-            testimonials.forEach(testimonial => {
-                const card = document.createElement('div');
-                card.className = 'testimonial-card';
-                card.innerHTML = `
-                    <h3>${testimonial.name}</h3>
-                    <p>${testimonial.text}</p>
-                    <p>রেটিং: ${'★'.repeat(testimonial.rating)}${'☆'.repeat(5 - testimonial.rating)}</p>
-                `;
-                testimonialSection.appendChild(card);
-            });
+            try {
+                const testimonialSection = document.querySelector('.testimonials-section');
+                testimonials.forEach(testimonial => {
+                    const card = document.createElement('div');
+                    card.className = 'testimonial-card';
+                    card.innerHTML = `
+                        <h3>${testimonial.name}</h3>
+                        <p>${testimonial.text}</p>
+                        <p>রেটিং: ${'★'.repeat(testimonial.rating)}${'☆'.repeat(5 - testimonial.rating)}</p>
+                    `;
+                    testimonialSection.appendChild(card);
+                });
+            } catch (error) {
+                console.error('টেস্টিমোনিয়াল রেন্ডার ত্রুটি:', error);
+            }
         }
     </script>
 </head>
@@ -839,90 +802,123 @@
         <h2 style="text-align: center; color: #ffca28; font-size: 28px; text-shadow: 1px 1px 10px #ffca28; animation: glow 2s infinite;">Vico Mart-এর জনপ্রিয় পণ্যসমূহ</h2>
         <div class="products">
             <div class="product-card">
-                <img src="https://i.postimg.cc/GmnR3Z6Y/grok-image-x7tebae.jpg" alt="টি-শার্ট">
+                <img src="https://i.postimg.cc/GmnR3Z6Y/grok-image-x7tebae.jpg" alt="টি-শার্ট" loading="lazy">
                 <h3>টি-শার্ট</h3>
-                <p>মূল্য: ৳500</p>
+                <p class="price">মূল্য: ৳500</p>
+                <p class="original-price">মূল মূল্য: ৳600</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/25c850QD/grok-image-xr2espk.jpg" alt="শার্ট">
+                <img src="https://i.postimg.cc/25c850QD/grok-image-xr2espk.jpg" alt="শার্ট" loading="lazy">
                 <h3>শার্ট</h3>
-                <p>মূল্য: ৳600</p>
+                <p class="price">মূল্য: ৳600</p>
+                <p class="original-price">মূল মূল্য: ৳750</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/wj96cCFz/grok-image-uxaf0c.jpg" alt="প্যান্ট">
+                <img src="https://i.postimg.cc/wj96cCFz/grok-image-uxaf0c.jpg" alt="প্যান্ট" loading="lazy">
                 <h3>প্যান্ট</h3>
-                <p>মূল্য: ৳600</p>
+                <p class="price">মূল্য: ৳600</p>
+                <p class="original-price">মূল মূল্য: ৳720</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/fRNbBCpt/1a78b19954d54596b73f10215031705a.jpg" alt="জিন্স">
+                <img src="https://i.postimg.cc/fRNbBCpt/1a78b19954d54596b73f10215031705a.jpg" alt="জিন্স" loading="lazy">
                 <h3>জিন্স প্যান্ট</h3>
-                <p>মূল্য: ৳700</p>
+                <p class="price">মূল্য: ৳700</p>
+                <p class="original-price">মূল মূল্য: ৳850</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/hjtsLtQm/Screenshot-2025-08-05-08-44-59-08-f9b251d62f6eb22790b83e2e3c410dd0.jpg" alt="জুতা">
+                <img src="https://i.postimg.cc/hjtsLtQm/Screenshot-2025-08-05-08-44-59-08-f9b251d62f6eb22790b83e2e3c410dd0.jpg" alt="জুতা" loading="lazy">
                 <h3>জুতা</h3>
-                <p>মূল্য: ৳1200</p>
+                <p class="price">মূল্য: ৳1200</p>
+                <p class="original-price">মূল মূল্য: ৳1500</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/XYxQp5pW/B01.jpg" alt="হুডি">
+                <img src="https://i.postimg.cc/XYxQp5pW/B01.jpg" alt="হুডি" loading="lazy">
                 <h3>হুডি</h3>
-                <p>মূল্য: ৳600</p>
+                <p class="price">মূল্য: ৳600</p>
+                <p class="original-price">মূল মূল্য: ৳750</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/d1ZBHSnQ/d9420cd84073f84658919b0a33055bba-jpg-720x720q80.jpg" alt="ক্যাপ">
+                <img src="https://i.postimg.cc/d1ZBHSnQ/d9420cd84073f84658919b0a33055bba-jpg-720x720q80.jpg" alt="ক্যাপ" loading="lazy">
                 <h3>ক্যাপ</h3>
-                <p>মূল্য: ৳180</p>
+                <p class="price">মূল্য: ৳180</p>
+                <p class="original-price">মূল মূল্য: ৳250</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/Qt7QkKxH/s1-school-and-college-bag.jpg" alt="ব্যাগ">
+                <img src="https://i.postimg.cc/Qt7QkKxH/s1-school-and-college-bag.jpg" alt="ব্যাগ" loading="lazy">
                 <h3>ব্যাগ</h3>
-                <p>মূল্য: ৳1500</p>
+                <p class="price">মূল্য: ৳1500</p>
+                <p class="original-price">মূল মূল্য: ৳1800</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/6qNdH6yz/61-NRk-WX1a-L-AC-SL1500.jpg" alt="হ্যাট">
+                <img src="https://i.postimg.cc/6qNdH6yz/61-NRk-WX1a-L-AC-SL1500.jpg" alt="হ্যাট" loading="lazy">
                 <h3>হ্যাট</h3>
-                <p>মূল্য: ৳400</p>
+                <p class="price">মূল্য: ৳400</p>
+                <p class="original-price">মূল মূল্য: ৳500</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/GmYbRc2v/f817faec-387e-45d8-b49c-07be4825656b.jpg" alt="স্পোর্টস শ্যুজ">
+                <img src="https://i.postimg.cc/GmYbRc2v/f817faec-387e-45d8-b49c-07be4825656b.jpg" alt="স্পোর্টস শ্যুজ" loading="lazy">
                 <h3>স্পোর্টস শ্যুজ</h3>
-                <p>মূল্য: ৳1300</p>
+                <p class="price">মূল্য: ৳1300</p>
+                <p class="original-price">মূল মূল্য: ৳1600</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/QMJsB0ct/DSCF5353.jpg" alt="হিজাবি টি-শার্ট">
+                <img src="https://i.postimg.cc/QMJsB0ct/DSCF5353.jpg" alt="হিজাবি টি-শার্ট" loading="lazy">
                 <h3>হিজাবি টি-শার্ট</h3>
-                <p>মূল্য: ৳550</p>
+                <p class="price">মূল্য: ৳550</p>
+                <p class="original-price">মূল মূল্য: ৳700</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/8z1g2L2g/Screenshot-2025-08-05-09-06-25-59-74158c69f0af68fbf38b28b8774cd491.jpg" alt="হিজাবি স্কার্ফ">
+                <img src="https://i.postimg.cc/8z1g2L2g/Screenshot-2025-08-05-09-06-25-59-74158c69f0af68fbf38b28b8774cd491.jpg" alt="হিজাবি স্কার্ফ" loading="lazy">
                 <h3>হিজাবি স্কার্ফ</h3>
-                <p>মূল্য: ৳150</p>
+                <p class="price">মূল্য: ৳150</p>
+                <p class="original-price">মূল মূল্য: ৳200</p>
+                <div class="discount-button"></div>
             </div>
-            <!-- New product cards -->
             <div class="product-card">
-                <img src="https://i.postimg.cc/7Z7Y2k6S/sunglasses.jpg" alt="সানগ্লাস">
+                <img src="https://i.postimg.cc/7Z7Y2k6S/sunglasses.jpg" alt="সানগ্লাস" loading="lazy">
                 <h3>সানগ্লাস</h3>
-                <p>মূল্য: ৳350</p>
+                <p class="price">মূল্য: ৳350</p>
+                <p class="original-price">মূল মূল্য: ৳450</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/1tTqFz3W/watch.jpg" alt="ঘড়ি">
+                <img src="https://i.postimg.cc/1tTqFz3W/watch.jpg" alt="ঘড়ি" loading="lazy">
                 <h3>ঘড়ি</h3>
-                <p>মূল্য: ৳800</p>
+                <p class="price">মূল্য: ৳800</p>
+                <p class="original-price">মূল মূল্য: ৳1000</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/m2C9YkW6/belt.jpg" alt="বেল্ট">
+                <img src="https://i.postimg.cc/m2C9YkW6/belt.jpg" alt="বেল্ট" loading="lazy">
                 <h3>বেল্ট</h3>
-                <p>মূল্য: ৳400</p>
+                <p class="price">মূল্য: ৳400</p>
+                <p class="original-price">মূল মূল্য: ৳500</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/3J7nqLqW/womens-top.jpg" alt="মহিলাদের টপ">
+                <img src="https://i.postimg.cc/3J7nqLqW/womens-top.jpg" alt="মহিলাদের টপ" loading="lazy">
                 <h3>মহিলাদের টপ</h3>
-                <p>মূল্য: ৳600</p>
+                <p class="price">মূল্য: ৳600</p>
+                <p class="original-price">মূল মূল্য: ৳750</p>
+                <div class="discount-button"></div>
             </div>
             <div class="product-card">
-                <img src="https://i.postimg.cc/8zX9qK7W/backpack.jpg" alt="ব্যাকপ্যাক">
+                <img src="https://i.postimg.cc/8zX9qK7W/backpack.jpg" alt="ব্যাকপ্যাক" loading="lazy">
                 <h3>ব্যাকপ্যাক</h3>
-                <p>মূল্য: ৳1200</p>
+                <p class="price">মূল্য: ৳1200</p>
+                <p class="original-price">মূল মূল্য: ৳1500</p>
+                <div class="discount-button"></div>
             </div>
         </div>
         <div class="service-section">
@@ -931,29 +927,13 @@
         <div class="testimonials-section">
             <h2>কাস্টমার রিভিউ</h2>
         </div>
-        <div class="login-section">
-            <h3 style="text-align: center;">লগইন</h3>
-            <label>ইউজারনেম:</label>
-            <input type="text" id="login-username" placeholder="আপনার ইউজারনেম দিন">
-            <label>পাসওয়ার্ড:</label>
-            <input type="password" id="login-password" placeholder="আপনার পাসওয়ার্ড দিন">
-            <button onclick="login()">লগইন করুন</button>
-            <p class="auth-toggle" onclick="toggleAuth('signup')">নতুন অ্যাকাউন্ট তৈরি করুন?</p>
-        </div>
-        <div class="signup-section">
-            <h3 style="text-align: center;">অ্যাকাউন্ট তৈরি</h3>
-            <label>ইউজারনেম:</label>
-            <input type="text" id="signup-username" placeholder="নতুন ইউজারনেম দিন">
-            <label>পাসওয়ার্ড:</label>
-            <input type="password" id="signup-password" placeholder="নতুন পাসওয়ার্ড দিন">
-            <button onclick="signup()">অ্যাকাউন্ট তৈরি করুন</button>
-            <p class="auth-toggle" onclick="toggleAuth('login')">ইতিমধ্যে অ্যাকাউন্ট আছে? লগইন করুন</p>
-        </div>
         <div class="product-details-modal">
             <span class="close-btn" onclick="closeProductDetails()">×</span>
-            <img src="" alt="পণ্যের ছবি">
+            <img src="" alt="পণ্যের ছবি" loading="lazy">
             <h3 style="text-align: center;"></h3>
             <p class="price" style="font-weight: bold; text-align: center;"></p>
+            <p class="original-price" style="text-align: center;"></p>
+            <div class="discount-button" style="text-align: center;"></div>
             <p class="description"></p>
             <label>সাইজ:</label>
             <select id="size" style="background: rgba(255, 255, 255, 0.1); width: 50%; margin: 0 auto;">
