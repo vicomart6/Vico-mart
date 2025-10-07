@@ -14,6 +14,13 @@
             50% { transform: scale(1.05); opacity: 0.7; }
             100% { transform: scale(1); opacity: 1; }
         }
+        
+        /* নতুন পালস গ্লো অ্যানিমেশন লোগোর জন্য */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px #e53935, 0 0 10px #e53935; transform: scale(1); }
+            50% { box-shadow: 0 0 10px #7f00ff, 0 0 20px #7f00ff; transform: scale(1.1); }
+            100% { box-shadow: 0 0 5px #e53935, 0 0 10px #e53935; transform: scale(1); }
+        }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -25,15 +32,11 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
 
         /* == ১. প্রাথমিক রিসেট ও গ্লোবাল স্টাইল (আধুনিক ডার্ক থিম) == */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { 
-            background-color: #1a1a2e; /* ডিপ ডার্ক ব্যাকগ্রাউন্ড */
+            background-color: #1a1a2e; 
             color: #ffffff; 
             line-height: 1.6; 
             padding-bottom: 70px; 
@@ -43,13 +46,10 @@
         }
         a { text-decoration: none; color: #7f00ff; }
         input::placeholder { color: #888; }
+        body.loaded { opacity: 1; }
         
-        /* সম্পূর্ণ সাইট ভিজিবল করার জন্য ক্লাস */
-        body.loaded {
-            opacity: 1;
-        }
-
-        /* == স্প্ল্যাশ স্ক্রিন স্টাইল (আপডেট করা) == */
+        /* স্প্ল্যাশ স্ক্রিন স্টাইল */
+        /* ... (আগের স্প্ল্যাশ স্ক্রিন কোড) ... */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -75,7 +75,7 @@
         }
         .loader {
             font-size: 50px;
-            color: #e53935; /* থিম কালার */
+            color: #e53935; 
             animation: bounce 1.2s infinite ease-in-out; 
             margin-bottom: 10px;
         }
@@ -86,8 +86,39 @@
             animation: pulse 1.5s infinite;
         }
 
-        /* == ২. হেডার ডিজাইন ও হোমপেজ কার্ড স্টাইল == */
-        .main-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background-color: #16213e; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); position: sticky; top: 0; z-index: 100; }
+
+        /* == ২. হেডার ডিজাইন ও লোগো অ্যানিমেশন == */
+        .main-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px 20px; 
+            background-color: #16213e; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
+            position: relative; 
+        }
+        
+        /* লোগো অ্যানিমেশন কন্টেইনার (বাম কোণায়) */
+        #logo-animation-container {
+            position: absolute; 
+            top: 5px; 
+            left: 5px; 
+            z-index: 110; 
+        }
+        .logo-icon-anim {
+            font-size: 20px; 
+            color: #7f00ff; 
+            background-color: #1a1a2e;
+            padding: 8px;
+            border-radius: 50%;
+            animation: pulse-glow 2s infinite alternate; 
+            display: block; 
+        }
+        
+        /* লোগো ইমেজ স্টাইল (ডান দিকে) */
         .logo { 
             font-size: 28px; 
             font-weight: 800; 
@@ -95,11 +126,19 @@
             text-shadow: 0 0 10px rgba(229, 57, 53, 0.7); 
             display: flex;
             align-items: center;
+            margin-left: 0; /* লোগোকে সেন্টারে রাখা */
+            /* নতুন: লোগোকে ডান দিকে সরিয়ে দেওয়া */
+            margin-right: auto;
+            margin-left: 50px; /* অ্যানিমেটেড আইকনের জন্য বামে স্পেস */
         }
+        
+        /* আপডেট করা নতুন লোগো ইমেজ স্টাইল */
         .logo img {
-            height: 40px; /* লোগোর উচ্চতা */
-            margin-right: 10px;
+            height: 40px; 
+            width: auto;
+            margin-right: 0px; /* টেক্সট সরিয়ে দেওয়া হয়েছে */
             vertical-align: middle;
+            content: none; /* ফন্ট অসাম আইকন সরিয়ে দেওয়া হয়েছে */
         }
         .login-btn { 
             background-color: #e53935; 
@@ -111,6 +150,8 @@
             transition: background-color 0.3s, transform 0.2s; 
         }
         .login-btn:hover { background-color: #d32f2f; transform: scale(1.05); }
+
+        /* ... (বাকি CSS কোড) ... */
         .content-area { padding: 25px 15px; }
         .page-title { 
             font-size: 24px; 
@@ -207,12 +248,12 @@
             cursor: pointer; 
             font-size: 14px; 
             font-weight: 600; 
-            transition: background-color 0.3s, transform 0.2s; 
             box-shadow: 0 0 10px rgba(76, 175, 80, 0.4); 
+            transition: background-color 0.3s, transform 0.2s; 
         }
         .help-btn:hover { background-color: #45a049; transform: scale(1.05); }
 
-        /* == ৩. পেমেন্ট ও গাইড পেজ স্টাইল == */
+        /* ... (বাকি পেমেন্ট ও গাইড পেজ স্টাইল) ... */
         .cashier-container { 
             max-width: 450px; 
             margin: 20px auto; 
@@ -355,6 +396,7 @@
         .next-steps i {
             margin-right: 5px;
         }
+        /* ... (গাইড পেজ স্টাইল) ... */
     </style>
 </head>
 <body>
@@ -367,8 +409,13 @@
     </div>
 
     <header class="main-header">
+        
+        <div id="logo-animation-container">
+            <i class="fa-solid fa-bolt logo-icon-anim"></i>
+        </div>
+        
         <div class="logo">
-            <img src="https://i.ibb.co/3k530s9/Vico-Shop-Logo-2.png" alt="Vico Shop Logo"> Vico Shop
+            <img src="https://i.postimg.cc/zX8gZK0b/1759854932928.png" alt="Vico Shop Logo" style="height: 40px; width: auto;">
         </div>
         <a href="#" class="login-btn">
             <i class="fa-solid fa-user"></i> লগইন
@@ -390,6 +437,12 @@
                     <div class="card-icon" style="color: #00CED1;"><i class="fa-solid fa-gamepad"></i></div>
                     <div class="card-title">PUBG UC Top-up</div>
                     <p class="card-subtitle">UID টপ-আপ</p>
+                </div>
+
+                <div class="product-card topup-card" onclick="showRateList('likes')">
+                    <div class="card-icon" style="color: #FF007F;"><i class="fa-solid fa-heart"></i></div>
+                    <div class="card-title">Free Fire Profile Likes</div>
+                    <p class="card-subtitle">দ্রুত লাইক নিন</p>
                 </div>
 
                 <div class="product-card account-card" onclick="buyAccount()">
@@ -604,7 +657,7 @@
         let selectedMethod = 'bikash';
         let currentOrderAmount = 0;
         let currentItemName = '';
-        let currentItemType = ''; // 'diamond' বা 'pubg'
+        let currentItemType = ''; 
         let isCustomAccountOrder = false; 
         
         // Free Fire ডায়মন্ড রেটের তালিকা 
@@ -620,7 +673,7 @@
             { diamonds: 7590, price: 6999 }, { diamonds: 10120, price: 9899 }
         ];
 
-        // PUBG UC রেটের তালিকা (নতুন যোগ করা হয়েছে)
+        // PUBG UC রেটের তালিকা 
         const pubgRates = [
             { item: '30 UC', price: 70 }, { item: '60 UC', price: 125 }, 
             { item: '120 UC', price: 245 }, { item: '180 UC', price: 370 }, 
@@ -633,15 +686,35 @@
             { item: '16,200 UC', price: 24790 }, { item: 'Elite Pass (LV50)', price: 740 }, 
             { item: 'Elite Pass (LV100)', price: 1360 }, { item: 'First Purchase Pack', price: 99 }
         ];
+        
+        // Free Fire লাইকের রেটের তালিকা 
+        const likesRates = [
+            { likes: 100, price: 50 }, { likes: 500, price: 200 }, 
+            { likes: 1000, price: 350 }, { likes: 2000, price: 500 },
+            { likes: 5000, price: 1000 }, { likes: 10000, price: 1800 }
+        ];
 
-        // ডায়মন্ড/UC রেট লিস্ট তৈরি করার ফাংশন
+
+        // ডায়মন্ড/UC/Likes রেট লিস্ট তৈরি করার ফাংশন
         function renderRateList(type) {
             const listContainer = document.getElementById('rate-list-container');
             listContainer.innerHTML = '';
             
-            let rates = (type === 'diamond') ? diamondRates : pubgRates;
-            let title = (type === 'diamond') ? 'Free Fire Diamond টপ-আপ রেট' : 'PUBG UC টপ-আপ রেট ও প্যাকেজ';
-            let icon = (type === 'diamond') ? '💎' : '<i class="fa-solid fa-gamepad" style="color: #00CED1;"></i>';
+            let rates, title, icon;
+            
+            if (type === 'diamond') {
+                rates = diamondRates;
+                title = 'Free Fire Diamond টপ-আপ রেট';
+                icon = '💎';
+            } else if (type === 'pubg') {
+                rates = pubgRates;
+                title = 'PUBG UC টপ-আপ রেট ও প্যাকেজ';
+                icon = '<i class="fa-solid fa-gamepad" style="color: #00CED1;"></i>';
+            } else if (type === 'likes') { 
+                rates = likesRates;
+                title = 'Free Fire প্রোফাইল লাইক রেট';
+                icon = '<i class="fa-solid fa-heart" style="color: #FF007F;"></i>';
+            }
             
             listContainer.innerHTML = `<h3 id="rate-list-title">${title}</h3>`;
             
@@ -649,8 +722,18 @@
                 const itemDiv = document.createElement('div');
                 itemDiv.classList.add('rate-item');
 
-                let itemName = (type === 'diamond') ? `${rate.diamonds} Diamonds Top-up` : `${rate.item} Top-up`;
-                let displayItem = (type === 'diamond') ? `${icon} ${rate.diamonds} Diamonds` : `${icon} ${rate.item}`;
+                let itemName, displayItem;
+
+                if (type === 'diamond') {
+                    itemName = `${rate.diamonds} Diamonds Top-up`;
+                    displayItem = `${icon} ${rate.diamonds} Diamonds`;
+                } else if (type === 'pubg') {
+                    itemName = `${rate.item} Top-up`;
+                    displayItem = `${icon} ${rate.item}`;
+                } else if (type === 'likes') {
+                    itemName = `${rate.likes.toLocaleString('bn-BD')} Likes Top-up`;
+                    displayItem = `${icon} ${rate.likes.toLocaleString('bn-BD')} Likes`;
+                }
                 
                 itemDiv.innerHTML = `
                     <span>${displayItem}</span>
@@ -664,14 +747,14 @@
                     
                     currentItemName = e.currentTarget.getAttribute('data-item');
                     currentOrderAmount = parseFloat(e.currentTarget.getAttribute('data-price'));
-                    currentItemType = type; // 'diamond' বা 'pubg' সেভ করা হলো
+                    currentItemType = type; 
                     isCustomAccountOrder = false; 
                     
                     document.getElementById('amount-to-pay').innerText = currentOrderAmount.toLocaleString('bn-BD') + ' BDT';
                     document.getElementById('current-item-display').innerText = currentItemName;
                     
                     document.getElementById('uid-input-group').style.display = 'block';
-                    document.getElementById('game-uid').placeholder = (type === 'diamond') ? 'এখানে আপনার Free Fire UID বসান' : 'এখানে আপনার PUBG Player ID বসান';
+                    document.getElementById('game-uid').placeholder = (type === 'diamond' || type === 'likes') ? 'এখানে আপনার Free Fire UID বসান' : 'এখানে আপনার PUBG Player ID বসান';
                     document.getElementById('game-uid').focus();
                     
                     showPage('payment-page');
@@ -714,7 +797,15 @@
         function showRateList(type) {
             document.querySelectorAll('.product-card').forEach(card => card.style.display = 'none');
             document.getElementById('rate-list-container').style.display = 'block';
-            document.querySelector('.page-title').innerText = (type === 'diamond') ? 'আপনার পছন্দের ডায়মন্ড প্যাক নির্বাচন করুন' : 'আপনার পছন্দের PUBG UC প্যাক নির্বাচন করুন';
+            let titleText;
+            if (type === 'diamond') {
+                 titleText = 'আপনার পছন্দের ডায়মন্ড প্যাক নির্বাচন করুন';
+            } else if (type === 'pubg') {
+                 titleText = 'আপনার পছন্দের PUBG UC প্যাক নির্বাচন করুন';
+            } else if (type === 'likes') {
+                 titleText = 'আপনার পছন্দের Free Fire লাইক প্যাকেজ নির্বাচন করুন';
+            }
+            document.querySelector('.page-title').innerText = titleText;
             document.querySelector('.product-grid').style.display = 'none';
             renderRateList(type);
         }
@@ -724,7 +815,7 @@
             document.getElementById('home-page').style.display = 'none';
             document.getElementById('payment-page').style.display = 'none';
             document.getElementById('guide-page').style.display = 'none';
-            document.getElementById('success-page').style.display = 'none'; // নতুন পেজ যোগ করা হয়েছে
+            document.getElementById('success-page').style.display = 'none'; 
             document.getElementById(pageId).style.display = 'block';
             
             if (pageId === 'home-page') {
@@ -732,18 +823,20 @@
                 document.getElementById('rate-list-container').style.display = 'none';
                 document.querySelector('.product-grid').style.display = 'grid';
                 document.querySelector('.page-title').innerText = 'ফ্রী ফায়ার ডায়মন্ড টপ-আপ এবং প্রিমিয়াম সার্ভিসেস';
-                // ইনপুট গ্রুপগুলো লুকিয়ে রাখা
                 document.getElementById('uid-input-group').style.display = 'none'; 
                 document.getElementById('custom-price-input-group').style.display = 'none'; 
             }
             
-            // পেমেন্ট পেজে আসলে ইনপুট ফিল্ডগুলো চেক করা
             if (pageId === 'payment-page') {
                 if (isCustomAccountOrder) {
                     document.getElementById('uid-input-group').style.display = 'none';
                     document.getElementById('custom-price-input-group').style.display = 'block';
+                } else if (currentItemType === 'diamond' || currentItemType === 'pubg' || currentItemType === 'likes') {
+                    document.getElementById('uid-input-group').style.display = 'block';
+                    document.getElementById('game-uid').placeholder = (currentItemType === 'diamond' || currentItemType === 'likes') ? 'এখানে আপনার Free Fire UID বসান' : 'এখানে আপনার PUBG Player ID বসান';
+                    document.getElementById('custom-price-input-group').style.display = 'none';
                 } else {
-                    document.getElementById('uid-input-group').style.display = (currentItemName.includes('Diamonds Top-up') || currentItemName.includes('UC Top-up') || currentItemName.includes('Elite Pass')) ? 'block' : 'none';
+                    document.getElementById('uid-input-group').style.display = 'none';
                     document.getElementById('custom-price-input-group').style.display = 'none';
                 }
             }
@@ -838,17 +931,17 @@
                 }
                 currentOrderAmount = parseFloat(customPriceValue);
                 currentItemName = `Custom Account Price: ${currentOrderAmount.toFixed(2)} BDT`;
-            } else if (currentItemName.includes('Diamonds Top-up') || currentItemName.includes('UC Top-up') || currentItemName.includes('Elite Pass')) {
+            } else if (currentItemType === 'diamond' || currentItemType === 'pubg' || currentItemType === 'likes') { 
                 if (!gameUid) {
-                    alert("টপ-আপের জন্য অবশ্যই ইউজার আইডি (UID/Player ID) দিতে হবে।");
+                    alert("এই সার্ভিসের জন্য অবশ্যই ইউজার আইডি (UID/Player ID) দিতে হবে।");
                     document.getElementById('game-uid').focus();
                     return;
                 }
             }
 
-            let uidInfo = (currentItemName.includes('Diamonds Top-up') || currentItemName.includes('UC Top-up') || currentItemName.includes('Elite Pass')) ? `\nইউজার আইডি (UID/Player ID): ${gameUid}` : '';
+            let uidInfo = (currentItemType === 'diamond' || currentItemType === 'pubg' || currentItemType === 'likes') ? `\nইউজার আইডি (UID/Player ID): ${gameUid}` : '';
             
-            // ইমেইল বডি টেক্সট তৈরি করা (URL Encoding প্রয়োজন)
+            // ইমেইল বডি টেক্সট তৈরি করা 
             const emailBody = `
 Vico Shop: নতুন ডিপোজিট রিকোয়েস্ট!
 
@@ -876,7 +969,7 @@ ${uidInfo}
             // নতুন ট্যাব বা উইন্ডোতে ইমেইল ক্লায়েন্ট খোলা
             window.open(mailtoURL, '_blank');
             
-            // **পরিবর্তন:** Alert এর পরিবর্তে নতুন Success Page দেখানো হবে 
+            // Success Page দেখানো
             showPage('success-page'); 
             
             // রিসেট 
@@ -908,8 +1001,6 @@ ${uidInfo}
 
         // ৬. স্প্ল্যাশ স্ক্রিন এবং পেজ লোড লজিক
         function initializePage() {
-            // প্রাথমিক লোডের সময় শুধু Free Fire রেট লোড হয়। PUBG রেট যখন ইউজার ক্লিক করবে তখন লোড হবে।
-            // renderRateList('diamond'); 
             showPage('home-page');
             updateTimer();
         }
@@ -922,8 +1013,8 @@ ${uidInfo}
                 splashScreen.classList.add('hidden');
                 document.body.classList.add('loaded'); // পুরো বডি দৃশ্যমান করা
                 initializePage(); // সাইটের মূল ফাংশন চালু করা
-            }, 2000); // ২ সেকেন্ড = ২০০০ মিলিসেকেন্ড
+            }, 2000); 
         });
     </script>
 </body>
-</html>
+    </html>
