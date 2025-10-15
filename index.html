@@ -163,6 +163,25 @@
         }
         .login-btn:hover { background-color: #d32f2f; transform: scale(1.05); }
 
+        /* ** ডিসকাউন্ট ব্যানার স্টাইল (নতুন) ** */
+        .discount-banner {
+            background-color: #7f00ff; 
+            color: white;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+            border-bottom: 2px solid #ffc107;
+        }
+        .discount-banner strong {
+            color: #ffc107; 
+            font-size: 1.1em;
+            margin: 0 3px;
+        }
+
+
         /* == ৩. কনটেন্ট ও প্রোডাক্ট গ্রিড ডিজাইন (ইউনিক ডিজাইন) == */
         .content-area { padding: 25px 15px; }
         .page-title { 
@@ -276,7 +295,18 @@
             box-shadow: 0 0 10px rgba(127, 0, 255, 0.5);
         }
         .rate-item span:first-child { font-weight: 600; }
-        .rate-item span:last-child { font-weight: 800; color: #4CAF50; }
+        .rate-item span:last-child { 
+            font-weight: 800; 
+            color: #4CAF50; 
+            display: flex; /* ডিসকাউন্ট মূল্য প্রদর্শনের জন্য */
+            align-items: center;
+            gap: 5px;
+        }
+        .original-price {
+            text-decoration: line-through; 
+            font-size: 0.8em; 
+            color: #ffc107;
+        }
 
         /* == ৫. পেমেন্ট পেজ স্টাইল == */
         .cashier-container { 
@@ -374,6 +404,23 @@
             border-left: 5px solid #e53935; 
         }
         .important-text { font-weight: bold; color: #b71c1c; }
+        
+        /* ডিসকাউন্ট তথ্য প্রদর্শনের জন্য নতুন স্টাইল */
+        .discount-details {
+            padding: 10px 0;
+            border-top: 1px dashed #7f00ff;
+            border-bottom: 1px dashed #7f00ff;
+            margin-bottom: 20px;
+        }
+        .discount-row {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .discount-row .label { font-weight: 600; color: #555; }
+        .discount-row .value { font-weight: 700; color: #e53935; }
 
 
         /* == ৬. SUCCESS PAGE ডিজাইন == */
@@ -613,6 +660,10 @@
         </a>
     </header>
 
+    <div class="discount-banner" id="global-discount-banner">
+        🚨 স্পেশাল অফার! সম্পূর্ণ সাইটের পেইড পণ্যে **২০%** ডিসকাউন্ট চলছে! 🚀
+    </div>
+
     <div id="home-page" style="display: none;">
         <main class="content-area">
             <h1 class="page-title">ফ্রী ফায়ার ডায়মন্ড টপ-আপ এবং প্রিমিয়াম সার্ভিসেস</h1>
@@ -741,8 +792,21 @@
                 </p>
 
                 <div class="payment-details">
+                    
+                    <div class="detail-row">
+                        <span class="label"><i class="fa-solid fa-tag" style="color:#7f00ff;"></i> পণ্যের আসল মূল্য:</span>
+                        <span class="value" id="original-amount" style="font-size: 16px; color: #555; font-weight: 600;">0.00 BDT</span>
+                    </div>
+
+                    <div class="discount-details">
+                         <div class="discount-row">
+                            <span class="label"><i class="fa-solid fa-percent" style="color:#e53935;"></i> সাইট ডিসকাউন্ট (২০%):</span>
+                            <span class="value" id="discount-amount">- 0.00 BDT</span>
+                        </div>
+                    </div>
+
                     <div class="detail-row" style="background-color: #e3f2fd; padding: 10px; border-radius: 6px; border-bottom: none;">
-                        <span class="label" style="font-weight: 700; color: #16213e;"><i class="fa-solid fa-receipt" style="color:#7f00ff;"></i> মোট পরিশোধের পরিমাণ:</span>
+                        <span class="label" style="font-weight: 700; color: #16213e;"><i class="fa-solid fa-receipt" style="color:#7f00ff;"></i> ডিসকাউন্টের পর মোট পরিশোধ:</span>
                         <span class="value" id="amount-to-pay" style="font-size: 18px; color: #e53935; font-weight: 800;">0.00 BDT</span>
                     </div>
                     
@@ -894,15 +958,20 @@
         const specificNumber = '01339221633'; // নতুন নম্বর
         const cashoutNumbers = { bikash: specificNumber, nagad: specificNumber, rocket: specificNumber };
         
+        // ** ডিসকাউন্ট রেট **
+        const GLOBAL_DISCOUNT_PERCENT = 0.20; // 20% ছাড়
+        
         let selectedMethod = 'bikash';
-        let currentOrderAmount = 0;
+        let currentOriginalAmount = 0; // ডিসকাউন্টের আগে আসল মূল্য
+        let currentFinalAmount = 0;    // ডিসকাউন্টের পরে মোট মূল্য
         let currentItemName = '';
         let currentItemType = ''; 
         let isCustomAccountOrder = false; 
         let isFreeOrder = false;
         let lastGeneratedOrderNumber = ''; // UPDATED: Order Number Variable
-        let winningPrize = null; // NEW: Spin prize storage
-        
+        let winningPrize = null; 
+        let currentDiscountAmount = 0; // ডিসকাউন্ট টাকা
+
         // **UPDATED: Lucky Spin Settings**
         const spinPrizes = [
             { text: "300 Likes", color: "#FF007F", value: '300L', type: 'likes', chance: 15 }, 
@@ -911,10 +980,10 @@
             { text: "Try Again (শূন্য)", color: "#e53935", value: '0', type: 'none', chance: 30 },
             { text: "200 Likes", color: "#FFD700", value: '200L', type: 'likes', chance: 15 } 
         ];
-        const totalChance = spinPrizes.reduce((sum, p) => sum + p.chance, 0); // Should be 100
+        const totalChance = spinPrizes.reduce((sum, p) => sum + p.chance, 0); 
         let canSpin = true; 
 
-        // Free Fire ডায়মন্ড রেটের তালিকা (একই রাখা হলো)
+        // Free Fire ডায়মন্ড রেটের তালিকা
         const diamondRates = [
             { diamonds: 115, price: 90 }, { diamonds: 240, price: 180 }, 
             { diamonds: 355, price: 250 }, { diamonds: 480, price: 350 },
@@ -927,7 +996,7 @@
             { diamonds: 7590, price: 6999 }, { diamonds: 10120, price: 9899 }
         ];
 
-        // PUBG UC রেটের তালিকা (একই রাখা হলো)
+        // PUBG UC রেটের তালিকা
         const pubgRates = [
             { item: '30 UC', price: 70 }, { item: '60 UC', price: 125 }, 
             { item: '120 UC', price: 245 }, { item: '180 UC', price: 370 }, 
@@ -941,15 +1010,34 @@
             { item: 'Elite Pass (LV100)', price: 1360 }, { item: 'First Purchase Pack', price: 99 }
         ];
         
-        // Free Fire লাইকের রেটের তালিকা (একই রাখা হলো)
+        // Free Fire লাইকের রেটের তালিকা
         const likesRates = [
             { likes: 100, price: 50 }, { likes: 500, price: 200 }, 
             { likes: 1000, price: 350 }, { likes: 2000, price: 500 },
             { likes: 5000, price: 1000 }, { likes: 10000, price: 1800 }
         ];
 
+        // ** নতুন ফাংশন: ডিসকাউন্ট গণনা ও প্রদর্শন **
+        function calculateAndDisplayAmount(originalPrice) {
+            currentOriginalAmount = originalPrice;
+            
+            // ফ্রী অর্ডারে ডিসকাউন্ট প্রযোজ্য নয়
+            if (isFreeOrder) {
+                currentDiscountAmount = 0;
+                currentFinalAmount = 0;
+            } else {
+                currentDiscountAmount = currentOriginalAmount * GLOBAL_DISCOUNT_PERCENT;
+                currentFinalAmount = currentOriginalAmount - currentDiscountAmount;
+            }
 
-        // ডায়মন্ড/UC/Likes রেট লিস্ট তৈরি করার ফাংশন (একই রাখা হলো)
+            // পেমেন্ট পেজে ডিসপ্লে আপডেট করা
+            document.getElementById('original-amount').innerText = currentOriginalAmount.toFixed(2).toLocaleString('bn-BD') + ' BDT';
+            document.getElementById('discount-amount').innerText = `- ${currentDiscountAmount.toFixed(2).toLocaleString('bn-BD')} BDT`;
+            document.getElementById('amount-to-pay').innerText = currentFinalAmount.toFixed(2).toLocaleString('bn-BD') + ' BDT';
+        }
+
+
+        // ডায়মন্ড/UC/Likes রেট লিস্ট তৈরি করার ফাংশন
         function renderRateList(type) {
             const listContainer = document.getElementById('rate-list-container');
             listContainer.innerHTML = '';
@@ -989,85 +1077,89 @@
                     displayItem = `${icon} ${rate.likes.toLocaleString('bn-BD')} Likes`;
                 }
                 
+                const discountedPrice = rate.price * (1 - GLOBAL_DISCOUNT_PERCENT);
+
                 itemDiv.innerHTML = `
                     <span>${displayItem}</span>
-                    <span style="color: #4CAF50; font-weight: bold;">${rate.price.toLocaleString('bn-BD')} BDT</span>
+                    <span>
+                        <span class="original-price">${rate.price.toLocaleString('bn-BD')}</span>
+                        ${discountedPrice.toFixed(0).toLocaleString('bn-BD')} BDT
+                    </span>
                 `;
                 itemDiv.setAttribute('data-item', itemName);
-                itemDiv.setAttribute('data-price', rate.price);
+                itemDiv.setAttribute('data-price', rate.price); // আসল দাম সেভ করা হলো
                 itemDiv.addEventListener('click', (e) => {
                     document.querySelectorAll('.rate-item').forEach(i => i.classList.remove('selected-rate'));
                     e.currentTarget.classList.add('selected-rate');
                     
                     currentItemName = e.currentTarget.getAttribute('data-item');
-                    currentOrderAmount = parseFloat(e.currentTarget.getAttribute('data-price'));
+                    const originalPrice = parseFloat(e.currentTarget.getAttribute('data-price'));
                     currentItemType = type; 
                     isCustomAccountOrder = false; 
                     isFreeOrder = false;
                     
-                    document.getElementById('amount-to-pay').innerText = currentOrderAmount.toLocaleString('bn-BD') + ' BDT';
                     document.getElementById('current-item-display').innerText = currentItemName;
                     
                     document.getElementById('uid-input-group').style.display = 'block';
                     document.getElementById('game-uid').placeholder = (type === 'diamond' || type === 'likes') ? 'এখানে আপনার Free Fire UID বসান' : 'এখানে আপনার PUBG Player ID বসান';
                     document.getElementById('game-uid').focus();
                     
+                    calculateAndDisplayAmount(originalPrice);
                     showPage('payment-page');
                 });
                 listContainer.appendChild(itemDiv);
             });
         }
         
-        // **নতুন ফাংশন: ফ্রি লাইক অর্ডার শুরু করা**
+        // **ফ্রি লাইক অর্ডার শুরু করা**
         function startFreeLikeOrder() {
             currentItemName = "Free Fire 100 Likes";
-            currentOrderAmount = 0;
+            currentOriginalAmount = 0;
             isCustomAccountOrder = false;
             isFreeOrder = true; // এটি একটি ফ্রি অর্ডার
             currentItemType = 'likes';
             
             document.getElementById('current-item-display').innerText = "Free Fire 100 Likes - ফ্রী অর্ডার";
-            document.getElementById('amount-to-pay').innerText = '0.00 BDT'; 
             
             document.getElementById('uid-input-group').style.display = 'block';
             document.getElementById('game-uid').placeholder = 'এখানে আপনার Free Fire UID বসান';
             document.getElementById('game-uid').focus();
             
+            calculateAndDisplayAmount(0); // ফ্রী অর্ডারে ডিসকাউন্টও 0 হবে
             showPage('payment-page');
         }
 
-        // অ্যাকাউন্ট কেনার অপশন (ফেসবুক লিংক) - একই রাখা হলো
+        // অ্যাকাউন্ট কেনার অপশন (ফেসবুক লিংক)
         function buyAccount() {
             alert("আইডি কিনতে চাইলে এই লিংকে যোগাযোগ করুন। আপনাকে এখন আমাদের ফেসবুক পেজে নিয়ে যাওয়া হবে।");
             window.open(accountBuyLink, '_blank');
         }
 
-        // কাস্টম আইডি মূল্য পরিশোধ শুরু করা - সামান্য পরিবর্তন
+        // কাস্টম আইডি মূল্য পরিশোধ শুরু করা
         function startCustomAccountOrder() {
             currentItemName = "Custom Account Price Payment";
-            currentOrderAmount = 0;
+            currentOriginalAmount = 0;
             isCustomAccountOrder = true;
             isFreeOrder = false;
             
             document.getElementById('current-item-display').innerText = "কাস্টম আইডি মূল্য পরিশোধ";
-            document.getElementById('amount-to-pay').innerText = '0.00 BDT'; 
             
             document.getElementById('uid-input-group').style.display = 'none';
             document.getElementById('custom-price-input-group').style.display = 'block';
             document.getElementById('custom-price').value = '';
             document.getElementById('custom-price').focus();
             
+            calculateAndDisplayAmount(0); // দাম ইনপুট দেওয়ার আগে 0 সেট করা হলো
             showPage('payment-page');
         }
         
-        // কাস্টম প্রাইস ইনপুট পরিবর্তন হলে মোট দাম আপডেট করা (একই রাখা হলো)
+        // কাস্টম প্রাইস ইনপুট পরিবর্তন হলে মোট দাম আপডেট করা 
         document.getElementById('custom-price').addEventListener('input', (e) => {
-            const price = parseFloat(e.target.value) || 0;
-            currentOrderAmount = price;
-            document.getElementById('amount-to-pay').innerText = price.toFixed(2).toLocaleString('bn-BD') + ' BDT';
+            const originalPrice = parseFloat(e.target.value) || 0;
+            calculateAndDisplayAmount(originalPrice);
         });
 
-        // টপ-আপ কার্ডে ক্লিক করলে রেট লিস্ট দেখাবে (একই রাখা হলো)
+        // টপ-আপ কার্ডে ক্লিক করলে রেট লিস্ট দেখাবে
         function showRateList(type) {
             document.querySelectorAll('.product-card').forEach(card => card.style.display = 'none');
             document.getElementById('rate-list-container').style.display = 'block';
@@ -1144,7 +1236,7 @@
             }
         }
 
-        // অন্যান্য পণ্য কার্ডে ক্লিক করলে পেমেন্ট পেজে নেভিগেট করা - সামান্য পরিবর্তন
+        // অন্যান্য পণ্য কার্ডে ক্লিক করলে পেমেন্ট পেজে নেভিগেট করা - ডিসকাউন্ট লজিক যোগ করা হয়েছে
         document.querySelectorAll('.product-card:not(.topup-card):not(.account-card):not(.custom-price-card):not(.free-like-card):not(.spin-card)').forEach(card => {
             card.addEventListener('click', () => {
                 isCustomAccountOrder = false; 
@@ -1152,18 +1244,18 @@
                 currentItemType = '';
                 
                 currentItemName = card.getAttribute('data-item');
-                currentOrderAmount = parseFloat(card.getAttribute('data-price')) || 0;
+                const originalPrice = parseFloat(card.getAttribute('data-price')) || 0;
                 
-                document.getElementById('amount-to-pay').innerText = currentOrderAmount.toFixed(2).toLocaleString('bn-BD') + ' BDT';
                 document.getElementById('current-item-display').innerText = currentItemName;
                 
                 document.getElementById('uid-input-group').style.display = 'none';
                 
+                calculateAndDisplayAmount(originalPrice);
                 showPage('payment-page');
             });
         });
         
-        // পেমেন্ট মেথড পরিবর্তন ফাংশন (একই রাখা হলো)
+        // পেমেন্ট মেথড পরিবর্তন ফাংশন
         document.querySelectorAll('.method-btn').forEach(button => {
             button.addEventListener('click', () => {
                 document.querySelector('.method-btn.selected').classList.remove('selected');
@@ -1178,7 +1270,7 @@
             });
         });
 
-        // কপি করার ফাংশন (একই রাখা হলো)
+        // কপি করার ফাংশন 
         function copyToClipboard(elementId) {
             const copyText = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(copyText).then(() => {
@@ -1235,9 +1327,11 @@
                     document.getElementById('custom-price').focus();
                     return;
                 }
-                currentOrderAmount = parseFloat(customPriceValue);
-                currentItemName = `Custom Account Price: ${currentOrderAmount.toFixed(2)} BDT`;
-            } else if (currentItemType === 'diamond' || currentItemType === 'pubg' || currentItemType === 'likes') { 
+                // কাস্টম প্রাইস বসলে আবার ডিসকাউন্ট ক্যালকুলেট করা
+                const originalPrice = parseFloat(customPriceValue);
+                calculateAndDisplayAmount(originalPrice); 
+                currentItemName = `Custom Account Price: ${originalPrice.toFixed(2)} BDT`;
+            } else if (currentItemType === 'diamond' || currentItemType === 'pubg' || currentItemType === 'likes' || isFreeOrder) { 
                 if (!gameUid) {
                     alert("এই সার্ভিসের জন্য অবশ্যই ইউজার আইডি (UID/Player ID) দিতে হবে।");
                     document.getElementById('game-uid').focus();
@@ -1252,7 +1346,9 @@
             // ইমেইল বডি টেক্সট তৈরি করা 
             let paymentDetails = isFreeOrder ? 'পেমেন্ট মেথড: ফ্রী অর্ডার (০ BDT)' : 
                                 `পেমেন্ট মেথড: ${methodText} (সেন্ড মানি)
-পরিমাণ: ${currentOrderAmount.toFixed(2)} টাকা
+আসল মূল্য: ${currentOriginalAmount.toFixed(2)} টাকা
+ডিসকাউন্ট: -${currentDiscountAmount.toFixed(2)} টাকা (২০%)
+মোট পরিশোধ: ${currentFinalAmount.toFixed(2)} টাকা
 ট্রানজেকশন আইডি: ${transactionId || 'প্রয়োজন নেই (ফ্রী অর্ডার)'}
 স্ক্রিনশট লিংক: ${screenshotLink} `;
             
@@ -1275,7 +1371,7 @@ ${uidInfo}
 দয়া করে আপনার অ্যাকাউন্ট চেক করে দ্রুত নিশ্চিত করুন।
 `;
             
-            const subject = encodeURIComponent(`নতুন ডিপোজিট: ${customerName} - ${currentItemName} (${currentOrderAmount.toFixed(2)} BDT) - নাম্বার: ${lastGeneratedOrderNumber}`);
+            const subject = encodeURIComponent(`নতুন ডিপোজিট: ${customerName} - ${currentItemName} (মোট: ${currentFinalAmount.toFixed(2)} BDT) - নাম্বার: ${lastGeneratedOrderNumber}`);
             const body = encodeURIComponent(emailBody);
             
             // mailto: লিংক তৈরি
@@ -1296,13 +1392,15 @@ ${uidInfo}
             document.getElementById('screenshot-link').value = '';
             document.getElementById('custom-price').value = '';
             document.getElementById('order-code-input').value = ''; 
-            currentOrderAmount = 0;
+            currentOriginalAmount = 0;
+            currentFinalAmount = 0;
+            currentDiscountAmount = 0;
             currentItemName = '';
             isCustomAccountOrder = false;
             isFreeOrder = false;
         }
         
-        // কাউন্টডাউন টাইমার ফাংশন (একই রাখা হলো)
+        // কাউন্টডাউন টাইমার ফাংশন 
         let timeInSeconds = 593;
         function updateTimer() {
             const minutes = Math.floor(timeInSeconds / 60);
