@@ -20,7 +20,7 @@
         /* নতুন পালস গ্লো অ্যানিমেশন লোগোর জন্য */
         @keyframes pulse-glow {
             0% { box-shadow: 0 0 5px #e53935, 0 0 10px #e53935; transform: scale(1); }
-            50% { box-shadow: 0 0 15px #7f00ff, 0 0 30px #7f00ff; transform: scale(1.05); } /* অ্যানিমেশন উন্নত করা হলো */
+            50% { box-shadow: 0 0 15px #7f00ff, 0 0 30px #7f00ff; transform: scale(1.05); } 
             100% { box-shadow: 0 0 5px #e53935, 0 0 10px #e53935; transform: scale(1); }
         }
 
@@ -41,7 +41,13 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
-
+        
+        /* হুইল অফ ফরচুন অ্যানিমেশন */
+        @keyframes rotating {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
         /* == ১. প্রাথমিক রিসেট ও গ্লোবাল স্টাইল (আধুনিক ডার্ক থিম) == */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { 
@@ -128,15 +134,15 @@
         
         /* লোগো ইমেজ স্টাইল (ডান দিকে) */
         .logo { 
-            font-family: 'Bebas Neue', cursive; /* নতুন ফন্ট */
-            font-size: 36px; /* ফন্ট সাইজ বাড়ানো */
+            font-family: 'Bebas Neue', cursive; 
+            font-size: 36px; 
             font-weight: 800; 
             color: #e53935; 
-            text-shadow: 0 0 15px rgba(229, 57, 53, 0.9); /* গ্লো বাড়ানো */
+            text-shadow: 0 0 15px rgba(229, 57, 53, 0.9); 
             display: flex;
             align-items: center;
             margin-right: auto;
-            margin-left: 55px; /* অ্যানিমেটেড আইকনের জন্য বামে স্পেস */
+            margin-left: 55px; 
             letter-spacing: 2px;
         }
         
@@ -179,23 +185,23 @@
         }
         .product-card { 
             background-color: #2c3850; 
-            border-radius: 15px; /* রাউন্ডনেস বাড়ানো */
+            border-radius: 15px; 
             text-align: center; 
             padding: 25px 15px 20px; 
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* শ্যাডো বাড়ানো */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); 
             transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s; 
             cursor: pointer; 
-            border: 2px solid #4a69bd55; /* বর্ডার চওড়া করা */
+            border: 2px solid #4a69bd55; 
         }
         .product-card:hover { 
             transform: translateY(-10px) scale(1.05); 
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); 
             border-color: #7f00ff;
-            animation: cardTilt 1s infinite alternate; /* নতুন অ্যানিমেশন যোগ */
+            animation: cardTilt 1s infinite alternate; 
         }
         /* ফ্রি লাইক কার্ডের জন্য আলাদা ডিজাইন */
         .free-like-card {
-            background-color: #388e3c; /* গাঢ় সবুজ */
+            background-color: #388e3c; 
             border-color: #81c784 !important;
             box-shadow: 0 0 25px rgba(76, 175, 80, 0.8) !important;
         }
@@ -203,21 +209,33 @@
              transform: translateY(-10px) scale(1.1); 
              border-color: #ffffff !important;
         }
+        /* নতুন স্পিন কার্ডের জন্য ডিজাইন */
+        .spin-card {
+            background-color: #7f00ff; 
+            border-color: #ffc107 !important;
+            box-shadow: 0 0 25px rgba(255, 193, 7, 0.8) !important;
+        }
+        .spin-card:hover {
+             transform: translateY(-10px) scale(1.1); 
+             border-color: #e53935 !important;
+        }
         .card-icon { 
-            font-size: 45px; /* সাইজ বাড়ানো */
+            font-size: 45px; 
             margin-bottom: 12px; 
             color: #4CAF50; 
             transition: color 0.3s, transform 0.4s;
         }
-        .product-card:hover .card-icon { transform: rotateY(15deg) scale(1.1); color: #e53935; } /* হোভারে আইকন এফেক্ট পরিবর্তন */
+        .product-card:hover .card-icon { transform: rotateY(15deg) scale(1.1); color: #e53935; } 
+        .spin-card:hover .card-icon { color: #ffffff !important; transform: rotate(360deg) scale(1.2); }
         .card-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; color: #ffffff; }
         .card-subtitle { font-size: 12px; font-weight: 500; color: #90caf9; }
         .free-like-card .card-subtitle { color: #ffffff; font-weight: 700; }
+        .spin-card .card-subtitle { color: #ffe0b2; font-weight: 700; }
 
         /* == ৪. ডায়মন্ড রেট লিস্ট স্টাইল (ইউনিক ডিজাইন) == */
         .rate-list-container { 
-            background: linear-gradient(145deg, #16213e, #2c3850); /* গ্রেডিয়েন্ট ব্যাকগ্রাউন্ড */
-            border-radius: 18px; /* রাউন্ডনেস বাড়ানো */
+            background: linear-gradient(145deg, #16213e, #2c3850); 
+            border-radius: 18px; 
             padding: 25px; 
             margin: 20px auto; 
             max-width: 450px; 
@@ -237,11 +255,11 @@
             justify-content: space-between; 
             align-items: center;
             padding: 12px 15px; 
-            border-bottom: 1px solid #4a69bd; /* হালকা বর্ডার */
+            border-bottom: 1px solid #4a69bd; 
             cursor: pointer; 
             transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1); 
             border-radius: 8px;
-            background-color: #1a2542; /* হালকা ব্যাকগ্রাউন্ড */
+            background-color: #1a2542; 
             margin-bottom: 8px;
         }
         .rate-item:last-child { border-bottom: none; }
@@ -260,15 +278,15 @@
         .rate-item span:first-child { font-weight: 600; }
         .rate-item span:last-child { font-weight: 800; color: #4CAF50; }
 
-        /* == ৫. পেমেন্ট পেজ স্টাইল (পূর্বের ডিজাইন ফিরে আনা হলো) == */
+        /* == ৫. পেমেন্ট পেজ স্টাইল == */
         .cashier-container { 
             max-width: 450px; 
             margin: 20px auto; 
-            background-color: #f0f6fc; /* সাদাটে ব্যাকগ্রাউন্ড */
+            background-color: #f0f6fc; 
             padding: 30px; 
             border-radius: 12px; 
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); 
-            color: #333; /* টেক্সট কালার কালো */
+            color: #333; 
             animation: fadeIn 0.8s ease-out; 
         }
 
@@ -358,18 +376,18 @@
         .important-text { font-weight: bold; color: #b71c1c; }
 
 
-        /* == ৬. SUCCESS PAGE ডিজাইন (ইউনিক ডিজাইন) == */
+        /* == ৬. SUCCESS PAGE ডিজাইন == */
         .success-container {
             max-width: 500px;
             margin: 50px auto;
             padding: 40px;
             background: linear-gradient(135deg, #ffffff, #f0f6fc);
             border-radius: 15px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); /* শ্যাডো উন্নত করা */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); 
             text-align: center;
             color: #333;
             animation: fadeIn 1s ease-out;
-            border: 4px solid #4CAF50; /* সবুজ বর্ডার যোগ করা */
+            border: 4px solid #4CAF50; 
         }
         .success-icon {
             font-size: 90px;
@@ -390,7 +408,7 @@
             line-height: 1.7;
         }
         .next-steps {
-            background-color: #e8f5e9; /* হালকা সবুজ ব্যাকগ্রাউন্ড */
+            background-color: #e8f5e9; 
             padding: 20px;
             border-radius: 10px;
             text-align: left;
@@ -409,13 +427,135 @@
             margin-right: 8px;
             color: #7f00ff;
         }
-        /* == ৭. গাইড পেজ স্টাইল == */
-        #guide-page .cashier-container {
-            max-width: 600px; 
-            background-color: #ffffff; /* গাইড পেজের কন্টেইনারও সাদা */
-            color: #333;
+        .order-code-display {
+            display: block;
+            background-color: #fff3e0;
+            color: #e53935;
+            font-size: 20px;
+            font-weight: 800;
+            padding: 10px;
+            margin: 15px auto;
+            border-radius: 8px;
+            border: 2px dashed #e53935;
         }
-
+        
+        /* == ৮. স্পিন পেজ স্টাইল == */
+        #spin-page {
+            text-align: center;
+            padding-top: 30px;
+        }
+        .spin-wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 30px auto;
+        }
+        #spin-wheel {
+            width: 100%;
+            height: 100%;
+            background-color: #ffc107;
+            border-radius: 50%;
+            border: 10px solid #e53935;
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.8);
+            position: relative;
+            transition: transform 4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+        }
+        .wheel-marker {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 20px solid #7f00ff;
+            z-index: 10;
+        }
+        .wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            top: 0;
+            left: 0;
+            transform-origin: 100% 100%;
+            clip-path: polygon(100% 0, 0% 0, 50% 100%);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 10px;
+            font-weight: 700;
+            font-size: 10px;
+            color: #1a1a2e;
+            box-sizing: border-box;
+            line-height: 1.1;
+        }
+        .spin-btn {
+            background-color: #e53935; 
+            color: white; 
+            border: none; 
+            padding: 15px 30px; 
+            border-radius: 40px; 
+            font-size: 20px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            margin-top: 30px; 
+            box-shadow: 0 6px 12px rgba(229, 57, 53, 0.4); 
+            transition: background-color 0.3s, transform 0.2s; 
+        }
+        .spin-btn:hover { background-color: #d32f2f; transform: scale(1.05); }
+        .spin-btn:disabled { background-color: #555; cursor: not-allowed; opacity: 0.7; }
+        .spin-result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #4CAF50;
+            padding: 10px;
+            border: 2px solid #4CAF50;
+            display: none;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 8px;
+        }
+        .spin-message {
+            margin-top: 15px;
+            font-size: 16px;
+            color: #90caf9;
+        }
+        /* নতুন ইনপুট গ্রুপ স্পিনের জন্য */
+        .spin-prize-input-group {
+             margin: 20px auto;
+             max-width: 300px;
+             text-align: left;
+             display: none;
+        }
+        .spin-prize-input-group label {
+             color: #ffffff;
+             font-weight: 600;
+             display: block;
+             margin-bottom: 5px;
+        }
+        .spin-prize-input-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #7f00ff;
+            background-color: #2c3850;
+            color: #ffffff;
+        }
+        .prize-submit-btn {
+             background-color: #4CAF50; 
+             color: white; 
+             border: none; 
+             padding: 10px 20px; 
+             border-radius: 30px; 
+             font-weight: 600; 
+             cursor: pointer;
+             margin-top: 15px;
+             width: 100%;
+        }
+        
         /* ফুটার নেভিগেশন */
         .bottom-nav { 
             position: fixed; 
@@ -478,6 +618,12 @@
             <h1 class="page-title">ফ্রী ফায়ার ডায়মন্ড টপ-আপ এবং প্রিমিয়াম সার্ভিসেস</h1>
             
             <div class="product-grid">
+                
+                <div class="product-card spin-card" onclick="showPage('spin-page')">
+                    <div class="card-icon" style="color: #ffffff;"><i class="fa-solid fa-gem"></i></div>
+                    <div class="card-title">Free Lucky Spin</div>
+                    <p class="card-subtitle">ভাগ্য পরীক্ষা করুন!</p>
+                </div>
                 
                 <div class="product-card free-like-card" onclick="startFreeLikeOrder()">
                     <div class="card-icon" style="color: #ffffff;"><i class="fa-solid fa-gift"></i></div>
@@ -553,6 +699,11 @@
                     <label for="customer-address"><i class="fa-solid fa-map-marker-alt"></i> ঠিকানা (ঐচ্ছিক):</label>
                     <input type="text" id="customer-address" placeholder="আপনার ঠিকানা লিখুন (যেমন: ঢাকা, বাংলাদেশ)">
                 </div>
+            </div>
+            
+            <div class="input-group" id="order-code-input-group" style="margin-top: 20px;">
+                <label for="order-code-input"><i class="fa-solid fa-ticket-alt"></i> ডিসকাউন্ট/কুপন কোড (ঐচ্ছিক):</label>
+                <input type="text" id="order-code-input" placeholder="যদি কোনো ডিসকাউন্ট/কুপন কোড থাকে, এখানে বসান">
             </div>
 
             <div class="input-group" id="uid-input-group" style="display: none; margin-top: 20px;">
@@ -637,6 +788,9 @@
             
             <p style="font-weight: bold; color: #7f00ff; margin-bottom: 25px;">Vico Shop থেকে সার্ভিস কেনার জন্য ধন্যবাদ আপনাকে</p>
             
+            <p>আপনার অর্ডার ট্র্যাকিং নাম্বার:</p>
+            <span class="order-code-display" id="display-order-code">ORD-XXXXXX</span>
+            
             <p>প্রিয় গ্রাহক, আপনার অর্ডার রিকোয়েস্ট **সফলভাবে সাবমিট** করা হয়েছে। দ্রুত ডেলিভারির জন্য অনুগ্রহ করে পরবর্তী ধাপ অনুসরণ করুন:</p>
             
             <div class="next-steps">
@@ -648,6 +802,36 @@
             <p style="margin-top: 20px; font-weight: bold; color: #e53935;"><i class="fa-solid fa-stopwatch"></i> আপনার অর্ডারটি দ্রুততম সময়ের মধ্যে প্রসেস করা হবে (ফ্রী অর্ডার: ৩০ মিনিট; পেইড অর্ডার: ৫-৩০ মিনিট)।</p>
             <button class="help-btn" style="margin-top: 20px;" onclick="showPage('home-page')"><i class="fa-solid fa-house"></i> হোমপেজে ফিরে যান</button>
         </div>
+    </div>
+    
+    <div id="spin-page" style="display: none;">
+        <main class="content-area">
+            <div class="page-header">
+                <i class="fa-solid fa-arrow-left" style="color:#ffffff; cursor: pointer;" onclick="showPage('home-page')"></i>
+                <h1 class="page-title" style="margin-top: 10px;">ফ্রী লাকি স্পিন</h1>
+                <p class="spin-message">প্রতিদিন একবার চেষ্টা করে দেখুন, জিতে নিন ফ্রী লাইক বা ক্যাপকাট প্রো!</p>
+            </div>
+
+            <div class="spin-wheel-container">
+                <div class="wheel-marker"></div>
+                <div id="spin-wheel">
+                    </div>
+            </div>
+
+            <button class="spin-btn" id="start-spin-btn" onclick="startSpin()">স্পিন করুন</button>
+            
+            <p class="spin-result" id="spin-result-display">অভিনন্দন! আপনি জিতেছেন!</p>
+            
+            <div class="spin-prize-input-group" id="spin-prize-input-group">
+                <label for="prize-input" id="prize-input-label">পুরস্কার গ্রহণ করতে আপনার তথ্য দিন:</label>
+                <input type="text" id="prize-input" placeholder="UID/WhatsApp নম্বর দিন">
+                <button class="prize-submit-btn" onclick="submitSpinPrize()">পুরস্কার রিকোয়েস্ট পাঠান</button>
+            </div>
+            
+            <div class="spin-message" id="spin-delivery-message" style="display:none; color: #4CAF50; font-weight: 700;">
+                আপনার পুরস্কার রিকোয়েস্ট সফলভাবে সাবমিট হয়েছে। দ্রুত ডেলিভারির জন্য অনুগ্রহ করে আমাদের হোয়াটসঅ্যাপে যোগাযোগ করুন।
+            </div>
+        </main>
     </div>
     
     <div id="guide-page" style="display: none;">
@@ -691,9 +875,9 @@
         <a href="#" class="nav-item" onclick="showPage('guide-page')">
             <i class="fa-solid fa-book"></i> গাইড
         </a>
-        <button class="help-btn" onclick="alert('সাহায্যের জন্য Vico Shop এর হোয়াটসঅ্যাপে যোগাযোগ করুন: 01339221633')">
-            সাহায্য
-        </button>
+        <a href="#" class="nav-item" onclick="showPage('spin-page')">
+            <i class="fa-solid fa-gem"></i> স্পিন
+        </a>
         <a href="#" class="nav-item">
             <i class="fa-solid fa-phone"></i> যোগাযোগ
         </a>
@@ -715,7 +899,20 @@
         let currentItemName = '';
         let currentItemType = ''; 
         let isCustomAccountOrder = false; 
-        let isFreeOrder = false; // নতুন স্টেট
+        let isFreeOrder = false;
+        let lastGeneratedOrderNumber = ''; // UPDATED: Order Number Variable
+        let winningPrize = null; // NEW: Spin prize storage
+        
+        // **UPDATED: Lucky Spin Settings**
+        const spinPrizes = [
+            { text: "300 Likes", color: "#FF007F", value: '300L', type: 'likes', chance: 15 }, 
+            { text: "CapCut Pro", color: "#7f00ff", value: 'CapCut', type: 'app', chance: 10 },
+            { text: "100 Likes", color: "#388e3c", value: '100L', type: 'likes', chance: 30 }, 
+            { text: "Try Again (শূন্য)", color: "#e53935", value: '0', type: 'none', chance: 30 },
+            { text: "200 Likes", color: "#FFD700", value: '200L', type: 'likes', chance: 15 } 
+        ];
+        const totalChance = spinPrizes.reduce((sum, p) => sum + p.chance, 0); // Should be 100
+        let canSpin = true; 
 
         // Free Fire ডায়মন্ড রেটের তালিকা (একই রাখা হলো)
         const diamondRates = [
@@ -893,6 +1090,7 @@
             document.getElementById('payment-page').style.display = 'none';
             document.getElementById('guide-page').style.display = 'none';
             document.getElementById('success-page').style.display = 'none'; 
+            document.getElementById('spin-page').style.display = 'none'; 
             document.getElementById(pageId).style.display = 'block';
             
             if (pageId === 'home-page') {
@@ -905,12 +1103,11 @@
             }
             
             if (pageId === 'payment-page') {
-                // পেমেন্ট সেকশন এবং ফ্রি অর্ডারের বার্তা নিয়ন্ত্রণ
                 if (isFreeOrder) {
                     document.getElementById('payment-section').style.display = 'none';
                     document.getElementById('free-order-message').style.display = 'block';
                     document.getElementById('uid-input-group').style.display = 'block'; 
-                    document.getElementById('game-uid').placeholder = 'এখানে আপনার Free Fire UID বসান'; // ফ্রী লাইক এর জন্য UID
+                    document.getElementById('game-uid').placeholder = 'এখানে আপনার Free Fire UID বসান'; 
                     document.getElementById('custom-price-input-group').style.display = 'none';
                 } else {
                     document.getElementById('payment-section').style.display = 'block';
@@ -935,11 +1132,20 @@
                 document.querySelector('.bottom-nav a:first-child').classList.add('active');
             } else if (pageId === 'guide-page') {
                  document.querySelector('.bottom-nav a:nth-child(2)').classList.add('active');
+            } else if (pageId === 'spin-page') {
+                 document.querySelector('.bottom-nav a:nth-child(3)').classList.add('active');
+                 if (document.getElementById('spin-wheel').childElementCount === 0) {
+                     renderSpinWheel(); 
+                 }
+                 // স্পিন পেজ লোড হলে ইনপুট হাইড করা 
+                 document.getElementById('spin-prize-input-group').style.display = 'none';
+                 document.getElementById('spin-delivery-message').style.display = 'none';
+                 winningPrize = null;
             }
         }
 
         // অন্যান্য পণ্য কার্ডে ক্লিক করলে পেমেন্ট পেজে নেভিগেট করা - সামান্য পরিবর্তন
-        document.querySelectorAll('.product-card:not(.topup-card):not(.account-card):not(.custom-price-card):not(.free-like-card)').forEach(card => {
+        document.querySelectorAll('.product-card:not(.topup-card):not(.account-card):not(.custom-price-card):not(.free-like-card):not(.spin-card)').forEach(card => {
             card.addEventListener('click', () => {
                 isCustomAccountOrder = false; 
                 isFreeOrder = false;
@@ -979,6 +1185,12 @@
                 alert(`সফলভাবে কপি হয়েছে: ${copyText}`);
             });
         }
+        
+        // **UPDATED: Order Number Generator**
+        function generateOrderNumber() {
+            const randomNum = Math.floor(100000 + Math.random() * 900000); // 6-digit random number
+            return `ORD-${randomNum}`; 
+        }
 
         // ৫. পেমেন্ট সাবমিট এবং ইমেইল ট্র্যাকিং - ভ্যালিডেশন লজিক আপডেট করা হলো
         function submitPayment() {
@@ -986,6 +1198,7 @@
             const customerName = document.getElementById('customer-name').value.trim();
             const customerWhatsapp = document.getElementById('customer-whatsapp').value.trim(); 
             const customerAddress = document.getElementById('customer-address').value.trim() || 'প্রদান করা হয়নি (ঐচ্ছিক)';
+            const orderCodeInput = document.getElementById('order-code-input').value.trim() || 'প্রদান করা হয়নি (ঐচ্ছিক)'; // Coupon Code
             
             // পেমেন্ট তথ্য
             const transactionId = document.getElementById('transaction-id').value.trim();
@@ -1009,7 +1222,7 @@
             // পেইড অর্ডারের জন্য ট্রানজেকশন আইডি চেক
             if (!isFreeOrder && (!transactionId || transactionId.length < 10)) {
                 alert("পেইড অর্ডারের জন্য দয়াকরে একটি সঠিক ট্রানজেকশন আইডি বসান। ফ্রী অর্ডারে ট্রানজেকশন আইডি প্রয়োজন নেই।");
-                 if (!isFreeOrder) { // শুধু পেইড অর্ডারের ক্ষেত্রে ফোকাস
+                 if (!isFreeOrder) { 
                     document.getElementById('transaction-id').focus();
                     return;
                 }
@@ -1032,6 +1245,10 @@
                 }
             }
             
+            // UPDATED: Generate Order Number and save it
+            lastGeneratedOrderNumber = generateOrderNumber();
+            document.getElementById('display-order-code').innerText = lastGeneratedOrderNumber;
+            
             // ইমেইল বডি টেক্সট তৈরি করা 
             let paymentDetails = isFreeOrder ? 'পেমেন্ট মেথড: ফ্রী অর্ডার (০ BDT)' : 
                                 `পেমেন্ট মেথড: ${methodText} (সেন্ড মানি)
@@ -1039,15 +1256,17 @@
 ট্রানজেকশন আইডি: ${transactionId || 'প্রয়োজন নেই (ফ্রী অর্ডার)'}
 স্ক্রিনশট লিংক: ${screenshotLink} `;
             
-            let uidInfo = (currentItemType === 'diamond' || currentItemType === 'pubg' || currentItemType === 'likes') ? `\nইউজার আইডি (UID/Player ID): ${gameUid}` : '';
+            let uidInfo = (currentItemType === 'diamond' || currentItemType === 'pubg' || currentItemType === 'likes' || isFreeOrder) ? `\nইউজার আইডি (UID/Player ID): ${gameUid}` : '';
             
             const emailBody = `
 Vico Shop: নতুন ডিপোজিট রিকোয়েস্ট!
 
 -----------------------------------
+অর্ডার নাম্বার: ${lastGeneratedOrderNumber}
 গ্রাহকের নাম: ${customerName}
 হোয়াটসঅ্যাপ নম্বর: ${customerWhatsapp}
 ঠিকানা: ${customerAddress}
+ডিসকাউন্ট/কুপন কোড (ঐচ্ছিক): ${orderCodeInput}
 -----------------------------------
 পণ্য: ${currentItemName}
 ${paymentDetails}
@@ -1056,7 +1275,7 @@ ${uidInfo}
 দয়া করে আপনার অ্যাকাউন্ট চেক করে দ্রুত নিশ্চিত করুন।
 `;
             
-            const subject = encodeURIComponent(`নতুন ডিপোজিট: ${customerName} - ${currentItemName} (${currentOrderAmount.toFixed(2)} BDT)`);
+            const subject = encodeURIComponent(`নতুন ডিপোজিট: ${customerName} - ${currentItemName} (${currentOrderAmount.toFixed(2)} BDT) - নাম্বার: ${lastGeneratedOrderNumber}`);
             const body = encodeURIComponent(emailBody);
             
             // mailto: লিংক তৈরি
@@ -1076,6 +1295,7 @@ ${uidInfo}
             document.getElementById('game-uid').value = '';
             document.getElementById('screenshot-link').value = '';
             document.getElementById('custom-price').value = '';
+            document.getElementById('order-code-input').value = ''; 
             currentOrderAmount = 0;
             currentItemName = '';
             isCustomAccountOrder = false;
@@ -1095,6 +1315,158 @@ ${uidInfo}
             }
         }
         const timerInterval = setInterval(updateTimer, 1000);
+        
+        // **UPDATED: Spin Wheel Functions**
+
+        // হুইল তৈরি করা
+        function renderSpinWheel() {
+            const wheel = document.getElementById('spin-wheel');
+            wheel.innerHTML = '';
+            const numSegments = spinPrizes.length;
+            const segmentAngle = 360 / numSegments;
+
+            spinPrizes.forEach((prize, index) => {
+                const segment = document.createElement('div');
+                segment.classList.add('wheel-segment');
+                segment.style.backgroundColor = prize.color;
+                segment.style.transform = `rotate(${index * segmentAngle}deg) skewY(-${90 - segmentAngle}deg)`;
+                
+                const textDiv = document.createElement('div');
+                textDiv.style.transform = `skewY(${90 - segmentAngle}deg) rotate(90deg) translateX(-50%)`;
+                textDiv.style.whiteSpace = 'nowrap';
+                textDiv.style.textAlign = 'center';
+                textDiv.innerText = prize.text;
+                segment.appendChild(textDiv);
+                
+                wheel.appendChild(segment);
+            });
+        }
+        
+        // বিজয়ী পুরস্কার নির্বাচন করা
+        function getWinningSegment() {
+            const rand = Math.random() * totalChance;
+            let currentChance = 0;
+            for (let i = 0; i < spinPrizes.length; i++) {
+                currentChance += spinPrizes[i].chance;
+                if (rand < currentChance) {
+                    return i; 
+                }
+            }
+            return 0; 
+        }
+
+        // স্পিন শুরু করা
+        function startSpin() {
+            if (!canSpin) {
+                alert("দুঃখিত, আপনি আজকের স্পিনটি ইতোমধ্যে ব্যবহার করেছেন! আগামীকাল আবার চেষ্টা করুন।");
+                return;
+            }
+            
+            // রিকমান্ডেড: আজকের দিনের জন্য লোকালস্টোরেজ চেক যোগ করুন।
+            // const today = new Date().toDateString();
+            // if (localStorage.getItem('lastSpinDate') === today) {
+            //    alert("দুঃখিত, আপনি আজকের স্পিনটি ইতোমধ্যে ব্যবহার করেছেন! আগামীকাল আবার চেষ্টা করুন।");
+            //    return;
+            // }
+
+            const winningIndex = getWinningSegment();
+            const numSegments = spinPrizes.length;
+            const segmentAngle = 360 / numSegments;
+            
+            const randomOffset = Math.floor(Math.random() * segmentAngle) + 5; 
+            const rotationDegrees = 6 * 360 + (360 - (winningIndex * segmentAngle + segmentAngle / 2)) + randomOffset;
+            
+            const wheel = document.getElementById('spin-wheel');
+            const spinBtn = document.getElementById('start-spin-btn');
+            const resultDisplay = document.getElementById('spin-result-display');
+            const prizeInputGroup = document.getElementById('spin-prize-input-group');
+            
+            spinBtn.disabled = true;
+            resultDisplay.style.display = 'none';
+            prizeInputGroup.style.display = 'none';
+            document.getElementById('spin-delivery-message').style.display = 'none';
+            wheel.style.transform = `rotate(${rotationDegrees}deg)`;
+
+            // স্পিন শেষ হওয়ার পর ফলাফল দেখানো
+            setTimeout(() => {
+                const prize = spinPrizes[winningIndex];
+                winningPrize = prize; // পুরস্কার সেভ করা
+                
+                if (prize.type === "none") {
+                     resultDisplay.style.color = '#e53935';
+                     resultDisplay.style.borderColor = '#e53935';
+                     resultDisplay.innerText = "দুঃখিত! পরেরবার আবার চেষ্টা করুন।";
+                     prizeInputGroup.style.display = 'none';
+                } else {
+                     resultDisplay.style.color = '#4CAF50';
+                     resultDisplay.style.borderColor = '#4CAF50';
+                     resultDisplay.innerText = `অভিনন্দন! আপনি জিতেছেন ${prize.text}!`;
+                     
+                     // ইনপুট ফর্ম দেখাও
+                     const inputLabel = document.getElementById('prize-input-label');
+                     const inputField = document.getElementById('prize-input');
+                     
+                     if (prize.type === 'likes') {
+                         inputLabel.innerText = 'লাইক পেতে আপনার Free Fire UID দিন:';
+                         inputField.placeholder = 'আপনার Free Fire UID বসান';
+                         inputField.setAttribute('data-prize-type', 'uid');
+                     } else if (prize.type === 'app') {
+                         inputLabel.innerText = 'CapCut Pro পেতে আপনার WhatsApp নম্বর দিন:';
+                         inputField.placeholder = 'আপনার WhatsApp নম্বর দিন (যেমন: 01xxxxxxxxx)';
+                         inputField.setAttribute('data-prize-type', 'whatsapp');
+                     }
+                     
+                     prizeInputGroup.style.display = 'block';
+                }
+                
+                resultDisplay.style.display = 'block';
+                
+                canSpin = false; 
+                spinBtn.innerText = "আজকের স্পিন শেষ";
+                // localStorage.setItem('lastSpinDate', today); // লোকাল স্টোরেজ লজিক
+                
+            }, 4100); 
+        }
+        
+        // পুরস্কারের তথ্য সাবমিট করা
+        function submitSpinPrize() {
+            const inputField = document.getElementById('prize-input');
+            const prizeInfo = inputField.value.trim();
+            const prizeType = inputField.getAttribute('data-prize-type');
+            
+            if (!prizeInfo) {
+                alert("পুরস্কার গ্রহণের জন্য আপনার তথ্য প্রদান করুন।");
+                inputField.focus();
+                return;
+            }
+            
+            let infoLabel = (prizeType === 'uid') ? 'Free Fire UID' : 'WhatsApp নম্বর';
+            
+            // ইমেইল বডি তৈরি
+            const emailBody = `
+Vico Shop: নতুন স্পিন পুরস্কার!
+
+-----------------------------------
+বিজয়ী পুরস্কার: ${winningPrize.text}
+গ্রাহকের তথ্য: ${prizeInfo} (${infoLabel})
+স্পিন ডেট: ${new Date().toLocaleString('bn-BD')}
+-----------------------------------
+
+দ্রুততম সময়ের মধ্যে পুরস্কার ডেলিভারি দিন।
+`;
+            
+            const subject = encodeURIComponent(`স্পিন পুরস্কার: ${winningPrize.text} - ${infoLabel}`);
+            const body = encodeURIComponent(emailBody);
+            
+            const mailtoURL = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
+            
+            window.open(mailtoURL, '_blank');
+            
+            // সফলতার বার্তা দেখানো
+            document.getElementById('spin-prize-input-group').style.display = 'none';
+            document.getElementById('spin-delivery-message').style.display = 'block';
+        }
+
 
         // ৬. স্প্ল্যাশ স্ক্রিন এবং পেজ লোড লজিক (একই রাখা হলো)
         function initializePage() {
@@ -1108,10 +1480,10 @@ ${uidInfo}
             // ২ সেকেন্ড পর স্প্ল্যাশ স্ক্রিন হাইড করা
             setTimeout(() => {
                 splashScreen.classList.add('hidden');
-                document.body.classList.add('loaded'); // পুরো বডি দৃশ্যমান করা
-                initializePage(); // সাইটের মূল ফাংশন চালু করা
+                document.body.classList.add('loaded'); 
+                initializePage(); 
             }, 2000); 
         });
     </script>
 </body>
-                </html>
+    </html>
