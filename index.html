@@ -152,16 +152,51 @@
             margin-right: 5px; 
             vertical-align: middle;
         }
-        .login-btn { 
-            background-color: #e53935; 
-            padding: 8px 15px; 
-            border-radius: 20px; 
-            font-size: 14px; 
-            font-weight: 600; 
+        /* UPDATED: থ্রি-ডট মেনু বাটন স্টাইল */
+        .dot-menu-btn { 
+            background: none;
+            border: none;
             color: white;
-            transition: background-color 0.3s, transform 0.2s; 
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.2s; 
+            padding: 5px;
+            position: relative;
         }
-        .login-btn:hover { background-color: #d32f2f; transform: scale(1.05); }
+        .dot-menu-btn:hover { transform: scale(1.1); }
+        
+        /* UPDATED: থ্রি-ডট মেনুর ড্রপডাউন স্টাইল */
+        .dropdown-menu {
+            position: absolute;
+            top: 55px; /* হেডার হাইট + শ্যাডো */
+            right: 15px;
+            background-color: #1a1a2e;
+            border: 1px solid #7f00ff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 180px;
+            z-index: 1000;
+            display: none;
+            padding: 5px 0;
+        }
+        .dropdown-menu.show {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: #ffffff;
+            font-size: 14px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .dropdown-menu a:hover {
+            background-color: #2c3850;
+            color: #7f00ff;
+        }
+        .dropdown-menu a i {
+            margin-right: 8px;
+        }
 
         /* ** ডিসকাউন্ট ব্যানার স্টাইল (নতুন) ** */
         .discount-banner {
@@ -602,6 +637,14 @@
              margin-top: 15px;
              width: 100%;
         }
+        /* UPDATED: স্পিন কাউন্টডাউন স্টাইল */
+        #spin-countdown-display {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffc107;
+            display: none;
+        }
         
         /* ফুটার নেভিগেশন */
         .bottom-nav { 
@@ -655,9 +698,20 @@
             <img src="https://i.postimg.cc/zX8gZK0b/1759854932928.png" alt="Vico Shop Logo">
             Vico Shop
         </div>
-        <a href="#" class="login-btn">
-            <i class="fa-solid fa-user"></i> লগইন
-        </a>
+        
+        <button class="dot-menu-btn" onclick="toggleDropdown()">
+            <i class="fa-solid fa-ellipsis-v"></i>
+        </button>
+        
+        <div class="dropdown-menu" id="header-dropdown">
+            <a href="https://www.youtube.com/@VicoMart-t6e" target="_blank">
+                <i class="fa-brands fa-youtube"></i> ইউটিউব চ্যানেল
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61581718790977" target="_blank">
+                <i class="fa-brands fa-facebook-f"></i> ফেসবুক পেজ
+            </a>
+        </div>
+        
     </header>
 
     <div class="discount-banner" id="global-discount-banner">
@@ -712,11 +766,17 @@
                     <p class="card-subtitle">কাস্টম আইডি মূল্য পরিশোধ</p>
                 </div>
 
-                <div class="product-card video-card" data-item="Netflix Premium" data-price="150"> <div class="card-icon" style="color: #ff1744;"><i class="fa-solid fa-clapperboard"></i></div> <div class="card-title">Netflix Premium</div> <p class="card-subtitle">লাইফটাইম (১৫০ টাকা)</p> </div>
-                <div class="product-card utility-card" data-item="Canva Pro" data-price="150"> <div class="card-icon" style="color: #7f00ff;"><i class="fa-solid fa-palette"></i></div> <div class="card-title">Canva Pro</div> <p class="card-subtitle">লাইফটাইম (১৫০ টাকা)</p> </div>
-                <div class="product-card app-card" data-item="YouTube Premium" data-price="150"> <div class="card-icon" style="color: #FF0000;"><i class="fa-brands fa-youtube"></i></div> <div class="card-title">YouTube Premium</div> <p class="card-subtitle">লাইফটাইম (১৫০ টাকা)</p> </div>
-                <div class="product-card app-card" data-item="ChatGPT Plus (AI)" data-price="150"> <div class="card-icon" style="color: #4CAF50;"><i class="fa-solid fa-robot"></i></div> <div class="card-title">ChatGPT Plus</div> <p class="card-subtitle">লাইফটাইম (১৫০ টাকা)</p> </div>
-                <div class="product-card app-card" data-item="Discord Nitro" data-price="150"> <div class="card-icon" style="color: #5865F2;"><i class="fa-brands fa-discord"></i></div> <div class="card-title">Discord Nitro</div> <p class="card-subtitle">লাইফটাইম (১৫০ টাকা)</p> </div>
+                <div class="product-card app-card" data-item="CapCut Pro" data-price="120"> <div class="card-icon" style="color: #00FFC2;"><i class="fa-solid fa-video"></i></div> <div class="card-title">CapCut Pro</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
+                <div class="product-card app-card" data-item="PicsArt Pro" data-price="120"> <div class="card-icon" style="color: #FF9800;"><i class="fa-solid fa-image"></i></div> <div class="card-title">PicsArt Pro</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
+                <div class="product-card app-card" data-item="Spotify Premium" data-price="120"> <div class="card-icon" style="color: #1ED760;"><i class="fa-brands fa-spotify"></i></div> <div class="card-title">Spotify Premium</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
+                <div class="product-card app-card" data-item="Nord VPN (Premium)" data-price="120"> <div class="card-icon" style="color: #4A90E2;"><i class="fa-solid fa-shield-alt"></i></div> <div class="card-title">Nord VPN</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
+                <div class="product-card app-card" data-item="Microsoft Office 365" data-price="120"> <div class="card-icon" style="color: #F44336;"><i class="fa-solid fa-file-word"></i></div> <div class="card-title">MS Office 365</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
+                <div class="product-card video-card" data-item="Netflix Premium" data-price="120"> <div class="card-icon" style="color: #ff1744;"><i class="fa-solid fa-clapperboard"></i></div> <div class="card-title">Netflix Premium</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
+                <div class="product-card utility-card" data-item="Canva Pro" data-price="120"> <div class="card-icon" style="color: #7f00ff;"><i class="fa-solid fa-palette"></i></div> <div class="card-title">Canva Pro</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
+                <div class="product-card app-card" data-item="YouTube Premium" data-price="120"> <div class="card-icon" style="color: #FF0000;"><i class="fa-brands fa-youtube"></i></div> <div class="card-title">YouTube Premium</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
+                <div class="product-card app-card" data-item="ChatGPT Plus (AI)" data-price="120"> <div class="card-icon" style="color: #4CAF50;"><i class="fa-solid fa-robot"></i></div> <div class="card-title">ChatGPT Plus</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
+                <div class="product-card app-card" data-item="Discord Nitro" data-price="120"> <div class="card-icon" style="color: #5865F2;"><i class="fa-brands fa-discord"></i></div> <div class="card-title">Discord Nitro</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
+                
             </div>
             
             <div class="rate-list-container" id="rate-list-container" style="display: none;">
@@ -771,7 +831,7 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px; margin-bottom: 20px;">
                     <span style="font-size:16px; font-weight:700; color:#16213e;">পেমেন্ট মেথড নির্বাচন করুন:</span>
                     <div class="countdown">
-                        <span id="timer">09:53</span>
+                        <span id="timer">00:00</span>
                     </div>
                 </div>
                 
@@ -884,6 +944,8 @@
 
             <button class="spin-btn" id="start-spin-btn" onclick="startSpin()">স্পিন করুন</button>
             
+            <p id="spin-countdown-display" style="display: none;"></p>
+            
             <p class="spin-result" id="spin-result-display">অভিনন্দন! আপনি জিতেছেন!</p>
             
             <div class="spin-prize-input-group" id="spin-prize-input-group">
@@ -942,7 +1004,7 @@
         <a href="#" class="nav-item" onclick="showPage('spin-page')">
             <i class="fa-solid fa-gem"></i> স্পিন
         </a>
-        <a href="#" class="nav-item">
+        <a href="https://wa.me/8801339221633" target="_blank" class="nav-item">
             <i class="fa-solid fa-phone"></i> যোগাযোগ
         </a>
     </footer>
@@ -971,17 +1033,21 @@
         let lastGeneratedOrderNumber = ''; // UPDATED: Order Number Variable
         let winningPrize = null; 
         let currentDiscountAmount = 0; // ডিসকাউন্ট টাকা
+        
+        let spinCountdownInterval; // UPDATED: স্পিন কাউন্টডাউন টাইমার ভ্যারিয়েবল
 
-        // **UPDATED: Lucky Spin Settings**
+        // **UPDATED: Lucky Spin Settings (সাইটের সব ধরনের পণ্য)**
         const spinPrizes = [
             { text: "300 Likes", color: "#FF007F", value: '300L', type: 'likes', chance: 15 }, 
             { text: "CapCut Pro", color: "#7f00ff", value: 'CapCut', type: 'app', chance: 10 },
-            { text: "100 Likes", color: "#388e3c", value: '100L', type: 'likes', chance: 30 }, 
-            { text: "Try Again (শূন্য)", color: "#e53935", value: '0', type: 'none', chance: 30 },
-            { text: "200 Likes", color: "#FFD700", value: '200L', type: 'likes', chance: 15 } 
+            { text: "240 Diamonds", color: "#e53935", value: '240D', type: 'diamond', chance: 5 }, 
+            { text: "Try Again (শূন্য)", color: "#16213e", value: '0', type: 'none', chance: 30 },
+            { text: "100 Likes", color: "#388e3c", value: '100L', type: 'likes', chance: 20 },
+            { text: "PUBG 60 UC", color: "#00CED1", value: '60UC', type: 'pubg', chance: 10 },
+            { text: "Netflix Premium", color: "#ff1744", value: 'Netflix', type: 'app', chance: 5 },
+            { text: "Try Again (শূন্য)", color: "#FFD700", value: '0', type: 'none', chance: 5 }
         ];
         const totalChance = spinPrizes.reduce((sum, p) => sum + p.chance, 0); 
-        let canSpin = true; 
 
         // Free Fire ডায়মন্ড রেটের তালিকা
         const diamondRates = [
@@ -1025,15 +1091,35 @@
             if (isFreeOrder) {
                 currentDiscountAmount = 0;
                 currentFinalAmount = 0;
+                document.querySelector('.discount-details').style.display = 'none';
+                document.querySelector('.detail-row:nth-child(1)').style.display = 'none'; // পণ্যের আসল মূল্য
             } else {
                 currentDiscountAmount = currentOriginalAmount * GLOBAL_DISCOUNT_PERCENT;
                 currentFinalAmount = currentOriginalAmount - currentDiscountAmount;
+                document.querySelector('.discount-details').style.display = 'block';
+                document.querySelector('.detail-row:nth-child(1)').style.display = 'flex';
             }
 
             // পেমেন্ট পেজে ডিসপ্লে আপডেট করা
             document.getElementById('original-amount').innerText = currentOriginalAmount.toFixed(2).toLocaleString('bn-BD') + ' BDT';
             document.getElementById('discount-amount').innerText = `- ${currentDiscountAmount.toFixed(2).toLocaleString('bn-BD')} BDT`;
             document.getElementById('amount-to-pay').innerText = currentFinalAmount.toFixed(2).toLocaleString('bn-BD') + ' BDT';
+        }
+
+        // UPDATED: থ্রি-ডট মেনু টগল ফাংশন
+        function toggleDropdown() {
+            document.getElementById('header-dropdown').classList.toggle('show');
+        }
+        window.onclick = function(event) {
+            if (!event.target.matches('.dot-menu-btn') && !event.target.matches('.dot-menu-btn i')) {
+                const dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
         }
 
 
@@ -1192,6 +1278,8 @@
                 document.querySelector('.page-title').innerText = 'ফ্রী ফায়ার ডায়মন্ড টপ-আপ এবং প্রিমিয়াম সার্ভিসেস';
                 document.getElementById('uid-input-group').style.display = 'none'; 
                 document.getElementById('custom-price-input-group').style.display = 'none'; 
+                clearInterval(spinCountdownInterval); // হোমপেজে এলে স্পিন টাইমার বন্ধ হবে
+                document.getElementById('spin-countdown-display').style.display = 'none';
             }
             
             if (pageId === 'payment-page') {
@@ -1216,6 +1304,8 @@
                         document.getElementById('custom-price-input-group').style.display = 'none';
                     }
                 }
+                // টাইমার শুরু করা বা আপডেট করা
+                startTimer();
             }
 
 
@@ -1233,6 +1323,8 @@
                  document.getElementById('spin-prize-input-group').style.display = 'none';
                  document.getElementById('spin-delivery-message').style.display = 'none';
                  winningPrize = null;
+                 // স্পিন বাটন স্ট্যাটাস চেক করা এবং টাইমার শুরু করা
+                 checkSpinButtonStatus(); 
             }
         }
 
@@ -1400,21 +1492,41 @@ ${uidInfo}
             isFreeOrder = false;
         }
         
-        // কাউন্টডাউন টাইমার ফাংশন 
-        let timeInSeconds = 593;
-        function updateTimer() {
-            const minutes = Math.floor(timeInSeconds / 60);
-            const seconds = timeInSeconds % 60;
-            document.getElementById('timer').innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            if (timeInSeconds > 0) { timeInSeconds--; } else {
-                clearInterval(timerInterval);
-                document.getElementById('timer').innerText = "সময় শেষ";
-                document.querySelector('.submit-btn-payment').disabled = true;
+        // **UPDATED: কাউন্টডাউন টাইমার ফাংশন (১০ মিনিট)**
+        let timerInterval; 
+
+        function startTimer() {
+            // যদি আগে থেকে কোনো টাইমার চলে, তবে সেটি বন্ধ করো
+            if (timerInterval) clearInterval(timerInterval);
+            
+            // প্রতিবার পেমেন্ট পেজ খোলার সময় নতুন করে ১০ মিনিট সেট করা
+            let timeInSeconds = 600; // 10 মিনিট
+
+            function updateTimer() {
+                const minutes = Math.floor(timeInSeconds / 60);
+                const seconds = timeInSeconds % 60;
+                const timerDisplay = document.getElementById('timer');
+
+                if (timerDisplay) {
+                    timerDisplay.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+
+                if (timeInSeconds > 0) {
+                    timeInSeconds--;
+                } else {
+                    clearInterval(timerInterval);
+                    if (timerDisplay) timerDisplay.innerText = "সময় শেষ";
+                    const submitBtn = document.querySelector('.submit-btn-payment');
+                    if (submitBtn) submitBtn.disabled = true;
+                }
             }
+            
+            // প্রতি সেকেন্ডে আপডেট করা
+            timerInterval = setInterval(updateTimer, 1000);
+            updateTimer(); // শুরুতেই একবার কল করা
         }
-        const timerInterval = setInterval(updateTimer, 1000);
         
-        // **UPDATED: Spin Wheel Functions**
+        // **UPDATED: Spin Wheel Functions (২৪ ঘণ্টা লজিক)**
 
         // হুইল তৈরি করা
         function renderSpinWheel() {
@@ -1455,17 +1567,14 @@ ${uidInfo}
 
         // স্পিন শুরু করা
         function startSpin() {
-            if (!canSpin) {
-                alert("দুঃখিত, আপনি আজকের স্পিনটি ইতোমধ্যে ব্যবহার করেছেন! আগামীকাল আবার চেষ্টা করুন।");
+            const lastSpinTimestamp = localStorage.getItem('lastSpinTimestamp');
+            const currentTime = new Date().getTime();
+            const oneDayInMs = 24 * 60 * 60 * 1000;
+
+            if (lastSpinTimestamp && (currentTime - parseInt(lastSpinTimestamp) < oneDayInMs)) {
+                alert("দুঃখিত, আপনি আজকের স্পিনটি ইতোমধ্যে ব্যবহার করেছেন! অনুগ্রহ করে টাইমার শেষ হওয়া পর্যন্ত অপেক্ষা করুন।");
                 return;
             }
-            
-            // রিকমান্ডেড: আজকের দিনের জন্য লোকালস্টোরেজ চেক যোগ করুন।
-            // const today = new Date().toDateString();
-            // if (localStorage.getItem('lastSpinDate') === today) {
-            //    alert("দুঃখিত, আপনি আজকের স্পিনটি ইতোমধ্যে ব্যবহার করেছেন! আগামীকাল আবার চেষ্টা করুন।");
-            //    return;
-            // }
 
             const winningIndex = getWinningSegment();
             const numSegments = spinPrizes.length;
@@ -1483,6 +1592,7 @@ ${uidInfo}
             resultDisplay.style.display = 'none';
             prizeInputGroup.style.display = 'none';
             document.getElementById('spin-delivery-message').style.display = 'none';
+            document.getElementById('spin-countdown-display').style.display = 'none'; // স্পিন চলাকালীন টাইমার হাইড 
             wheel.style.transform = `rotate(${rotationDegrees}deg)`;
 
             // স্পিন শেষ হওয়ার পর ফলাফল দেখানো
@@ -1504,12 +1614,12 @@ ${uidInfo}
                      const inputLabel = document.getElementById('prize-input-label');
                      const inputField = document.getElementById('prize-input');
                      
-                     if (prize.type === 'likes') {
-                         inputLabel.innerText = 'লাইক পেতে আপনার Free Fire UID দিন:';
-                         inputField.placeholder = 'আপনার Free Fire UID বসান';
+                     if (prize.type === 'likes' || prize.type === 'diamond' || prize.type === 'pubg') {
+                         inputLabel.innerText = `${prize.text} পেতে আপনার Free Fire/PUBG ID দিন:`;
+                         inputField.placeholder = 'আপনার UID/Player ID বসান';
                          inputField.setAttribute('data-prize-type', 'uid');
                      } else if (prize.type === 'app') {
-                         inputLabel.innerText = 'CapCut Pro পেতে আপনার WhatsApp নম্বর দিন:';
+                         inputLabel.innerText = `${prize.text} পেতে আপনার WhatsApp নম্বর দিন:`;
                          inputField.placeholder = 'আপনার WhatsApp নম্বর দিন (যেমন: 01xxxxxxxxx)';
                          inputField.setAttribute('data-prize-type', 'whatsapp');
                      }
@@ -1519,9 +1629,13 @@ ${uidInfo}
                 
                 resultDisplay.style.display = 'block';
                 
-                canSpin = false; 
+                // ** সফল স্পিনের পর টাইমস্ট্যাম্প লোকাল স্টোরেজে সেভ করা **
+                localStorage.setItem('lastSpinTimestamp', new Date().getTime()); 
+
                 spinBtn.innerText = "আজকের স্পিন শেষ";
-                // localStorage.setItem('lastSpinDate', today); // লোকাল স্টোরেজ লজিক
+                spinBtn.disabled = true;
+                
+                startSpinCountdown(); // স্পিন শেষ হলে টাইমার শুরু করা
                 
             }, 4100); 
         }
@@ -1538,7 +1652,7 @@ ${uidInfo}
                 return;
             }
             
-            let infoLabel = (prizeType === 'uid') ? 'Free Fire UID' : 'WhatsApp নম্বর';
+            let infoLabel = (prizeType === 'uid') ? 'Free Fire/PUBG ID' : 'WhatsApp নম্বর';
             
             // ইমেইল বডি তৈরি
             const emailBody = `
@@ -1564,12 +1678,69 @@ Vico Shop: নতুন স্পিন পুরস্কার!
             document.getElementById('spin-prize-input-group').style.display = 'none';
             document.getElementById('spin-delivery-message').style.display = 'block';
         }
+        
+        // ** UPDATED: স্পিন কাউন্টডাউন টাইমার ফাংশন (২৪ ঘণ্টা) **
+        function startSpinCountdown() {
+            clearInterval(spinCountdownInterval); // আগের টাইমার বন্ধ করা
+            
+            const lastSpinTimestamp = localStorage.getItem('lastSpinTimestamp');
+            if (!lastSpinTimestamp) {
+                document.getElementById('spin-countdown-display').style.display = 'none';
+                return;
+            }
+
+            const oneDayInMs = 24 * 60 * 60 * 1000;
+            const targetTime = parseInt(lastSpinTimestamp) + oneDayInMs;
+            
+            const countdownDisplay = document.getElementById('spin-countdown-display');
+            countdownDisplay.style.display = 'block';
+
+            function updateCountdown() {
+                const currentTime = new Date().getTime();
+                const timeLeft = targetTime - currentTime;
+
+                if (timeLeft <= 0) {
+                    clearInterval(spinCountdownInterval);
+                    countdownDisplay.innerText = "আবার স্পিন করার জন্য প্রস্তুত!";
+                    checkSpinButtonStatus(); // বাটন আবার এনাবেল করা
+                    return;
+                }
+
+                const hours = Math.floor((timeLeft % oneDayInMs) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                countdownDisplay.innerText = `পরবর্তী স্পিনের জন্য অপেক্ষা করুন: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+            spinCountdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown(); // শুরুতে একবার কল করা
+        }
+        
+        // ** UPDATED: স্পিন বাটনের স্ট্যাটাস চেক করা **
+        function checkSpinButtonStatus() {
+            const spinBtn = document.getElementById('start-spin-btn');
+            const lastSpinTimestamp = localStorage.getItem('lastSpinTimestamp');
+            const currentTime = new Date().getTime();
+            const oneDayInMs = 24 * 60 * 60 * 1000;
+            
+            if (lastSpinTimestamp && (currentTime - parseInt(lastSpinTimestamp) < oneDayInMs)) {
+                spinBtn.disabled = true;
+                spinBtn.innerText = "আজকের স্পিন শেষ";
+                startSpinCountdown(); // টাইমার চালু করা
+            } else {
+                spinBtn.disabled = false;
+                spinBtn.innerText = "স্পিন করুন";
+                document.getElementById('spin-countdown-display').style.display = 'none';
+                clearInterval(spinCountdownInterval); 
+            }
+        }
 
 
-        // ৬. স্প্ল্যাশ স্ক্রিন এবং পেজ লোড লজিক (একই রাখা হলো)
+        // ৬. স্প্ল্যাশ স্ক্রিন এবং পেজ লোড লজিক 
         function initializePage() {
             showPage('home-page');
-            updateTimer();
+            checkSpinButtonStatus(); // প্রথমবার পেজ লোড হলেই স্ট্যাটাস চেক করা
         }
 
         window.addEventListener('load', () => {
@@ -1584,4 +1755,4 @@ Vico Shop: নতুন স্পিন পুরস্কার!
         });
     </script>
 </body>
-    </html>
+                        </html>
