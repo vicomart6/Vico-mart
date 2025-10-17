@@ -7,9 +7,11 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;600;700;800&family=Bebas+Neue&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        /* [ ... আগের সমস্ত CSS স্টাইল এখানে থাকবে ... ] */
+        
         /* == অ্যানিমেশন কীফ্রেমস্ == */
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
@@ -48,8 +50,36 @@
             to { transform: rotate(360deg); }
         }
         
+        /* ** UPDATED: আগুনের ফ্লিকার অ্যানিমেশন ** */
+        @keyframes fire-flicker {
+            0% {
+                text-shadow:
+                    0 0 3px #ff7f50,
+                    0 0 7px #ff4500,
+                    0 0 10px #ff0000;
+                transform: scale(1.0);
+            }
+            50% {
+                text-shadow:
+                    0 0 5px #ffa500,
+                    0 0 10px #ff6347,
+                    0 0 20px #e53935;
+                transform: scale(1.01);
+            }
+            100% {
+                text-shadow:
+                    0 0 4px #ff5000,
+                    0 0 8px #ff4500,
+                    0 0 15px #ff0000;
+                transform: scale(1.0);
+            }
+        }
+        
         /* == ১. প্রাথমিক রিসেট ও গ্লোবাল স্টাইল (আধুনিক ডার্ক থিম) == */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; 
+            /* UPDATED: বাংলা ফন্টের জন্য Baloo Da 2 যোগ করা হলো */
+            font-family: 'Baloo Da 2', 'Poppins', sans-serif; 
+        }
         body { 
             background-color: #1a1a2e; 
             color: #ffffff; 
@@ -198,22 +228,35 @@
             margin-right: 8px;
         }
 
-        /* ** ডিসকাউন্ট ব্যানার স্টাইল (নতুন) ** */
+        /* ** UPDATED: আগুনের ডিসকাউন্ট ব্যানার স্টাইল ** */
         .discount-banner {
-            background-color: #7f00ff; 
-            color: white;
+            background-color: #330000; /* Dark red/maroon for fire contrast */
+            color: #fff8dc; /* Off-white for fire center */
             padding: 10px 15px;
             font-size: 16px;
             font-weight: 700;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             animation: pulse 2s infinite;
-            border-bottom: 2px solid #ffc107;
+            border-bottom: 2px solid #ff4500;
+            
+            /* আগুনের টেক্সট ইফেক্ট */
+            text-shadow:
+                0 0 5px #ff5000, /* হালকা কমলা আভা */
+                0 0 10px #ff5000,
+                0 0 20px #ff8c00, /* উজ্জ্বল কমলা আভা */
+                0 0 40px #ff4500, /* লালচে আভা */
+                0 0 50px #ff4500;
+            animation: fire-flicker 2s infinite alternate; /* ফ্লিকার অ্যানিমেশন যোগ */
         }
         .discount-banner strong {
-            color: #ffc107; 
+            color: #ffcc00; /* ডিসকাউন্ট শতাংশের জন্য উজ্জ্বল হলুদ রঙ */
             font-size: 1.1em;
             margin: 0 3px;
+            text-shadow:
+                0 0 5px #ffd700,
+                0 0 10px #ffaa00,
+                0 0 20px #ff8c00;
         }
 
 
@@ -418,7 +461,16 @@
         
         .detail-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 8px 0; border-bottom: 1px dashed #ddd; }
         .detail-row .value { font-weight: bold; }
-        .copy-btn { background: none; border: none; color: #7f00ff; cursor: pointer; font-size: 16px; margin-left: 5px; transition: transform 0.2s; }
+        .copy-btn { 
+            background: none; 
+            border: none; 
+            color: #7f00ff; 
+            cursor: pointer; 
+            font-size: 16px; 
+            margin-left: 5px; 
+            transition: transform 0.2s; 
+            padding: 5px; /* Added for better touch target */
+        }
         .copy-btn:hover { transform: scale(1.2); }
         
         .countdown { 
@@ -456,6 +508,83 @@
         }
         .discount-row .label { font-weight: 600; color: #555; }
         .discount-row .value { font-weight: 700; color: #e53935; }
+        /* NEW: কুপন ছাড়ের জন্য আলাদা রং */
+        .coupon-row .value {
+            color: #4CAF50 !important;
+        }
+
+        /* ** নতুন: কনফার্মেশন মডাল স্টাইল ** */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 10000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.8); 
+            padding-top: 50px;
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto; 
+            padding: 25px;
+            border: 4px solid #7f00ff;
+            width: 90%; 
+            max-width: 350px;
+            border-radius: 10px;
+            color: #333;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s ease-out;
+        }
+        .modal-content h3 {
+            color: #e53935;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 20px;
+            text-align: center;
+        }
+        .modal-content p {
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .modal-content span {
+            font-weight: 700;
+            color: #16213e;
+        }
+        .modal-content .final-amount {
+            color: #4CAF50;
+            font-size: 18px;
+            margin-top: 15px;
+            display: block;
+            text-align: center;
+            font-weight: 800;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            flex: 1;
+        }
+        #modal-confirm-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #modal-cancel-btn {
+            background-color: #ccc;
+            color: #333;
+        }
 
 
         /* == ৬. SUCCESS PAGE ডিজাইন == */
@@ -519,6 +648,22 @@
             margin: 15px auto;
             border-radius: 8px;
             border: 2px dashed #e53935;
+        }
+        /* UPDATED: স্পিন নোটিফিকেশন স্টাইল */
+        #spin-bonus-info {
+            background-color: #ffe0b2;
+            color: #16213e;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            border: 2px solid #ffc107;
+            display: none; /* জাভাস্ক্রিপ্ট দ্বারা প্রদর্শিত হবে */
+            animation: pulse 1.5s infinite;
+        }
+        #spin-bonus-info i {
+            color: #e53935;
+            margin-right: 5px;
         }
         
         /* == ৮. স্পিন পেজ স্টাইল == */
@@ -679,7 +824,7 @@
 
     </style>
 </head>
-<body>
+<body onload="copyOnLoad()">
 
     <div id="splash-screen">
         <div class="loader-container">
@@ -766,17 +911,22 @@
                     <p class="card-subtitle">কাস্টম আইডি মূল্য পরিশোধ</p>
                 </div>
 
-                <div class="product-card app-card" data-item="CapCut Pro" data-price="120"> <div class="card-icon" style="color: #00FFC2;"><i class="fa-solid fa-video"></i></div> <div class="card-title">CapCut Pro</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
-                <div class="product-card app-card" data-item="PicsArt Pro" data-price="120"> <div class="card-icon" style="color: #FF9800;"><i class="fa-solid fa-image"></i></div> <div class="card-title">PicsArt Pro</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
-                <div class="product-card app-card" data-item="Spotify Premium" data-price="120"> <div class="card-icon" style="color: #1ED760;"><i class="fa-brands fa-spotify"></i></div> <div class="card-title">Spotify Premium</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
-                <div class="product-card app-card" data-item="Nord VPN (Premium)" data-price="120"> <div class="card-icon" style="color: #4A90E2;"><i class="fa-solid fa-shield-alt"></i></div> <div class="card-title">Nord VPN</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
-                <div class="product-card app-card" data-item="Microsoft Office 365" data-price="120"> <div class="card-icon" style="color: #F44336;"><i class="fa-solid fa-file-word"></i></div> <div class="card-title">MS Office 365</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
-                <div class="product-card video-card" data-item="Netflix Premium" data-price="120"> <div class="card-icon" style="color: #ff1744;"><i class="fa-solid fa-clapperboard"></i></div> <div class="card-title">Netflix Premium</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
-                <div class="product-card utility-card" data-item="Canva Pro" data-price="120"> <div class="card-icon" style="color: #7f00ff;"><i class="fa-solid fa-palette"></i></div> <div class="card-title">Canva Pro</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
-                <div class="product-card app-card" data-item="YouTube Premium" data-price="120"> <div class="card-icon" style="color: #FF0000;"><i class="fa-brands fa-youtube"></i></div> <div class="card-title">YouTube Premium</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
-                <div class="product-card app-card" data-item="ChatGPT Plus (AI)" data-price="120"> <div class="card-icon" style="color: #4CAF50;"><i class="fa-solid fa-robot"></i></div> <div class="card-title">ChatGPT Plus</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
-                <div class="product-card app-card" data-item="Discord Nitro" data-price="120"> <div class="card-icon" style="color: #5865F2;"><i class="fa-brands fa-discord"></i></div> <div class="card-title">Discord Nitro</div> <p class="card-subtitle">লাইফটাইম (১২০ টাকা)</p> </div>
+                <div class="product-card app-card" data-item="CapCut Pro" data-price="120"> <div class="card-icon" style="color: #00FFC2;"><i class="fa-solid fa-video"></i></div> <div class="card-title">CapCut Pro</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
+                <div class="product-card app-card" data-item="PicsArt Pro" data-price="120"> <div class="card-icon" style="color: #FF9800;"><i class="fa-solid fa-image"></i></div> <div class="card-title">PicsArt Pro</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
+                <div class="product-card app-card" data-item="Spotify Premium" data-price="120"> <div class="card-icon" style="color: #1ED760;"><i class="fa-brands fa-spotify"></i></div> <div class="card-title">Spotify Premium</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
+                <div class="product-card app-card" data-item="Nord VPN (Premium)" data-price="120"> <div class="card-icon" style="color: #4A90E2;"><i class="fa-solid fa-shield-alt"></i></div> <div class="card-title">Nord VPN</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
+                <div class="product-card app-card" data-item="Microsoft Office 365" data-price="120"> <div class="card-icon" style="color: #F44336;"><i class="fa-solid fa-file-word"></i></div> <div class="card-title">MS Office 365</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
+                <div class="product-card video-card" data-item="Netflix Premium" data-price="120"> <div class="card-icon" style="color: #ff1744;"><i class="fa-solid fa-clapperboard"></i></div> <div class="card-title">Netflix Premium</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
+                <div class="product-card utility-card" data-item="Canva Pro" data-price="120"> <div class="card-icon" style="color: #7f00ff;"><i class="fa-solid fa-palette"></i></div> <div class-title">Canva Pro</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
+                <div class="product-card app-card" data-item="YouTube Premium" data-price="120"> <div class="card-icon" style="color: #FF0000;"><i class="fa-brands fa-youtube"></i></div> <div class="card-title">YouTube Premium</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
+                <div class="product-card app-card" data-item="ChatGPT Plus (AI)" data-price="120"> <div class="card-icon" style="color: #4CAF50;"><i class="fa-solid fa-robot"></i></div> <div class="card-title">ChatGPT Plus</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
+                <div class="product-card app-card" data-item="Discord Nitro" data-price="120"> <div class="card-icon" style="color: #5865F2;"><i class="fa-brands fa-discord"></i></div> <div class="card-title">Discord Nitro</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
                 
+                <div class="product-card app-card" data-item="Adobe Creative Cloud" data-price="150"> <div class="card-icon" style="color: #FF0000;"><i class="fa-solid fa-paint-brush"></i></div> <div class="card-title">Adobe Creative Cloud</div> <p class="card-subtitle">Full Access (৳150)</p> </div>
+                <div class="product-card app-card" data-item="Duolingo Plus" data-price="150"> <div class="card-icon" style="color: #58CC02;"><i class="fa-solid fa-language"></i></div> <div class="card-title">Duolingo Plus</div> <p class="card-subtitle">লাইফটাইম (৳150)</p> </div>
+                <div class="product-card app-card" data-item="Proton VPN Premium" data-price="150"> <div class="card-icon" style="color: #8C4799;"><i class="fa-solid fa-lock"></i></div> <div class="card-title">Proton VPN</div> <p class="card-subtitle">লাইফটাইম (৳150)</p> </div>
+                <div class="product-card app-card" data-item="Tinder Gold" data-price="150"> <div class="card-icon" style="color: #FF6B6B;"><i class="fa-solid fa-fire"></i></div> <div class="card-title">Tinder Gold</div> <p class="card-subtitle">লাইফটাইম (৳150)</p> </div>
+
             </div>
             
             <div class="rate-list-container" id="rate-list-container" style="display: none;">
@@ -814,7 +964,7 @@
             
             <div class="input-group" id="order-code-input-group" style="margin-top: 20px;">
                 <label for="order-code-input"><i class="fa-solid fa-ticket-alt"></i> ডিসকাউন্ট/কুপন কোড (ঐচ্ছিক):</label>
-                <input type="text" id="order-code-input" placeholder="যদি কোনো ডিসকাউন্ট/কুপন কোড থাকে, এখানে বসান">
+                <input type="text" id="order-code-input" placeholder="যদি কোনো ডিসকাউন্ট/কুপন কোড থাকে, এখানে বসান (যেমন: vico20%)">
             </div>
 
             <div class="input-group" id="uid-input-group" style="display: none; margin-top: 20px;">
@@ -861,7 +1011,11 @@
                     <div class="discount-details">
                          <div class="discount-row">
                             <span class="label"><i class="fa-solid fa-percent" style="color:#e53935;"></i> সাইট ডিসকাউন্ট (২০%):</span>
-                            <span class="value" id="discount-amount">- 0.00 BDT</span>
+                            <span class="value" id="site-discount-amount">- 0.00 BDT</span>
+                        </div>
+                        <div class="discount-row coupon-row" id="coupon-discount-row" style="display: none;">
+                            <span class="label"><i class="fa-solid fa-ticket-simple" style="color:#4CAF50;"></i> কুপন ছাড় (<span id="coupon-code-display">vico20%</span>):</span>
+                            <span class="value" id="coupon-discount-amount">- 0.00 BDT</span>
                         </div>
                     </div>
 
@@ -895,13 +1049,38 @@
                 <p style="color: #16213e; font-weight: 600; margin-top: 10px;">আপনার অর্ডারটি **সম্পূর্ণ ফ্রী**। সাবমিট করার পর ইমেইলটি আমাদের কাছে পাঠিয়ে দিন।</p>
             </div>
 
-            <button class="submit-btn-payment" onclick="submitPayment()">অর্ডার সাবমিট করুন</button>
+            <button class="submit-btn-payment" onclick="openConfirmationModal()">অর্ডার সাবমিট করুন</button>
             
             <div class="alert-box">
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 <p>অবশ্যই নিশ্চিত করবেন, পেমেন্টটি যেন **সেন্ড মানি** হয়। <span class="important-text">কোনো এজেন্ট পয়েন্টে ক্যাশ আউট করবেন না।</span></p>
             </div>
 
+        </div>
+    </div>
+    
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <h3>চূড়ান্ত অর্ডার নিশ্চিতকরণ</h3>
+            
+            <p>পণ্য: <span id="modal-item-name"></span></p>
+            <p>নাম: <span id="modal-customer-name"></span></p>
+            <p>হোয়াটসঅ্যাপ: <span id="modal-customer-whatsapp"></span></p>
+            <p id="modal-uid-row" style="display:none;">UID/ID: <span id="modal-game-uid"></span></p>
+            <p id="modal-txn-row" style="display:none;">ট্রানজেকশন আইডি: <span id="modal-transaction-id"></span></p>
+            
+            <span class="final-amount">
+                মোট পরিশোধ: <span id="modal-final-amount">0.00 BDT</span>
+            </span>
+            
+            <p style="font-size: 13px; color: #e53935; margin-top: 15px; font-weight: 700;">
+                <i class="fa-solid fa-triangle-exclamation"></i> তথ্য সঠিক থাকলে নিশ্চিত করুন। ভুল তথ্যের জন্য Vico Shop দায়ী থাকবে না।
+            </p>
+            
+            <div class="modal-buttons">
+                <button class="modal-btn" id="modal-cancel-btn" onclick="closeModal('confirmation-modal')">বাতিল করুন</button>
+                <button class="modal-btn" id="modal-confirm-btn" onclick="finalizeSubmission()">নিশ্চিত ও সাবমিট করুন</button>
+            </div>
         </div>
     </div>
     
@@ -915,6 +1094,9 @@
             <p>আপনার অর্ডার ট্র্যাকিং নাম্বার:</p>
             <span class="order-code-display" id="display-order-code">ORD-XXXXXX</span>
             
+            <div id="spin-bonus-info">
+                 </div>
+
             <p>প্রিয় গ্রাহক, আপনার অর্ডার রিকোয়েস্ট **সফলভাবে সাবমিট** করা হয়েছে। দ্রুত ডেলিভারির জন্য অনুগ্রহ করে পরবর্তী ধাপ অনুসরণ করুন:</p>
             
             <div class="next-steps">
@@ -933,7 +1115,7 @@
             <div class="page-header">
                 <i class="fa-solid fa-arrow-left" style="color:#ffffff; cursor: pointer;" onclick="showPage('home-page')"></i>
                 <h1 class="page-title" style="margin-top: 10px;">ফ্রী লাকি স্পিন</h1>
-                <p class="spin-message">প্রতিদিন একবার চেষ্টা করে দেখুন, জিতে নিন ফ্রী লাইক বা ক্যাপকাট প্রো!</p>
+                <p class="spin-message" id="spin-message-display">আপনার বর্তমানে ০টি স্পিন বাকি আছে। প্রতিদিন একবার ফ্রী স্পিন ও প্যাক কিনে অতিরিক্ত স্পিন পেতে পারেন।</p>
             </div>
 
             <div class="spin-wheel-container">
@@ -1002,7 +1184,7 @@
             <i class="fa-solid fa-book"></i> গাইড
         </a>
         <a href="#" class="nav-item" onclick="showPage('spin-page')">
-            <i class="fa-solid fa-gem"></i> স্পিন
+            <i class="fa-solid fa-gem"></i> স্পিন <span id="spin-count-badge" style="background-color: #e53935; border-radius: 50%; padding: 1px 6px; margin-left: 2px; display: none; font-size: 10px; color: white;">0</span>
         </a>
         <a href="https://wa.me/8801339221633" target="_blank" class="nav-item">
             <i class="fa-solid fa-phone"></i> যোগাযোগ
@@ -1023,6 +1205,11 @@
         // ** ডিসকাউন্ট রেট **
         const GLOBAL_DISCOUNT_PERCENT = 0.20; // 20% ছাড়
         
+        // ** NEW: কুপন কোড সেটিংস **
+        const VALID_COUPON_CODE = 'vico20%';
+        const COUPON_DISCOUNT_AMOUNT = 20.00; // 20 টাকা ছাড়
+        let appliedCouponDiscount = 0; // কুপন ছাড়ের পরিমাণ
+
         let selectedMethod = 'bikash';
         let currentOriginalAmount = 0; // ডিসকাউন্টের আগে আসল মূল্য
         let currentFinalAmount = 0;    // ডিসকাউন্টের পরে মোট মূল্য
@@ -1032,9 +1219,23 @@
         let isFreeOrder = false;
         let lastGeneratedOrderNumber = ''; // UPDATED: Order Number Variable
         let winningPrize = null; 
-        let currentDiscountAmount = 0; // ডিসকাউন্ট টাকা
+        let currentSiteDiscountAmount = 0; // সাইটের ২০% ডিসকাউন্ট টাকা
         
         let spinCountdownInterval; // UPDATED: স্পিন কাউন্টডাউন টাইমার ভ্যারিয়েবল
+        
+        // ** UPDATED: Spin System Variables **
+        let dailyFreeSpinUsed = false; 
+        const SPINS_KEY = 'vicoShopUserSpins';
+        const DAILY_SPIN_TIMESTAMP_KEY = 'vicoShopDailySpinTimestamp';
+        const SPIN_COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24 ঘণ্টা
+        
+        // ** UPDATED: স্পিন লজিক কনফিগারেশন **
+        const SPIN_BONUS_TIER_1_MIN_PRICE = 50; 
+        const SPIN_BONUS_TIER_1_MAX_PRICE = 599; 
+        const SPIN_BONUS_TIER_1_COUNT = 1;
+        const SPIN_BONUS_TIER_2_MIN_PRICE = 600;
+        const SPIN_BONUS_TIER_2_COUNT = 2;
+
 
         // **UPDATED: Lucky Spin Settings (সাইটের সব ধরনের পণ্য)**
         const spinPrizes = [
@@ -1082,29 +1283,260 @@
             { likes: 1000, price: 350 }, { likes: 2000, price: 500 },
             { likes: 5000, price: 1000 }, { likes: 10000, price: 1800 }
         ];
+        
+        // ** UPDATED: পেমেন্ট নম্বর অটো কপি ফাংশন (অনলোড) **
+        function copyOnLoad() {
+            const cashoutNumberElement = document.getElementById('cashout-number');
+            if (cashoutNumberElement && window.location.hash.includes('payment-page')) {
+                 navigator.clipboard.writeText(cashoutNumberElement.innerText).then(() => {
+                 }).catch(err => {
+                    console.error('Could not copy cashout number: ', err);
+                 });
+            }
+            updateSpinCountBadge(); // লোড হওয়ার সময় স্পিন কাউন্ট আপডেট করা 
+        }
 
-        // ** নতুন ফাংশন: ডিসকাউন্ট গণনা ও প্রদর্শন **
+        // ** নতুন: মডাল খোলার ফাংশন (ভ্যালিডেশনের পর) **
+        function openConfirmationModal() {
+             // গ্রাহকের তথ্য
+            const customerName = document.getElementById('customer-name').value.trim();
+            const customerWhatsapp = document.getElementById('customer-whatsapp').value.trim(); 
+            const transactionId = document.getElementById('transaction-id').value.trim();
+            const gameUid = document.getElementById('game-uid').value.trim(); 
+            const customPriceValue = document.getElementById('custom-price').value.trim();
+
+            // আবশ্যিক ভ্যালিডেশন 
+            if (!customerName || !customerWhatsapp || customerWhatsapp.length < 10) {
+                alert("অর্ডার সাবমিট করার জন্য আপনার নাম এবং একটি বৈধ হোয়াটসঅ্যাপ নম্বর প্রদান করা আবশ্যক।");
+                return;
+            }
+            
+            if (!isFreeOrder && (!transactionId || transactionId.length < 10)) {
+                alert("পেইড অর্ডারের জন্য দয়াকরে একটি সঠিক ট্রানজেকশন আইডি বসান।");
+                document.getElementById('transaction-id').focus();
+                return;
+            }
+            
+            if (isCustomAccountOrder) {
+                if (!customPriceValue || isNaN(parseFloat(customPriceValue)) || parseFloat(customPriceValue) <= 0) {
+                    alert("আইডি কেনার জন্য একটি বৈধ কাস্টম দাম বসান।");
+                    document.getElementById('custom-price').focus();
+                    return;
+                }
+                // কাস্টম প্রাইস বসলে আবার ডিসকাউন্ট ক্যালকুলেট করা
+                const originalPrice = parseFloat(customPriceValue);
+                calculateAndDisplayAmount(originalPrice); 
+            } else if (currentItemType === 'diamond' || currentItemType === 'pubg' || currentItemType === 'likes' || isFreeOrder) { 
+                if (!gameUid && (currentItemType === 'diamond' || currentItemType === 'pubg' || currentItemType === 'likes')) {
+                    alert("এই সার্ভিসের জন্য অবশ্যই ইউজার আইডি (UID/Player ID) দিতে হবে।");
+                    document.getElementById('game-uid').focus();
+                    return;
+                }
+            }
+            
+            // মডাল ডেটা আপডেট
+            document.getElementById('modal-item-name').innerText = currentItemName;
+            document.getElementById('modal-customer-name').innerText = customerName;
+            document.getElementById('modal-customer-whatsapp').innerText = customerWhatsapp;
+            document.getElementById('modal-final-amount').innerText = currentFinalAmount.toFixed(2).toLocaleString('bn-BD') + ' BDT';
+            
+            // UID এবং Transaction ID এর দৃশ্যমানতা নিয়ন্ত্রণ
+            if (gameUid && !isCustomAccountOrder) {
+                document.getElementById('modal-uid-row').style.display = 'block';
+                document.getElementById('modal-game-uid').innerText = gameUid;
+            } else {
+                document.getElementById('modal-uid-row').style.display = 'none';
+                document.getElementById('modal-game-uid').innerText = 'N/A';
+            }
+            
+            if (!isFreeOrder && transactionId) {
+                document.getElementById('modal-txn-row').style.display = 'block';
+                document.getElementById('modal-transaction-id').innerText = transactionId;
+            } else {
+                document.getElementById('modal-txn-row').style.display = 'none';
+                document.getElementById('modal-transaction-id').innerText = 'N/A (ফ্রী অর্ডার)';
+            }
+            
+            // মডাল প্রদর্শন
+            document.getElementById('confirmation-modal').style.display = 'block';
+        }
+        
+        // মডাল বন্ধ করার ফাংশন
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // চূড়ান্ত সাবমিশন ফাংশন
+        function finalizeSubmission() {
+            closeModal('confirmation-modal');
+            submitPayment(); 
+        }
+
+        // ** UPDATED: সাবমিট ফাংশন আপডেট করা হলো (স্পিন বোনাস লজিক যোগ) **
+        function submitPayment() {
+            // গ্রাহকের তথ্য
+            const customerName = document.getElementById('customer-name').value.trim();
+            const customerWhatsapp = document.getElementById('customer-whatsapp').value.trim(); 
+            const customerAddress = document.getElementById('customer-address').value.trim() || 'প্রদান করা হয়নি (ঐচ্ছিক)';
+            const orderCodeInput = document.getElementById('order-code-input').value.trim() || 'প্রদান করা হয়নি (ঐচ্ছিক)'; // Coupon Code
+            
+            // পেমেন্ট তথ্য
+            const transactionId = document.getElementById('transaction-id').value.trim();
+            const gameUid = document.getElementById('game-uid').value.trim(); 
+            const screenshotLink = document.getElementById('screenshot-link').value.trim() || 'প্রদান করা হয়নি (ঐচ্ছিক)';
+            const methodText = document.getElementById('selected-method-text').innerText;
+            const customPriceValue = document.getElementById('custom-price').value.trim();
+
+             // যদি কাস্টম অর্ডার হয়, তাহলে আইটেম নেম আপডেট
+             if (isCustomAccountOrder) {
+                currentItemName = `Custom Account Price: ${parseFloat(customPriceValue).toFixed(2)} BDT`;
+             }
+            
+            // UPDATED: Generate Order Number and save it
+            lastGeneratedOrderNumber = generateOrderNumber();
+            document.getElementById('display-order-code').innerText = lastGeneratedOrderNumber;
+            
+            // ** স্পিন বোনাস লজিক প্রয়োগ **
+            let bonusSpins = 0;
+            const finalPrice = currentFinalAmount; 
+            
+            if (!isFreeOrder && finalPrice >= SPIN_BONUS_TIER_1_MIN_PRICE && finalPrice <= SPIN_BONUS_TIER_1_MAX_PRICE) {
+                bonusSpins = SPIN_BONUS_TIER_1_COUNT; // 50-599 টাকা: ১টি স্পিন
+            } else if (!isFreeOrder && finalPrice >= SPIN_BONUS_TIER_2_MIN_PRICE) {
+                bonusSpins = SPIN_BONUS_TIER_2_COUNT; // 600+ টাকা: ২টি স্পিন
+            }
+            
+            if (bonusSpins > 0) {
+                addSpins(bonusSpins); // লোকাল স্টোরেজে স্পিন যোগ করা
+                
+                // সাকসেস পেজে স্পিন বোনাস বার্তা দেখানো
+                const spinBonusInfo = document.getElementById('spin-bonus-info');
+                spinBonusInfo.style.display = 'block';
+                spinBonusInfo.innerHTML = `<i class="fa-solid fa-gift"></i> অভিনন্দন! আপনি এই অর্ডারের জন্য অতিরিক্ত **${bonusSpins}টি** লাকি স্পিন বোনাস পেয়েছেন! স্পিন করতে **"স্পিন"** ট্যাবে যান।`;
+            } else {
+                document.getElementById('spin-bonus-info').style.display = 'none';
+            }
+
+
+            // ইমেইল বডি টেক্সট তৈরি করা 
+            let paymentDetails = isFreeOrder ? 'পেমেন্ট মেথড: ফ্রী অর্ডার (০ BDT)' : 
+                                `পেমেন্ট মেথড: ${methodText} (সেন্ড মানি)
+আসল মূল্য: ${currentOriginalAmount.toFixed(2)} টাকা
+সাইট ডিসকাউন্ট: -${currentSiteDiscountAmount.toFixed(2)} টাকা (২০%)
+কুপন ছাড় (${appliedCouponDiscount > 0 ? orderCodeInput : 'প্রয়োজন নেই'}): -${appliedCouponDiscount.toFixed(2)} টাকা
+মোট পরিশোধ: ${currentFinalAmount.toFixed(2)} টাকা
+ট্রানজেকশন আইডি: ${transactionId || 'প্রয়োজন নেই (ফ্রী অর্ডার)'}
+স্ক্রিনশট লিংক: ${screenshotLink} `;
+            
+            let uidInfo = (currentItemType === 'diamond' || currentItemType === 'pubg' || currentItemType === 'likes' || isFreeOrder) ? `\nইউজার আইডি (UID/Player ID): ${gameUid}` : '';
+            
+            const emailBody = `
+Vico Shop: নতুন ডিপোজিট রিকোয়েস্ট!
+
+-----------------------------------
+অর্ডার নাম্বার: ${lastGeneratedOrderNumber}
+গ্রাহকের নাম: ${customerName}
+হোয়াটসঅ্যাপ নম্বর: ${customerWhatsapp}
+ঠিকানা: ${customerAddress}
+ডিসকাউন্ট/কুপন কোড (ইনপুট): ${orderCodeInput}
+-----------------------------------
+পণ্য: ${currentItemName}
+${paymentDetails}
+${uidInfo}
+
+**স্পিন বোনাস: ${bonusSpins}টি স্পিন**
+
+দয়া করে আপনার অ্যাকাউন্ট চেক করে দ্রুত নিশ্চিত করুন।
+`;
+            
+            const subject = encodeURIComponent(`নতুন ডিপোজিট: ${customerName} - ${currentItemName} (মোট: ${currentFinalAmount.toFixed(2)} BDT) - নাম্বার: ${lastGeneratedOrderNumber}`);
+            const body = encodeURIComponent(emailBody);
+            
+            // mailto: লিংক তৈরি
+            const mailtoURL = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
+            
+            // নতুন ট্যাব বা উইন্ডোতে ইমেইল ক্লায়েন্ট খোলা
+            window.open(mailtoURL, '_blank');
+            
+            // Success Page দেখানো
+            showPage('success-page'); 
+            
+            // রিসেট 
+            document.getElementById('customer-name').value = '';
+            document.getElementById('customer-whatsapp').value = '';
+            document.getElementById('customer-address').value = '';
+            document.getElementById('transaction-id').value = '';
+            document.getElementById('game-uid').value = '';
+            document.getElementById('screenshot-link').value = '';
+            document.getElementById('custom-price').value = '';
+            document.getElementById('order-code-input').value = ''; 
+            currentOriginalAmount = 0;
+            currentFinalAmount = 0;
+            currentSiteDiscountAmount = 0;
+            appliedCouponDiscount = 0; // কুপন ছাড় রিসেট 
+            currentItemName = '';
+            isCustomAccountOrder = false;
+            isFreeOrder = false;
+        }
+
+        // UPDATED: ডিসকাউন্ট গণনা ও প্রদর্শন (কুপন লজিক সহ)
         function calculateAndDisplayAmount(originalPrice) {
             currentOriginalAmount = originalPrice;
             
+            // কুপন ভ্যালিডেশন
+            const couponCode = document.getElementById('order-code-input').value.trim();
+            
             // ফ্রী অর্ডারে ডিসকাউন্ট প্রযোজ্য নয়
             if (isFreeOrder) {
-                currentDiscountAmount = 0;
+                currentSiteDiscountAmount = 0;
+                appliedCouponDiscount = 0;
                 currentFinalAmount = 0;
                 document.querySelector('.discount-details').style.display = 'none';
-                document.querySelector('.detail-row:nth-child(1)').style.display = 'none'; // পণ্যের আসল মূল্য
+                document.querySelector('.detail-row:nth-child(1)').style.display = 'none'; 
+                document.getElementById('coupon-discount-row').style.display = 'none'; // কুপন রো হাইড
             } else {
-                currentDiscountAmount = currentOriginalAmount * GLOBAL_DISCOUNT_PERCENT;
-                currentFinalAmount = currentOriginalAmount - currentDiscountAmount;
+                // ১. সাইট ডিসকাউন্ট (২০%) গণনা
+                currentSiteDiscountAmount = currentOriginalAmount * GLOBAL_DISCOUNT_PERCENT;
+                
+                // ২. কুপন ডিসকাউন্ট গণনা
+                if (couponCode.toLowerCase() === VALID_COUPON_CODE.toLowerCase() && currentOriginalAmount >= COUPON_DISCOUNT_AMOUNT) {
+                    appliedCouponDiscount = COUPON_DISCOUNT_AMOUNT;
+                    document.getElementById('coupon-code-display').innerText = couponCode;
+                    document.getElementById('coupon-discount-amount').innerText = `- ${appliedCouponDiscount.toFixed(2).toLocaleString('bn-BD')} BDT`;
+                    document.getElementById('coupon-discount-row').style.display = 'flex';
+                } else {
+                    appliedCouponDiscount = 0;
+                    document.getElementById('coupon-discount-row').style.display = 'none'; // কুপন রো হাইড
+                }
+                
+                // ৩. মোট ডিসকাউন্ট ও চূড়ান্ত মূল্য
+                const totalDiscount = currentSiteDiscountAmount + appliedCouponDiscount;
+                currentFinalAmount = currentOriginalAmount - totalDiscount;
+                
+                // ডিসপ্লে সেটিংস
                 document.querySelector('.discount-details').style.display = 'block';
                 document.querySelector('.detail-row:nth-child(1)').style.display = 'flex';
             }
 
             // পেমেন্ট পেজে ডিসপ্লে আপডেট করা
             document.getElementById('original-amount').innerText = currentOriginalAmount.toFixed(2).toLocaleString('bn-BD') + ' BDT';
-            document.getElementById('discount-amount').innerText = `- ${currentDiscountAmount.toFixed(2).toLocaleString('bn-BD')} BDT`;
+            document.getElementById('site-discount-amount').innerText = `- ${currentSiteDiscountAmount.toFixed(2).toLocaleString('bn-BD')} BDT`;
             document.getElementById('amount-to-pay').innerText = currentFinalAmount.toFixed(2).toLocaleString('bn-BD') + ' BDT';
         }
+
+        // UPDATED: কুপন কোড পরিবর্তন হলে দাম আপডেট করার ইভেন্ট
+        document.getElementById('order-code-input').addEventListener('input', (e) => {
+            if (isCustomAccountOrder) {
+                const originalPrice = parseFloat(document.getElementById('custom-price').value) || 0;
+                calculateAndDisplayAmount(originalPrice);
+            } 
+            else if (currentItemName) {
+                 calculateAndDisplayAmount(currentOriginalAmount);
+            }
+            else {
+                calculateAndDisplayAmount(currentOriginalAmount);
+            }
+        });
 
         // UPDATED: থ্রি-ডট মেনু টগল ফাংশন
         function toggleDropdown() {
@@ -1113,7 +1545,7 @@
         window.onclick = function(event) {
             if (!event.target.matches('.dot-menu-btn') && !event.target.matches('.dot-menu-btn i')) {
                 const dropdowns = document.getElementsByClassName("dropdown-menu");
-                for (let i = 0; i < dropdowns.length; i++) {
+                for (let i = 0; i in dropdowns.length; i++) {
                     const openDropdown = dropdowns[i];
                     if (openDropdown.classList.contains('show')) {
                         openDropdown.classList.remove('show');
@@ -1306,6 +1738,11 @@
                 }
                 // টাইমার শুরু করা বা আপডেট করা
                 startTimer();
+                // URL Hash আপডেট
+                window.location.hash = '#payment-page'; 
+            } else {
+                 // URL Hash সরাতে
+                 window.location.hash = ''; 
             }
 
 
@@ -1325,6 +1762,7 @@
                  winningPrize = null;
                  // স্পিন বাটন স্ট্যাটাস চেক করা এবং টাইমার শুরু করা
                  checkSpinButtonStatus(); 
+                 updateSpinMessage(); // স্পিন মেসেজ আপডেট করা
             }
         }
 
@@ -1359,6 +1797,9 @@
                 
                 let methodText = (selectedMethod === 'bikash') ? 'বিকাশ' : (selectedMethod === 'nagad') ? 'নগদ' : 'রকেট';
                 document.getElementById('selected-method-text').innerText = methodText;
+                
+                // পেমেন্ট মেথড চেঞ্জ হলে কপি ফাংশন আবার চালানো
+                 copyToClipboard('cashout-number');
             });
         });
 
@@ -1375,131 +1816,12 @@
             const randomNum = Math.floor(100000 + Math.random() * 900000); // 6-digit random number
             return `ORD-${randomNum}`; 
         }
-
-        // ৫. পেমেন্ট সাবমিট এবং ইমেইল ট্র্যাকিং - ভ্যালিডেশন লজিক আপডেট করা হলো
-        function submitPayment() {
-            // গ্রাহকের তথ্য
-            const customerName = document.getElementById('customer-name').value.trim();
-            const customerWhatsapp = document.getElementById('customer-whatsapp').value.trim(); 
-            const customerAddress = document.getElementById('customer-address').value.trim() || 'প্রদান করা হয়নি (ঐচ্ছিক)';
-            const orderCodeInput = document.getElementById('order-code-input').value.trim() || 'প্রদান করা হয়নি (ঐচ্ছিক)'; // Coupon Code
-            
-            // পেমেন্ট তথ্য
-            const transactionId = document.getElementById('transaction-id').value.trim();
-            const gameUid = document.getElementById('game-uid').value.trim(); 
-            const screenshotLink = document.getElementById('screenshot-link').value.trim() || 'প্রদান করা হয়নি (ঐচ্ছিক)';
-            const methodText = document.getElementById('selected-method-text').innerText;
-            const customPriceValue = document.getElementById('custom-price').value.trim();
-
-            // আবশ্যিক ভ্যালিডেশন
-            if (!customerName) {
-                alert("অর্ডার সাবমিট করার জন্য আপনার পুরো নাম (Full Name) প্রদান করা আবশ্যক।");
-                document.getElementById('customer-name').focus();
-                return;
-            }
-             if (!customerWhatsapp || customerWhatsapp.length < 10) {
-                alert("অর্ডার সংক্রান্ত যোগাযোগের জন্য আপনার হোয়াটসঅ্যাপ নম্বর প্রদান করা আবশ্যক।");
-                document.getElementById('customer-whatsapp').focus();
-                return;
-            }
-            
-            // পেইড অর্ডারের জন্য ট্রানজেকশন আইডি চেক
-            if (!isFreeOrder && (!transactionId || transactionId.length < 10)) {
-                alert("পেইড অর্ডারের জন্য দয়াকরে একটি সঠিক ট্রানজেকশন আইডি বসান। ফ্রী অর্ডারে ট্রানজেকশন আইডি প্রয়োজন নেই।");
-                 if (!isFreeOrder) { 
-                    document.getElementById('transaction-id').focus();
-                    return;
-                }
-            }
-            
-            // কাস্টম অর্ডারের জন্য দাম চেক
-            if (isCustomAccountOrder) {
-                if (!customPriceValue || isNaN(parseFloat(customPriceValue)) || parseFloat(customPriceValue) <= 0) {
-                    alert("আইডি কেনার জন্য একটি বৈধ কাস্টম দাম বসান।");
-                    document.getElementById('custom-price').focus();
-                    return;
-                }
-                // কাস্টম প্রাইস বসলে আবার ডিসকাউন্ট ক্যালকুলেট করা
-                const originalPrice = parseFloat(customPriceValue);
-                calculateAndDisplayAmount(originalPrice); 
-                currentItemName = `Custom Account Price: ${originalPrice.toFixed(2)} BDT`;
-            } else if (currentItemType === 'diamond' || currentItemType === 'pubg' || currentItemType === 'likes' || isFreeOrder) { 
-                if (!gameUid) {
-                    alert("এই সার্ভিসের জন্য অবশ্যই ইউজার আইডি (UID/Player ID) দিতে হবে।");
-                    document.getElementById('game-uid').focus();
-                    return;
-                }
-            }
-            
-            // UPDATED: Generate Order Number and save it
-            lastGeneratedOrderNumber = generateOrderNumber();
-            document.getElementById('display-order-code').innerText = lastGeneratedOrderNumber;
-            
-            // ইমেইল বডি টেক্সট তৈরি করা 
-            let paymentDetails = isFreeOrder ? 'পেমেন্ট মেথড: ফ্রী অর্ডার (০ BDT)' : 
-                                `পেমেন্ট মেথড: ${methodText} (সেন্ড মানি)
-আসল মূল্য: ${currentOriginalAmount.toFixed(2)} টাকা
-ডিসকাউন্ট: -${currentDiscountAmount.toFixed(2)} টাকা (২০%)
-মোট পরিশোধ: ${currentFinalAmount.toFixed(2)} টাকা
-ট্রানজেকশন আইডি: ${transactionId || 'প্রয়োজন নেই (ফ্রী অর্ডার)'}
-স্ক্রিনশট লিংক: ${screenshotLink} `;
-            
-            let uidInfo = (currentItemType === 'diamond' || currentItemType === 'pubg' || currentItemType === 'likes' || isFreeOrder) ? `\nইউজার আইডি (UID/Player ID): ${gameUid}` : '';
-            
-            const emailBody = `
-Vico Shop: নতুন ডিপোজিট রিকোয়েস্ট!
-
------------------------------------
-অর্ডার নাম্বার: ${lastGeneratedOrderNumber}
-গ্রাহকের নাম: ${customerName}
-হোয়াটসঅ্যাপ নম্বর: ${customerWhatsapp}
-ঠিকানা: ${customerAddress}
-ডিসকাউন্ট/কুপন কোড (ঐচ্ছিক): ${orderCodeInput}
------------------------------------
-পণ্য: ${currentItemName}
-${paymentDetails}
-${uidInfo}
-
-দয়া করে আপনার অ্যাকাউন্ট চেক করে দ্রুত নিশ্চিত করুন।
-`;
-            
-            const subject = encodeURIComponent(`নতুন ডিপোজিট: ${customerName} - ${currentItemName} (মোট: ${currentFinalAmount.toFixed(2)} BDT) - নাম্বার: ${lastGeneratedOrderNumber}`);
-            const body = encodeURIComponent(emailBody);
-            
-            // mailto: লিংক তৈরি
-            const mailtoURL = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
-            
-            // নতুন ট্যাব বা উইন্ডোতে ইমেইল ক্লায়েন্ট খোলা
-            window.open(mailtoURL, '_blank');
-            
-            // Success Page দেখানো
-            showPage('success-page'); 
-            
-            // রিসেট 
-            document.getElementById('customer-name').value = '';
-            document.getElementById('customer-whatsapp').value = '';
-            document.getElementById('customer-address').value = '';
-            document.getElementById('transaction-id').value = '';
-            document.getElementById('game-uid').value = '';
-            document.getElementById('screenshot-link').value = '';
-            document.getElementById('custom-price').value = '';
-            document.getElementById('order-code-input').value = ''; 
-            currentOriginalAmount = 0;
-            currentFinalAmount = 0;
-            currentDiscountAmount = 0;
-            currentItemName = '';
-            isCustomAccountOrder = false;
-            isFreeOrder = false;
-        }
         
         // **UPDATED: কাউন্টডাউন টাইমার ফাংশন (১০ মিনিট)**
         let timerInterval; 
 
         function startTimer() {
-            // যদি আগে থেকে কোনো টাইমার চলে, তবে সেটি বন্ধ করো
             if (timerInterval) clearInterval(timerInterval);
-            
-            // প্রতিবার পেমেন্ট পেজ খোলার সময় নতুন করে ১০ মিনিট সেট করা
             let timeInSeconds = 600; // 10 মিনিট
 
             function updateTimer() {
@@ -1521,12 +1843,68 @@ ${uidInfo}
                 }
             }
             
-            // প্রতি সেকেন্ডে আপডেট করা
             timerInterval = setInterval(updateTimer, 1000);
-            updateTimer(); // শুরুতেই একবার কল করা
+            updateTimer(); 
         }
         
-        // **UPDATED: Spin Wheel Functions (২৪ ঘণ্টা লজিক)**
+        // ** UPDATED: Spin System Functions **
+
+        // লোকাল স্টোরেজ থেকে বর্তমান স্পিন সংখ্যা পড়া
+        function getSpins() {
+            const spins = localStorage.getItem(SPINS_KEY);
+            return parseInt(spins) || 0;
+        }
+
+        // লোকাল স্টোরেজে স্পিন সংখ্যা যোগ করা
+        function addSpins(count) {
+            let currentSpins = getSpins();
+            localStorage.setItem(SPINS_KEY, currentSpins + count);
+            updateSpinCountBadge();
+        }
+        
+        // লোকাল স্টোরেজ থেকে স্পিন সংখ্যা কমানো
+        function useSpin() {
+            let currentSpins = getSpins();
+            if (currentSpins > 0) {
+                localStorage.setItem(SPINS_KEY, currentSpins - 1);
+                updateSpinCountBadge();
+                return true;
+            }
+            return false;
+        }
+        
+        // স্পিন কাউন্ট ব্যাজ আপডেট করা
+        function updateSpinCountBadge() {
+            const spinCount = getSpins();
+            const badge = document.getElementById('spin-count-badge');
+            
+            if (spinCount > 0) {
+                badge.innerText = spinCount;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+        
+        // **UPDATED: স্পিন মেসেজ আপডেট করা**
+        function updateSpinMessage() {
+            const spinCount = getSpins();
+            const spinMessage = document.getElementById('spin-message-display');
+            const lastDailySpinTimestamp = localStorage.getItem(DAILY_SPIN_TIMESTAMP_KEY);
+            const currentTime = new Date().getTime();
+            const dailyFreeSpinAvailable = !lastDailySpinTimestamp || (currentTime - parseInt(lastDailySpinTimestamp) >= SPIN_COOLDOWN_MS);
+            
+            let totalSpins = spinCount;
+            if (dailyFreeSpinAvailable) {
+                totalSpins += 1; // ফ্রী স্পিন বাকি থাকলে ১ যোগ করা
+            }
+            
+            spinMessage.innerHTML = `আপনার বর্তমানে **${totalSpins}টি** স্পিন বাকি আছে। প্রতিদিন একবার ফ্রী স্পিন ও প্যাক কিনে অতিরিক্ত স্পিন পেতে পারেন।`;
+            
+            if (totalSpins === 0) {
+                spinMessage.innerHTML = `দুঃখিত, আপনার বর্তমানে **০টি** স্পিন বাকি আছে। নতুন স্পিন পেতে প্যাক কিনুন বা পরবর্তী ফ্রী স্পিনের জন্য অপেক্ষা করুন।`;
+            }
+        }
 
         // হুইল তৈরি করা
         function renderSpinWheel() {
@@ -1565,17 +1943,32 @@ ${uidInfo}
             return 0; 
         }
 
-        // স্পিন শুরু করা
+        // স্পিন শুরু করা (ফ্রী স্পিন এবং কেনা স্পিনের লজিক)
         function startSpin() {
-            const lastSpinTimestamp = localStorage.getItem('lastSpinTimestamp');
             const currentTime = new Date().getTime();
-            const oneDayInMs = 24 * 60 * 60 * 1000;
+            const lastDailySpinTimestamp = localStorage.getItem(DAILY_SPIN_TIMESTAMP_KEY);
+            const remainingSpins = getSpins();
+            const dailyFreeSpinAvailable = !lastDailySpinTimestamp || (currentTime - parseInt(lastDailySpinTimestamp) >= SPIN_COOLDOWN_MS);
 
-            if (lastSpinTimestamp && (currentTime - parseInt(lastSpinTimestamp) < oneDayInMs)) {
-                alert("দুঃখিত, আপনি আজকের স্পিনটি ইতোমধ্যে ব্যবহার করেছেন! অনুগ্রহ করে টাইমার শেষ হওয়া পর্যন্ত অপেক্ষা করুন।");
+            // স্পিন ব্যবহারের লজিক
+            const useFreeSpin = dailyFreeSpinAvailable;
+            
+            if (remainingSpins === 0 && !dailyFreeSpinAvailable) {
+                alert("দুঃখিত, আপনার কাছে কোনো অতিরিক্ত স্পিন নেই এবং আজকের ফ্রী স্পিনটি ইতোমধ্যে ব্যবহার করা হয়েছে।");
                 return;
             }
 
+            // স্পিন ব্যবহার করা
+            if (useFreeSpin) {
+                localStorage.setItem(DAILY_SPIN_TIMESTAMP_KEY, currentTime); // ফ্রী স্পিনের টাইমস্ট্যাম্প সেভ
+            } else if (remainingSpins > 0) {
+                useSpin(); // কেনা স্পিন ব্যবহার করা
+            } else {
+                 alert("স্পিন করতে ব্যর্থ। অনুগ্রহ করে আবার চেষ্টা করুন বা সাইট অ্যাডমিনের সাথে যোগাযোগ করুন।");
+                 return;
+            }
+            
+            // স্পিন অ্যানিমেশন ও ফলাফল লজিক
             const winningIndex = getWinningSegment();
             const numSegments = spinPrizes.length;
             const segmentAngle = 360 / numSegments;
@@ -1592,13 +1985,12 @@ ${uidInfo}
             resultDisplay.style.display = 'none';
             prizeInputGroup.style.display = 'none';
             document.getElementById('spin-delivery-message').style.display = 'none';
-            document.getElementById('spin-countdown-display').style.display = 'none'; // স্পিন চলাকালীন টাইমার হাইড 
+            document.getElementById('spin-countdown-display').style.display = 'none'; 
             wheel.style.transform = `rotate(${rotationDegrees}deg)`;
 
-            // স্পিন শেষ হওয়ার পর ফলাফল দেখানো
             setTimeout(() => {
                 const prize = spinPrizes[winningIndex];
-                winningPrize = prize; // পুরস্কার সেভ করা
+                winningPrize = prize; 
                 
                 if (prize.type === "none") {
                      resultDisplay.style.color = '#e53935';
@@ -1610,7 +2002,6 @@ ${uidInfo}
                      resultDisplay.style.borderColor = '#4CAF50';
                      resultDisplay.innerText = `অভিনন্দন! আপনি জিতেছেন ${prize.text}!`;
                      
-                     // ইনপুট ফর্ম দেখাও
                      const inputLabel = document.getElementById('prize-input-label');
                      const inputField = document.getElementById('prize-input');
                      
@@ -1629,13 +2020,9 @@ ${uidInfo}
                 
                 resultDisplay.style.display = 'block';
                 
-                // ** সফল স্পিনের পর টাইমস্ট্যাম্প লোকাল স্টোরেজে সেভ করা **
-                localStorage.setItem('lastSpinTimestamp', new Date().getTime()); 
-
-                spinBtn.innerText = "আজকের স্পিন শেষ";
-                spinBtn.disabled = true;
-                
-                startSpinCountdown(); // স্পিন শেষ হলে টাইমার শুরু করা
+                // স্পিন শেষ হলে স্ট্যাটাস চেক ও টাইমার আপডেট
+                checkSpinButtonStatus(); 
+                updateSpinMessage(); // স্পিন সংখ্যা আপডেট
                 
             }, 4100); 
         }
@@ -1681,19 +2068,17 @@ Vico Shop: নতুন স্পিন পুরস্কার!
         
         // ** UPDATED: স্পিন কাউন্টডাউন টাইমার ফাংশন (২৪ ঘণ্টা) **
         function startSpinCountdown() {
-            clearInterval(spinCountdownInterval); // আগের টাইমার বন্ধ করা
+            clearInterval(spinCountdownInterval); 
             
-            const lastSpinTimestamp = localStorage.getItem('lastSpinTimestamp');
+            const lastSpinTimestamp = localStorage.getItem(DAILY_SPIN_TIMESTAMP_KEY);
             if (!lastSpinTimestamp) {
                 document.getElementById('spin-countdown-display').style.display = 'none';
                 return;
             }
 
-            const oneDayInMs = 24 * 60 * 60 * 1000;
-            const targetTime = parseInt(lastSpinTimestamp) + oneDayInMs;
+            const targetTime = parseInt(lastSpinTimestamp) + SPIN_COOLDOWN_MS;
             
             const countdownDisplay = document.getElementById('spin-countdown-display');
-            countdownDisplay.style.display = 'block';
 
             function updateCountdown() {
                 const currentTime = new Date().getTime();
@@ -1701,38 +2086,48 @@ Vico Shop: নতুন স্পিন পুরস্কার!
 
                 if (timeLeft <= 0) {
                     clearInterval(spinCountdownInterval);
-                    countdownDisplay.innerText = "আবার স্পিন করার জন্য প্রস্তুত!";
-                    checkSpinButtonStatus(); // বাটন আবার এনাবেল করা
+                    countdownDisplay.innerText = "আপনার ফ্রী স্পিনটি প্রস্তুত!";
+                    checkSpinButtonStatus(); 
                     return;
                 }
+                countdownDisplay.style.display = 'block';
 
-                const hours = Math.floor((timeLeft % oneDayInMs) / (1000 * 60 * 60));
+                const hours = Math.floor((timeLeft % SPIN_COOLDOWN_MS) / (1000 * 60 * 60));
                 const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-                countdownDisplay.innerText = `পরবর্তী স্পিনের জন্য অপেক্ষা করুন: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                countdownDisplay.innerText = `পরবর্তী ফ্রী স্পিনের জন্য অপেক্ষা করুন: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }
 
             spinCountdownInterval = setInterval(updateCountdown, 1000);
-            updateCountdown(); // শুরুতে একবার কল করা
+            updateCountdown(); 
         }
         
-        // ** UPDATED: স্পিন বাটনের স্ট্যাটাস চেক করা **
+        // ** UPDATED: স্পিন বাটনের স্ট্যাটাস চেক করা (ফ্রী স্পিন লজিক ঠিক করা হয়েছে) **
         function checkSpinButtonStatus() {
             const spinBtn = document.getElementById('start-spin-btn');
-            const lastSpinTimestamp = localStorage.getItem('lastSpinTimestamp');
+            const remainingSpins = getSpins();
+            const lastDailySpinTimestamp = localStorage.getItem(DAILY_SPIN_TIMESTAMP_KEY);
             const currentTime = new Date().getTime();
-            const oneDayInMs = 24 * 60 * 60 * 1000;
-            
-            if (lastSpinTimestamp && (currentTime - parseInt(lastSpinTimestamp) < oneDayInMs)) {
+            const dailyFreeSpinAvailable = !lastDailySpinTimestamp || (currentTime - parseInt(lastDailySpinTimestamp) >= SPIN_COOLDOWN_MS);
+
+            if (remainingSpins > 0) {
+                // কেনা স্পিন বাকি আছে
+                spinBtn.disabled = false;
+                spinBtn.innerText = `স্পিন করুন (${remainingSpins}টি বাকি)`;
+                document.getElementById('spin-countdown-display').style.display = 'none';
+                clearInterval(spinCountdownInterval);
+            } else if (dailyFreeSpinAvailable) {
+                // দৈনিক ফ্রী স্পিন বাকি আছে
+                spinBtn.disabled = false;
+                spinBtn.innerText = "ফ্রী স্পিন করুন (দৈনিক)";
+                document.getElementById('spin-countdown-display').style.display = 'none';
+                clearInterval(spinCountdownInterval);
+            } else {
+                // সব স্পিন শেষ এবং দৈনিক ফ্রী স্পিন ব্যবহার করা হয়েছে
                 spinBtn.disabled = true;
                 spinBtn.innerText = "আজকের স্পিন শেষ";
                 startSpinCountdown(); // টাইমার চালু করা
-            } else {
-                spinBtn.disabled = false;
-                spinBtn.innerText = "স্পিন করুন";
-                document.getElementById('spin-countdown-display').style.display = 'none';
-                clearInterval(spinCountdownInterval); 
             }
         }
 
@@ -1740,7 +2135,8 @@ Vico Shop: নতুন স্পিন পুরস্কার!
         // ৬. স্প্ল্যাশ স্ক্রিন এবং পেজ লোড লজিক 
         function initializePage() {
             showPage('home-page');
-            checkSpinButtonStatus(); // প্রথমবার পেজ লোড হলেই স্ট্যাটাস চেক করা
+            checkSpinButtonStatus(); 
+            updateSpinCountBadge();
         }
 
         window.addEventListener('load', () => {
@@ -1755,4 +2151,4 @@ Vico Shop: নতুন স্পিন পুরস্কার!
         });
     </script>
 </body>
-                        </html>
+                                                                  </html>
