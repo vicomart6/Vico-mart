@@ -397,6 +397,72 @@
             color: #333; 
             animation: fadeIn 0.8s ease-out; 
         }
+        
+        /* ** NEW: ড্যাশবোর্ড ও ট্র্যাকিং স্টাইল ** */
+        .dashboard-card {
+            background-color: #2c3850;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+            border-left: 5px solid #7f00ff;
+            color: #ffffff;
+            transition: transform 0.2s;
+        }
+        .dashboard-card:hover { transform: translateY(-3px); }
+        .dashboard-card h4 { font-size: 16px; margin-bottom: 8px; color: #ffc107; }
+        .wallet-balance { font-size: 24px; font-weight: 800; color: #4CAF50; }
+        .order-history-item { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 8px 0; 
+            border-bottom: 1px dashed #4a69bd; 
+            font-size: 14px;
+        }
+        .order-history-item .status-dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .status-dot.pending { background-color: #ffc107; }
+        .status-dot.delivered { background-color: #4CAF50; }
+        .status-dot.cancelled { background-color: #e53935; }
+        
+        .tracker-input-group { 
+             margin: 20px auto; 
+             max-width: 350px; 
+             padding: 15px;
+             background-color: #1a2542;
+             border-radius: 10px;
+        }
+        .tracker-input-group input { 
+             width: calc(100% - 70px); 
+             padding: 10px; 
+             border-radius: 6px 0 0 6px; 
+             border: 1px solid #7f00ff; 
+             background-color: #3e4a60;
+             color: #ffffff;
+        }
+        .tracker-input-group button { 
+             width: 70px; 
+             padding: 10px; 
+             border: none; 
+             background-color: #7f00ff; 
+             color: white; 
+             border-radius: 0 6px 6px 0; 
+             cursor: pointer;
+        }
+        
+        .track-result-box { 
+            margin-top: 20px; 
+            padding: 15px; 
+            border: 2px dashed #ffc107; 
+            border-radius: 10px; 
+            background-color: #333; 
+            color: #ffffff; 
+        }
 
         .page-header h2 { font-size: 22px; font-weight: 700; color: #16213e; }
         
@@ -666,6 +732,49 @@
             margin-right: 5px;
         }
         
+        /* ** NEW: টেস্টিমোনিয়াল সেকশন স্টাইল ** */
+        .testimonial-section {
+            padding: 30px 15px;
+            background-color: #16213e; 
+            margin-top: 30px;
+            border-top: 3px solid #7f00ff;
+            text-align: center;
+        }
+        .testimonial-section h2 {
+            font-size: 22px;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        .testimonial-carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding-bottom: 15px;
+        }
+        .testimonial-card {
+            min-width: 250px;
+            background-color: #2c3850;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #4CAF50;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #90caf9;
+        }
+        .testimonial-card .author {
+            font-weight: 700;
+            color: #ffffff;
+            display: block;
+            margin-top: 5px;
+        }
+        .testimonial-card .rating {
+            color: #ffc107;
+        }
+        
         /* == ৮. স্পিন পেজ স্টাইল == */
         #spin-page {
             text-align: center;
@@ -821,7 +930,6 @@
             transition: background-color 0.3s, transform 0.2s; 
         }
         .help-btn:hover { background-color: #45a049; transform: scale(1.05); }
-
     </style>
 </head>
 <body onload="copyOnLoad()">
@@ -833,168 +941,221 @@
         <div class="loading-text">Vico Shop লোড হচ্ছে...</div>
     </div>
 
-    <header class="main-header">
+    <header class="main-header" role="banner" aria-label="Main Navigation Header">
         
         <div id="logo-animation-container">
             <i class="fa-solid fa-bolt logo-icon-anim"></i>
         </div>
         
-        <div class="logo">
+        <a href="#" class="logo" onclick="showPage('home-page'); return false;" aria-label="Vico Shop Home">
             <img src="https://i.postimg.cc/zX8gZK0b/1759854932928.png" alt="Vico Shop Logo">
             Vico Shop
-        </div>
+        </a>
         
-        <button class="dot-menu-btn" onclick="toggleDropdown()">
+        <button class="dot-menu-btn" onclick="toggleDropdown()" aria-label="More Options Menu">
             <i class="fa-solid fa-ellipsis-v"></i>
         </button>
         
-        <div class="dropdown-menu" id="header-dropdown">
-            <a href="https://www.youtube.com/@VicoMart-t6e" target="_blank">
+        <div class="dropdown-menu" id="header-dropdown" role="menu">
+            <a href="https://www.youtube.com/@VicoMart-t6e" target="_blank" role="menuitem">
                 <i class="fa-brands fa-youtube"></i> ইউটিউব চ্যানেল
             </a>
-            <a href="https://www.facebook.com/profile.php?id=61581718790977" target="_blank">
+            <a href="https://www.facebook.com/profile.php?id=61581718790977" target="_blank" role="menuitem">
                 <i class="fa-brands fa-facebook-f"></i> ফেসবুক পেজ
+            </a>
+             <a href="#" onclick="showPage('track-page'); closeModal('header-dropdown'); return false;" role="menuitem">
+                <i class="fa-solid fa-location-dot"></i> অর্ডার ট্র্যাকিং
             </a>
         </div>
         
     </header>
 
-    <div class="discount-banner" id="global-discount-banner">
-        🚨 স্পেশাল অফার! সম্পূর্ণ সাইটের পেইড পণ্যে **২০%** ডিসকাউন্ট চলছে! 🚀
+    <div class="discount-banner" id="global-discount-banner" role="alert">
+        <i class="fa-solid fa-tag"></i> 🚨 স্পেশাল অফার! সম্পূর্ণ সাইটের পেইড পণ্যে **২০%** ডিসকাউন্ট চলছে! 🚀
     </div>
 
     <div id="home-page" style="display: none;">
-        <main class="content-area">
+        <main class="content-area" role="main">
             <h1 class="page-title">ফ্রী ফায়ার ডায়মন্ড টপ-আপ এবং প্রিমিয়াম সার্ভিসেস</h1>
             
-            <div class="product-grid">
-                
-                <div class="product-card spin-card" onclick="showPage('spin-page')">
+            <section class="product-grid" aria-label="Available Products and Services">
+                <article class="product-card spin-card" onclick="showPage('spin-page')">
                     <div class="card-icon" style="color: #ffffff;"><i class="fa-solid fa-gem"></i></div>
                     <div class="card-title">Free Lucky Spin</div>
                     <p class="card-subtitle">ভাগ্য পরীক্ষা করুন!</p>
-                </div>
+                </article>
                 
-                <div class="product-card free-like-card" onclick="startFreeLikeOrder()">
+                <article class="product-card free-like-card" onclick="startFreeLikeOrder()">
                     <div class="card-icon" style="color: #ffffff;"><i class="fa-solid fa-gift"></i></div>
                     <div class="card-title">Free Fire 100 Likes</div>
                     <p class="card-subtitle">সম্পূর্ণ ফ্রী</p>
-                </div>
+                </article>
                 
-                <div class="product-card topup-card" onclick="showRateList('diamond')">
+                <article class="product-card topup-card" onclick="showRateList('diamond')">
                     <div class="card-icon" style="color: #e53935;"><i class="fa-solid fa-fire-flame-curved"></i></div>
                     <div class="card-title">Free Fire Diamonds</div>
                     <p class="card-subtitle">UID টপ-আপ</p>
-                </div>
+                </article>
                 
-                <div class="product-card topup-card" onclick="showRateList('pubg')">
+                <article class="product-card topup-card" onclick="showRateList('pubg')">
                     <div class="card-icon" style="color: #00CED1;"><i class="fa-solid fa-gamepad"></i></div>
                     <div class="card-title">PUBG UC Top-up</div>
                     <p class="card-subtitle">UID টপ-আপ</p>
-                </div>
+                </article>
 
-                <div class="product-card topup-card" onclick="showRateList('likes')">
+                <article class="product-card topup-card" onclick="showRateList('likes')">
                     <div class="card-icon" style="color: #FF007F;"><i class="fa-solid fa-heart"></i></div>
                     <div class="card-title">Free Fire Profile Likes</div>
                     <p class="card-subtitle">দ্রুত লাইক নিন</p>
-                </div>
+                </article>
 
-                <div class="product-card account-card" onclick="buyAccount()">
+                <article class="product-card account-card" onclick="buyAccount()">
                     <div class="card-icon" style="color: #FFD700;"><i class="fa-solid fa-crown"></i></div>
                     <div class="card-title">Free Fire Account</div>
                     <p class="card-subtitle">আইডি কিনতে যোগাযোগ</p>
-                </div>
+                </article>
                 
-                <div class="product-card custom-price-card" onclick="startCustomAccountOrder()">
+                <article class="product-card custom-price-card" onclick="startCustomAccountOrder()">
                     <div class="card-icon" style="color: #4CAF50;"><i class="fa-solid fa-sack-dollar"></i></div>
                     <div class="card-title">Custom Account Price</div>
                     <p class="card-subtitle">কাস্টম আইডি মূল্য পরিশোধ</p>
-                </div>
-
-                <div class="product-card app-card" data-item="CapCut Pro" data-price="120"> <div class="card-icon" style="color: #00FFC2;"><i class="fa-solid fa-video"></i></div> <div class="card-title">CapCut Pro</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
-                <div class="product-card app-card" data-item="PicsArt Pro" data-price="120"> <div class="card-icon" style="color: #FF9800;"><i class="fa-solid fa-image"></i></div> <div class="card-title">PicsArt Pro</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
-                <div class="product-card app-card" data-item="Spotify Premium" data-price="120"> <div class="card-icon" style="color: #1ED760;"><i class="fa-brands fa-spotify"></i></div> <div class="card-title">Spotify Premium</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
-                <div class="product-card app-card" data-item="Nord VPN (Premium)" data-price="120"> <div class="card-icon" style="color: #4A90E2;"><i class="fa-solid fa-shield-alt"></i></div> <div class="card-title">Nord VPN</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
-                <div class="product-card app-card" data-item="Microsoft Office 365" data-price="120"> <div class="card-icon" style="color: #F44336;"><i class="fa-solid fa-file-word"></i></div> <div class="card-title">MS Office 365</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
-                <div class="product-card video-card" data-item="Netflix Premium" data-price="120"> <div class="card-icon" style="color: #ff1744;"><i class="fa-solid fa-clapperboard"></i></div> <div class="card-title">Netflix Premium</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
-                <div class="product-card utility-card" data-item="Canva Pro" data-price="120"> <div class="card-icon" style="color: #7f00ff;"><i class="fa-solid fa-palette"></i></div> <div class-title">Canva Pro</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
-                <div class="product-card app-card" data-item="YouTube Premium" data-price="120"> <div class="card-icon" style="color: #FF0000;"><i class="fa-brands fa-youtube"></i></div> <div class="card-title">YouTube Premium</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
-                <div class="product-card app-card" data-item="ChatGPT Plus (AI)" data-price="120"> <div class="card-icon" style="color: #4CAF50;"><i class="fa-solid fa-robot"></i></div> <div class="card-title">ChatGPT Plus</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
-                <div class="product-card app-card" data-item="Discord Nitro" data-price="120"> <div class="card-icon" style="color: #5865F2;"><i class="fa-brands fa-discord"></i></div> <div class="card-title">Discord Nitro</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> </div>
+                </article>
                 
-                <div class="product-card app-card" data-item="Adobe Creative Cloud" data-price="150"> <div class="card-icon" style="color: #FF0000;"><i class="fa-solid fa-paint-brush"></i></div> <div class="card-title">Adobe Creative Cloud</div> <p class="card-subtitle">Full Access (৳150)</p> </div>
-                <div class="product-card app-card" data-item="Duolingo Plus" data-price="150"> <div class="card-icon" style="color: #58CC02;"><i class="fa-solid fa-language"></i></div> <div class="card-title">Duolingo Plus</div> <p class="card-subtitle">লাইফটাইম (৳150)</p> </div>
-                <div class="product-card app-card" data-item="Proton VPN Premium" data-price="150"> <div class="card-icon" style="color: #8C4799;"><i class="fa-solid fa-lock"></i></div> <div class="card-title">Proton VPN</div> <p class="card-subtitle">লাইফটাইম (৳150)</p> </div>
-                <div class="product-card app-card" data-item="Tinder Gold" data-price="150"> <div class="card-icon" style="color: #FF6B6B;"><i class="fa-solid fa-fire"></i></div> <div class="card-title">Tinder Gold</div> <p class="card-subtitle">লাইফটাইম (৳150)</p> </div>
+                <article class="product-card app-card" data-item="CapCut Pro" data-price="120"> <div class="card-icon" style="color: #00FFC2;"><i class="fa-solid fa-video"></i></div> <div class="card-title">CapCut Pro</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> <span class="tag">ডিজাইন</span> </article>
+                <article class="product-card app-card" data-item="PicsArt Pro" data-price="120"> <div class="card-icon" style="color: #FF9800;"><i class="fa-solid fa-image"></i></div> <div class="card-title">PicsArt Pro</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> <span class="tag">এডিটিং</span> </article>
+                <article class="product-card app-card" data-item="Spotify Premium" data-price="120"> <div class="card-icon" style="color: #1ED760;"><i class="fa-brands fa-spotify"></i></div> <div class="card-title">Spotify Premium</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> <span class="tag">মিউজিক</span> </article>
+                <article class="product-card app-card" data-item="Nord VPN (Premium)" data-price="120"> <div class="card-icon" style="color: #4A90E2;"><i class="fa-solid fa-shield-alt"></i></div> <div class="card-title">Nord VPN</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> <span class="tag">সিকিউরিটি</span> </article>
+                <article class="product-card app-card" data-item="Microsoft Office 365" data-price="120"> <div class="card-icon" style="color: #F44336;"><i class="fa-solid fa-file-word"></i></div> <div class="card-title">MS Office 365</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> <span class="tag">ইউটিলিটি</span> </article>
+                <article class="product-card video-card" data-item="Netflix Premium" data-price="120"> <div class="card-icon" style="color: #ff1744;"><i class="fa-solid fa-clapperboard"></i></div> <div class="card-title">Netflix Premium</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> <span class="tag">এন্টারটেইনমেন্ট</span> </article>
+                <article class="product-card utility-card" data-item="Canva Pro" data-price="120"> <div class="card-icon" style="color: #7f00ff;"><i class="fa-solid fa-palette"></i></div> <div class-title">Canva Pro</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> <span class="tag">ডিজাইন</span> </article>
+                <article class="product-card app-card" data-item="YouTube Premium" data-price="120"> <div class="card-icon" style="color: #FF0000;"><i class="fa-brands fa-youtube"></i></div> <div class="card-title">YouTube Premium</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> <span class="tag">ভিডিও</span> </article>
+                <article class="product-card app-card" data-item="ChatGPT Plus (AI)" data-price="120"> <div class="card-icon" style="color: #4CAF50;"><i class="fa-solid fa-robot"></i></div> <div class="card-title">ChatGPT Plus</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> <span class="tag">এআই</span> </article>
+                <article class="product-card app-card" data-item="Discord Nitro" data-price="120"> <div class="card-icon" style="color: #5865F2;"><i class="fa-brands fa-discord"></i></div> <div class="card-title">Discord Nitro</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> <span class="tag">গেমিং</span> </article>
+                
+                <article class="product-card app-card" data-item="Adobe Creative Cloud" data-price="150"> <div class="card-icon" style="color: #FF0000;"><i class="fa-solid fa-paint-brush"></i></div> <div class="card-title">Adobe Creative Cloud</div> <p class="card-subtitle">Full Access (৳150)</p> <span class="tag">ক্রিয়েটিভ</span> </article>
+                <article class="product-card app-card" data-item="Duolingo Plus" data-price="150"> <div class="card-icon" style="color: #58CC02;"><i class="fa-solid fa-language"></i></div> <div class="card-title">Duolingo Plus</div> <p class="card-subtitle">লাইফটাইম (৳150)</p> <span class="tag">শিক্ষা</span> </article>
+                <article class="product-card app-card" data-item="Proton VPN Premium" data-price="150"> <div class="card-icon" style="color: #8C4799;"><i class="fa-solid fa-lock"></i></div> <div class="card-title">Proton VPN</div> <p class="card-subtitle">লাইফটাইম (৳150)</p> <span class="tag">সিকিউরিটি</span> </article>
+                <article class="product-card app-card" data-item="Tinder Gold" data-price="150"> <div class="card-icon" style="color: #FF6B6B;"><i class="fa-solid fa-fire"></i></div> <div class="card-title">Tinder Gold</div> <p class="card-subtitle">লাইফটাইম (৳150)</p> <span class="tag">ডেটিং</span> </article>
+                <article class="product-card app-card" data-item="Grammarly Premium" data-price="120"> <div class="card-icon" style="color: #ffc107;"><i class="fa-solid fa-feather-alt"></i></div> <div class="card-title">Grammarly Premium</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> <span class="tag">রাইটিং</span> </article>
+                <article class="product-card app-card" data-item="Skillshare Premium" data-price="150"> <div class="card-icon" style="color: #4A90E2;"><i class="fa-solid fa-graduation-cap"></i></div> <div class="card-title">Skillshare Premium</div> <p class="card-subtitle">লাইফটাইম (৳150)</p> <span class="tag">কোর্স</span> </article>
+                <article class="product-card app-card" data-item="TradingView Premium" data-price="200"> <div class="card-icon" style="color: #00FFC2;"><i class="fa-solid fa-chart-line"></i></div> <div class="card-title">TradingView Premium</div> <p class="card-subtitle">লাইফটাইম (৳200)</p> <span class="tag">ট্রেডিং</span> </article>
+                <article class="product-card app-card" data-item="Apple Music Premium" data-price="120"> <div class="card-icon" style="color: #e53935;"><i class="fa-solid fa-music"></i></div> <div class="card-title">Apple Music Premium</div> <p class="card-subtitle">লাইফটাইম (৳120)</p> <span class="tag">মিউজিক</span> </article>
+                <article class="product-card coming-soon-card" style="opacity: 0.6;" data-item="Coming Soon" data-price="0"> <div class="card-icon" style="color: #90caf9;"><i class="fa-solid fa-hourglass-half"></i></div> <div class="card-title">নতুন সেবা</div> <p class="card-subtitle">শীঘ্রই আসছে</p> <span class="tag">আপডেট</span> </article>
+                <article class="product-card coming-soon-card" style="opacity: 0.6;" data-item="Coming Soon" data-price="0"> <div class="card-icon" style="color: #90caf9;"><i class="fa-solid fa-hourglass-half"></i></div> <div class="card-title">ভাউচার কোড</div> <p class="card-subtitle">শীঘ্রই আসছে</p> <span class="tag">আপডেট</span> </article>
 
-            </div>
+            </section>
             
-            <div class="rate-list-container" id="rate-list-container" style="display: none;">
+            <section class="rate-list-container" id="rate-list-container" style="display: none;" aria-label="Rate List Selection">
                 <h3 id="rate-list-title">প্যাক নির্বাচন করুন</h3>
-            </div>
+                <div class="rate-list-placeholder">
+                    <p style="text-align: center; color: #90caf9;">উপলব্ধ রেট লিস্ট লোড হচ্ছে...</p>
+                    <div style="height: 10px;"></div>
+                </div>
+            </section>
+            
+            <section class="testimonial-section" aria-label="Customer Testimonials">
+                 <h2>গ্রাহকের আস্থা ও মতামত</h2>
+                 <div class="testimonial-carousel">
+                     <div class="testimonial-card">
+                         <div class="rating">★★★★★</div>
+                         <p>"ডেলিভারি খুবই ফাস্ট ছিল! স্পিন বোনাস পেয়ে দারুণ খুশি। Vico Shop-কে ধন্যবাদ।"</p>
+                         <span class="author">- ইব্রাহিম এইচ.</span>
+                     </div>
+                     <div class="testimonial-card">
+                         <div class="rating">★★★★★</div>
+                         <p>"অন্যান্য সাইটের চেয়ে কম দামে ডায়মন্ড পেলাম। পেমেন্ট সিস্টেমও অনেক সহজ।"</p>
+                         <span class="author">- ফারহানা আর.</span>
+                     </div>
+                     <div class="testimonial-card">
+                         <div class="rating">★★★★★</div>
+                         <p>"কাস্টম অ্যাকাউন্টের দাম পরিশোধ করতে কোনো সমস্যা হয়নি। কাস্টমার সাপোর্ট সেরা।"</p>
+                         <span class="author">- মিনারুল আই.</span>
+                     </div>
+                     <div class="testimonial-card">
+                         <div class="rating">★★★★★</div>
+                         <p>"CapCut Pro লাইফটাইম এত কম দামে পাবো ভাবিনি। খুবই ভালো সার্ভিস।"</p>
+                         <span class="author">- রানা কে.</span>
+                     </div>
+                 </div>
+                 <p style="font-size: 14px; margin-top: 15px; color: #ffc107;">আমাদের ফেসবুক পেজে আরও রিভিউ দেখুন!</p>
+            </section>
             
         </main>
     </div>
 
     <div id="payment-page" style="display: none;">
-        <div class="cashier-container">
+        <div class="cashier-container" role="form" aria-label="Payment and Checkout Form">
             
             <div class="page-header">
-                <i class="fa-solid fa-arrow-left" style="color:#555; cursor: pointer;" onclick="showPage('home-page')"></i>
+                <i class="fa-solid fa-arrow-left" style="color:#555; cursor: pointer;" onclick="showPage('home-page')" aria-label="Go Back"></i>
                 <h2 style="margin-top: 10px;">ডিপোজিট নিশ্চিতকরণ</h2>
                 <span id="current-item-display" style="font-weight: bold; color: #7f00ff; display: block; margin-top: 5px;"></span>
             </div>
             
-            <div class="customer-info" style="margin-top: 20px; padding-bottom: 5px; border-bottom: 1px solid #ddd;">
+            <section class="customer-info" style="margin-top: 20px; padding-bottom: 5px; border-bottom: 1px solid #ddd;">
+                
                  <div class="input-group">
                     <label for="customer-name"><i class="fa-solid fa-user-tag"></i> আপনার পুরো নাম (আবশ্যিক):</label>
-                    <input type="text" id="customer-name" placeholder="অর্ডারের জন্য আপনার নাম লিখুন">
+                    <input type="text" id="customer-name" placeholder="অর্ডারের জন্য আপনার নাম লিখুন" required>
+                    <small style="color: #777; font-size: 11px;">(যেমন: মোঃ আকাশ)</small>
                 </div>
                 
                  <div class="input-group">
                     <label for="customer-whatsapp"><i class="fa-brands fa-whatsapp"></i> হোয়াটসঅ্যাপ নম্বর (আবশ্যিক):</label>
-                    <input type="tel" id="customer-whatsapp" placeholder="অর্ডারের জন্য আপনার WhatsApp নম্বর দিন">
+                    <input type="tel" id="customer-whatsapp" placeholder="অর্ডারের জন্য আপনার WhatsApp নম্বর দিন" required>
+                     <small style="color: #777; font-size: 11px;">(এই নম্বরে যোগাযোগ করা হবে)</small>
                  </div>
                  
                  <div class="input-group">
                     <label for="customer-address"><i class="fa-solid fa-map-marker-alt"></i> ঠিকানা (ঐচ্ছিক):</label>
                     <input type="text" id="customer-address" placeholder="আপনার ঠিকানা লিখুন (যেমন: ঢাকা, বাংলাদেশ)">
+                    <small style="color: #777; font-size: 11px;">(সম্পূর্ণ ঠিকানা জরুরি নয়)</small>
                 </div>
-            </div>
+                 
+                 <div class="input-group">
+                    <label for="customer-email"><i class="fa-solid fa-envelope"></i> ডেলিভারি ইমেইল (ঐচ্ছিক):</label>
+                    <input type="email" id="customer-email" placeholder="পণ্য ডেলিভারির জন্য ইমেইল দিন (যদি দরকার হয়)">
+                    <small style="color: #777; font-size: 11px;">(অ্যাপস/অ্যাকাউন্ট সার্ভিসের জন্য)</small>
+                </div>
+            </section>
             
             <div class="input-group" id="order-code-input-group" style="margin-top: 20px;">
                 <label for="order-code-input"><i class="fa-solid fa-ticket-alt"></i> ডিসকাউন্ট/কুপন কোড (ঐচ্ছিক):</label>
                 <input type="text" id="order-code-input" placeholder="যদি কোনো ডিসকাউন্ট/কুপন কোড থাকে, এখানে বসান (যেমন: vico20%)">
+                <small style="color: #777; font-size: 11px;">(কুপন কোড প্রয়োগ করতে ইনপুট দিন)</small>
             </div>
 
             <div class="input-group" id="uid-input-group" style="display: none; margin-top: 20px;">
                 <label for="game-uid"><i class="fa-solid fa-id-card"></i> ইউজার আইডি (UID) দিন:</label>
-                <input type="text" id="game-uid" placeholder="এখানে আপনার Free Fire/PUBG UID বসান">
+                <input type="text" id="game-uid" placeholder="এখানে আপনার Free Fire/PUBG UID বসান" required>
+                 <small style="color: #777; font-size: 11px;">(ডায়মন্ড/UC/লাইক-এর জন্য আবশ্যিক)</small>
             </div>
 
             <div class="input-group" id="custom-price-input-group" style="display: none; margin-top: 20px;">
                 <label for="custom-price"><i class="fa-solid fa-money-bill-wave"></i> কাস্টম দাম (BDT):</label>
-                <input type="number" id="custom-price" placeholder="ফেসবুক থেকে জেনে আসা দাম বসান (যেমন: ৫০০০)">
+                <input type="number" id="custom-price" placeholder="ফেসবুক থেকে জেনে আসা দাম বসান (যেমন: ৫০০০)" required>
+                <small style="color: #777; font-size: 11px;">(শুধু কাস্টম অ্যাকাউন্ট অর্ডারের জন্য)</small>
             </div>
             
-            <div id="payment-section">
+            <section id="payment-section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px; margin-bottom: 20px;">
                     <span style="font-size:16px; font-weight:700; color:#16213e;">পেমেন্ট মেথড নির্বাচন করুন:</span>
-                    <div class="countdown">
+                    <div class="countdown" role="timer">
                         <span id="timer">00:00</span>
                     </div>
                 </div>
                 
-                <div class="method-selector">
-                    <button class="method-btn selected" id="bkash-btn" data-method="bikash">
+                <div class="method-selector" role="radiogroup" aria-label="Payment Method Selector">
+                    <button class="method-btn selected" id="bkash-btn" data-method="bikash" role="radio" aria-checked="true">
                         <i class="fa-solid fa-mobile-alt"></i> বিকাশ
                     </button>
-                    <button class="method-btn" id="nagad-btn" data-method="nagad">
+                    <button class="method-btn" id="nagad-btn" data-method="nagad" role="radio" aria-checked="false">
                         <i class="fa-solid fa-mobile-alt"></i> নগদ
                     </button>
-                    <button class="method-btn" id="rocket-btn" data-method="rocket">
+                    <button class="method-btn" id="rocket-btn" data-method="rocket" role="radio" aria-checked="false">
                         <i class="fa-solid fa-mobile-alt"></i> রকেট
                     </button>
+                    <small style="width: 100%; display: block; text-align: center; margin-top: 5px; color: #777;">(একটি মেথড নির্বাচন করুন)</small>
                 </div>
                 
                 <p class="instruction-text" style="color: #666; margin-bottom: 20px; font-size: 13px;">
@@ -1028,30 +1189,32 @@
                         <span class="label"><i class="fa-solid fa-mobile-alt" style="color:#7f00ff;"></i> সেন্ড মানি নম্বর:</span>
                         <span class="value">
                             <span id="cashout-number">01339221633</span> 
-                            <button class="copy-btn" onclick="copyToClipboard('cashout-number')"><i class="fa-solid fa-copy"></i></button>
+                            <button class="copy-btn" onclick="copyToClipboard('cashout-number')" aria-label="Copy Cashout Number"><i class="fa-solid fa-copy"></i></button>
                         </span>
                     </div>
                     
                     <div class="input-group">
-                        <label for="transaction-id"><i class="fa-solid fa-key"></i> ট্রানজেকশন আইডি:</label>
-                        <input type="text" id="transaction-id" placeholder="ট্রানজেকশন আইডি বসান (যেমন: 8A7B6C5D4E)">
+                        <label for="transaction-id"><i class="fa-solid fa-key"></i> ট্রানজেকশন আইডি (TxnID):</label>
+                        <input type="text" id="transaction-id" placeholder="ট্রানজেকশন আইডি বসান (যেমন: 8A7B6C5D4E)" required>
+                         <small style="color: #777; font-size: 11px;">(পেমেন্টের প্রমাণের জন্য আবশ্যিক)</small>
                     </div>
 
                     <div class="input-group">
                         <label for="screenshot-link"><i class="fa-solid fa-camera"></i> স্ক্রিনশট লিংক (ঐচ্ছিক):</label>
-                        <input type="url" id="screenshot-link" placeholder="স্ক্রিনশটের আপলোড লিংক">
+                        <input type="url" id="screenshot-link" placeholder="স্ক্রিনশটের আপলোড লিংক (যেমন: Imgur)">
+                         <small style="color: #777; font-size: 11px;">(যদি ট্রানজেকশন আইডিতে সমস্যা হয়)</small>
                     </div>
                 </div>
-            </div>
+            </section>
             
             <div id="free-order-message" style="display: none; margin-top: 25px; padding: 15px; background-color: #e8f5e9; border: 2px solid #4CAF50; border-radius: 8px; text-align: center;">
                 <i class="fa-solid fa-circle-check" style="color: #4CAF50; font-size: 24px;"></i>
                 <p style="color: #16213e; font-weight: 600; margin-top: 10px;">আপনার অর্ডারটি **সম্পূর্ণ ফ্রী**। সাবমিট করার পর ইমেইলটি আমাদের কাছে পাঠিয়ে দিন।</p>
             </div>
 
-            <button class="submit-btn-payment" onclick="openConfirmationModal()">অর্ডার সাবমিট করুন</button>
+            <button class="submit-btn-payment" onclick="openConfirmationModal()" aria-label="Submit Order">অর্ডার সাবমিট করুন</button>
             
-            <div class="alert-box">
+            <div class="alert-box" role="note">
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 <p>অবশ্যই নিশ্চিত করবেন, পেমেন্টটি যেন **সেন্ড মানি** হয়। <span class="important-text">কোনো এজেন্ট পয়েন্টে ক্যাশ আউট করবেন না।</span></p>
             </div>
@@ -1059,13 +1222,15 @@
         </div>
     </div>
     
-    <div id="confirmation-modal" class="modal">
+    <div id="confirmation-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-content">
-            <h3>চূড়ান্ত অর্ডার নিশ্চিতকরণ</h3>
+            <h3 id="modal-title">চূড়ান্ত অর্ডার নিশ্চিতকরণ</h3>
             
             <p>পণ্য: <span id="modal-item-name"></span></p>
             <p>নাম: <span id="modal-customer-name"></span></p>
             <p>হোয়াটসঅ্যাপ: <span id="modal-customer-whatsapp"></span></p>
+            <p id="modal-email-row" style="display:none;">ইমেইল: <span id="modal-customer-email"></span></p>
+            
             <p id="modal-uid-row" style="display:none;">UID/ID: <span id="modal-game-uid"></span></p>
             <p id="modal-txn-row" style="display:none;">ট্রানজেকশন আইডি: <span id="modal-transaction-id"></span></p>
             
@@ -1085,7 +1250,7 @@
     </div>
     
     <div id="success-page" style="display: none;">
-        <div class="success-container">
+        <div class="success-container" role="status">
             <span class="success-icon"><i class="fa-solid fa-circle-check"></i></span>
             <h2>অভিনন্দন! অর্ডার সফল!</h2>
             
@@ -1094,7 +1259,7 @@
             <p>আপনার অর্ডার ট্র্যাকিং নাম্বার:</p>
             <span class="order-code-display" id="display-order-code">ORD-XXXXXX</span>
             
-            <div id="spin-bonus-info">
+            <div id="spin-bonus-info" role="note">
                  </div>
 
             <p>প্রিয় গ্রাহক, আপনার অর্ডার রিকোয়েস্ট **সফলভাবে সাবমিট** করা হয়েছে। দ্রুত ডেলিভারির জন্য অনুগ্রহ করে পরবর্তী ধাপ অনুসরণ করুন:</p>
@@ -1103,6 +1268,7 @@
                 <p><i class="fa-solid fa-paper-plane"></i> পরবর্তী ডেলিভারি ধাপ:</p>
                 <p><i class="fa-solid fa-1"></i> আপনার মোবাইলের **ইমেইল অ্যাপ** (Gmail/Outlook) ওপেন করুন।</p>
                 <p><i class="fa-solid fa-2"></i> আমাদের ঠিকানায় (<a href="mailto:Vicomart6@gmail.com">Vicomart6@gmail.com</a>) তৈরি হওয়া বার্তাটি **"Send"** করুন।</p>
+                <p><i class="fa-solid fa-3"></i> ডেলিভারি দ্রুত করতে হোয়াটসঅ্যাপে <span class="important-text">অর্ডার নাম্বার সহ একটি বার্তা</span> পাঠান।</p>
             </div>
             
             <p style="margin-top: 20px; font-weight: bold; color: #e53935;"><i class="fa-solid fa-stopwatch"></i> আপনার অর্ডারটি দ্রুততম সময়ের মধ্যে প্রসেস করা হবে (ফ্রী অর্ডার: ৩০ মিনিট; পেইড অর্ডার: ৫-৩০ মিনিট)।</p>
@@ -1111,11 +1277,14 @@
     </div>
     
     <div id="spin-page" style="display: none;">
-        <main class="content-area">
+        <main class="content-area" role="region" aria-label="Lucky Spin Game">
             <div class="page-header">
                 <i class="fa-solid fa-arrow-left" style="color:#ffffff; cursor: pointer;" onclick="showPage('home-page')"></i>
                 <h1 class="page-title" style="margin-top: 10px;">ফ্রী লাকি স্পিন</h1>
                 <p class="spin-message" id="spin-message-display">আপনার বর্তমানে ০টি স্পিন বাকি আছে। প্রতিদিন একবার ফ্রী স্পিন ও প্যাক কিনে অতিরিক্ত স্পিন পেতে পারেন।</p>
+                <div style="font-size: 13px; color: #ffc107; margin-top: 10px;">
+                    <i class="fa-solid fa-circle-info"></i> প্রতি স্পিনের মাধ্যমে নিশ্চিত পুরস্কার জেতার সুযোগ!
+                </div>
             </div>
 
             <div class="spin-wheel-container">
@@ -1139,6 +1308,16 @@
             <div class="spin-message" id="spin-delivery-message" style="display:none; color: #4CAF50; font-weight: 700;">
                 আপনার পুরস্কার রিকোয়েস্ট সফলভাবে সাবমিট হয়েছে। দ্রুত ডেলিভারির জন্য অনুগ্রহ করে আমাদের হোয়াটসঅ্যাপে যোগাযোগ করুন।
             </div>
+            
+            <div class="spin-prize-details" style="margin-top: 40px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; padding: 15px; background-color: #2c3850; border-radius: 10px;">
+                <h4 style="color: #ffc107; border-bottom: 1px dashed #4a69bd; padding-bottom: 5px; margin-bottom: 10px;"><i class="fa-solid fa-list-check"></i> পুরস্কারের তালিকা:</h4>
+                <ul style="list-style-type: none; padding: 0; font-size: 14px;">
+                    <li style="margin-bottom: 5px;"><i class="fa-solid fa-check" style="color: #4CAF50;"></i> ডায়মন্ড/ইউসি টপ-আপ</li>
+                    <li style="margin-bottom: 5px;"><i class="fa-solid fa-check" style="color: #4CAF50;"></i> ফ্রী লাইক প্যাক</li>
+                    <li style="margin-bottom: 5px;"><i class="fa-solid fa-check" style="color: #4CAF50;"></i> প্রিমিয়াম অ্যাপস (CapCut Pro, Netflix)</li>
+                    <li style="margin-bottom: 5px;"><i class="fa-solid fa-check" style="color: #4CAF50;"></i> কুপন কোড ও আরও অনেক কিছু!</li>
+                </ul>
+            </div>
         </main>
     </div>
     
@@ -1150,23 +1329,26 @@
                 <p style="font-size: 14px; color: #777;">অর্ডার করার পূর্বে বিস্তারিত তথ্য জেনে নিন।</p>
             </div>
 
-            <h3 style="color: #16213e; margin-top: 25px; border-left: 4px solid #7f00ff; padding-left: 10px; margin-bottom: 15px;">১. অর্ডার প্রক্রিয়া</h3>
+            <h3 style="color: #16213e; margin-top: 25px; border-left: 4px solid #7f00ff; padding-left: 10px; margin-bottom: 15px;"><i class="fa-solid fa-cogs"></i> ১. অর্ডার প্রক্রিয়া</h3>
             <ol style="font-size: 15px; padding-left: 20px;">
                 <li style="margin-bottom: 10px;">হোমপেজ থেকে আইটেম বা ডায়মন্ড প্যাক নির্বাচন করুন। **(ফ্রী লাইক অর্ডারের জন্য পেমেন্ট ধাপ বাদ যাবে)**।</li>
                 <li style="margin-bottom: 10px;">নাম, **হোয়াটসঅ্যাপ নম্বর** এবং UID (টপ-আপের জন্য) পূরণ করুন।</li>
                 <li style="margin-bottom: 10px;">বিকাশ/নগদ/রকেট নির্বাচন করে `01339221633` নম্বরে **সেন্ড মানি** করুন (পেইড অর্ডারের জন্য)।</li>
                 <li style="margin-bottom: 10px;">প্রাপ্ত **ট্রানজেকশন আইডি (TxnID)** ইনপুট ফিল্ডে বসান।</li>
                 <li style="margin-bottom: 10px;">"অর্ডার সাবমিট করুন" বাটনে ক্লিক করে ইমেইলটি আমাদের ঠিকানায় **পাঠিয়ে দিন**।</li>
+                 <li style="margin-bottom: 10px; font-weight: 700; color: #e53935;"><i class="fa-solid fa-exclamation-triangle"></i> কুপন কোড ব্যবহার করলে অবশ্যই মূল্য পরিশোধের আগে তা বসিয়ে দিবেন।</li>
             </ol>
 
-            <h3 style="color: #16213e; margin-top: 30px; border-left: 4px solid #e53935; padding-left: 10px; margin-bottom: 15px;">২. গুরুত্বপূর্ণ নির্দেশিকা</h3>
+            <h3 style="color: #16213e; margin-top: 30px; border-left: 4px solid #e53935; padding-left: 10px; margin-bottom: 15px;"><i class="fa-solid fa-exclamation-circle"></i> ২. গুরুত্বপূর্ণ নির্দেশিকা</h3>
             <ul style="font-size: 15px; padding-left: 20px; list-style-type: '👉 ';">
                 <li style="margin-bottom: 10px;">**পেমেন্ট নম্বর:** আমাদের একমাত্র সেন্ড মানি নম্বর হলো **01339221633** (বিকাশ, নগদ, রকেট)।</li>
                 <li style="margin-bottom: 10px;">**সতর্কতা:** অবশ্যই **সেন্ড মানি** করুন। কোনো এজেন্ট পয়েন্টে **ক্যাশ আউট করবেন না**।</li>
                 <li style="margin-bottom: 10px;">**ডেলিভারি সময়:** সাধারণত ৫ থেকে ৩০ মিনিটের মধ্যে ডেলিভারি সম্পন্ন হয়।</li>
+                 <li style="margin-bottom: 10px;">**নিরাপত্তা:** আপনার গেমিং অ্যাকাউন্টের পাসওয়ার্ড আমরা কখনোই চাইব না।</li>
+                <li style="margin-bottom: 10px;">**রিফান্ড পলিসি:** ভুল UID-তে টপ-আপ হলে Vico Shop দায়ী থাকবে না। রিফান্ড সংক্রান্ত বিস্তারিত তথ্যের জন্য যোগাযোগ করুন।</li>
             </ul>
             
-            <h3 style="color: #16213e; margin-top: 30px; border-left: 4px solid #4CAF50; padding-left: 10px; margin-bottom: 15px;">৩. সাহায্য ও যোগাযোগ</h3>
+            <h3 style="color: #16213e; margin-top: 30px; border-left: 4px solid #4CAF50; padding-left: 10px; margin-bottom: 15px;"><i class="fa-solid fa-headset"></i> ৩. সাহায্য ও যোগাযোগ</h3>
             <p style="font-size: 15px;">যদি কোনো সমস্যা হয় বা আপনার অর্ডার ৩০ মিনিটের মধ্যে না আসে, তবে আপনার ট্রানজেকশন আইডি সহ সরাসরি আমাদের হোয়াটসঅ্যাপ নম্বরে যোগাযোগ করুন।</p>
             <div style="text-align: center; margin-top: 20px;">
                 <a href="https://wa.me/8801339221633" target="_blank" class="help-btn" style="background-color: #25D366; color: white;">
@@ -1176,15 +1358,97 @@
 
         </div>
     </div>
-    <footer class="bottom-nav">
-        <a href="#" class="nav-item active" onclick="showPage('home-page')">
+    
+    <div id="profile-page" style="display: none;">
+        <div class="cashier-container" style="max-width: 600px; color: #333; background-color: #f0f6fc;">
+            <div class="page-header" style="border-bottom: 2px solid #7f00ff; padding-bottom: 10px; margin-bottom: 20px;">
+                <i class="fa-solid fa-arrow-left" style="color:#555; cursor: pointer;" onclick="showPage('home-page')"></i>
+                <h2 style="margin-top: 10px; color: #7f00ff;"><i class="fa-solid fa-user-circle"></i> আমার প্রোফাইল/ড্যাশবোর্ড</h2>
+                <p style="font-size: 14px; color: #777;">অর্ডার ও অ্যাকাউন্টের তথ্য দেখুন।</p>
+            </div>
+            
+            <div class="dashboard-card" style="border-left-color: #ffc107;">
+                <h4><i class="fa-solid fa-wallet"></i> ওয়ালেট ব্যালেন্স</h4>
+                <div class="wallet-balance">৳ 0.00</div>
+                <p style="font-size: 12px; color: #90caf9; margin-top: 5px;">(এই ফিচারটি বর্তমানে ডেভেলপমেন্ট পর্যায়ে আছে)</p>
+            </div>
+            
+            <div class="dashboard-card">
+                 <h4><i class="fa-solid fa-history"></i> অর্ডারের ইতিহাস (ডামি)</h4>
+                 <div class="order-history-item">
+                     <span>ORD-102501 (FF Diamond)</span>
+                     <span style="color: #4CAF50;"><i class="status-dot delivered"></i> সফল</span>
+                 </div>
+                 <div class="order-history-item">
+                     <span>ORD-102502 (Netflix)</span>
+                     <span style="color: #ffc107;"><i class="status-dot pending"></i> অপেক্ষমাণ</span>
+                 </div>
+                 <div class="order-history-item">
+                     <span>ORD-102503 (FF Likes)</span>
+                     <span style="color: #e53935;"><i class="status-dot cancelled"></i> বাতিল</span>
+                 </div>
+                 <p style="font-size: 12px; color: #90caf9; margin-top: 10px;">(সম্পূর্ণ ইতিহাস দেখতে অ্যাডমিনের সাথে যোগাযোগ করুন)</p>
+            </div>
+            
+            <div class="dashboard-card" style="border-left-color: #4CAF50;">
+                <h4><i class="fa-solid fa-info-circle"></i> ইউজার তথ্য</h4>
+                <p style="font-size: 14px; margin-bottom: 5px;"><span style="font-weight: 700; color: #ffc107;">নাম:</span> Guest User</p>
+                <p style="font-size: 14px; margin-bottom: 5px;"><span style="font-weight: 700; color: #ffc107;">স্পিন বাকি:</span> <span id="dashboard-spin-count">0</span>টি</p>
+                <button class="help-btn" style="margin-top: 10px; background-color: #e53935;" onclick="showPage('spin-page')"><i class="fa-solid fa-gem"></i> স্পিন করুন</button>
+            </div>
+            
+             <div style="text-align: center; margin-top: 30px;">
+                <button class="submit-btn-payment" style="background-color: #303f9f;" onclick="showPage('track-page')"><i class="fa-solid fa-location-dot"></i> অর্ডার ট্র্যাকিং</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="track-page" style="display: none;">
+        <div class="cashier-container" style="max-width: 600px; color: #333; background-color: #ffffff;">
+            <div class="page-header" style="border-bottom: 2px solid #e53935; padding-bottom: 10px; margin-bottom: 20px;">
+                <i class="fa-solid fa-arrow-left" style="color:#555; cursor: pointer;" onclick="showPage('profile-page')"></i>
+                <h2 style="margin-top: 10px; color: #e53935;"><i class="fa-solid fa-map-marked-alt"></i> অর্ডার ট্র্যাকিং</h2>
+                <p style="font-size: 14px; color: #777;">আপনার অর্ডার নাম্বার দিয়ে স্ট্যাটাস দেখুন।</p>
+            </div>
+            
+            <div class="tracker-input-group" style="background-color: #f0f6fc;">
+                <label for="order-track-input" style="color: #16213e; font-weight: 700;">অর্ডার নাম্বার:</label>
+                <div style="display: flex; margin-top: 5px;">
+                     <input type="text" id="order-track-input" placeholder="ORD-XXXXXX লিখুন">
+                     <button onclick="trackOrder()" aria-label="Track Order"><i class="fa-solid fa-search"></i></button>
+                </div>
+            </div>
+            
+            <div id="track-result-box" class="track-result-box" style="display: none;">
+                 <h4 style="color: #4CAF50; margin-bottom: 10px;"><i class="fa-solid fa-clipboard-check"></i> অর্ডারের স্ট্যাটাস:</h4>
+                 <div id="track-details">
+                     <p>নাম্বার: <span id="track-order-number">ORD-XXXXXX</span></p>
+                     <p>পণ্য: <span id="track-item-name"></span></p>
+                     <p>স্ট্যাটাস: <span id="track-status" style="font-weight: 800; color: #ffc107;">অপেক্ষমাণ</span></p>
+                     <p>সময়: <span id="track-time">২০ মিনিট</span></p>
+                     <p style="margin-top: 10px; font-style: italic; color: #90caf9; font-size: 13px;"><i class="fa-solid fa-info-circle"></i> স্ট্যাটাস আপডেট না হলে হোয়াটসঅ্যাপে যোগাযোগ করুন।</p>
+                 </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 30px; font-size: 15px; color: #e53935; font-weight: 600;">
+                <i class="fa-solid fa-triangle-exclamation"></i> শুধুমাত্র সর্বশেষ ৫টি অর্ডারের তথ্য এখানে পাওয়া যেতে পারে।
+            </p>
+            
+        </div>
+    </div>
+    
+    <footer class="bottom-nav" role="navigation" aria-label="Bottom Navigation">
+        <a href="#" class="nav-item active" onclick="showPage('home-page'); return false;">
             <i class="fa-solid fa-house"></i> হোম
         </a>
-        <a href="#" class="nav-item" onclick="showPage('guide-page')">
-            <i class="fa-solid fa-book"></i> গাইড
+         <a href="#" class="nav-item" onclick="showPage('profile-page'); return false;">
+            <i class="fa-solid fa-user"></i> প্রোফাইল
         </a>
-        <a href="#" class="nav-item" onclick="showPage('spin-page')">
+        <a href="#" class="nav-item" onclick="showPage('spin-page'); return false;">
             <i class="fa-solid fa-gem"></i> স্পিন <span id="spin-count-badge" style="background-color: #e53935; border-radius: 50%; padding: 1px 6px; margin-left: 2px; display: none; font-size: 10px; color: white;">0</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showPage('guide-page'); return false;">
+            <i class="fa-solid fa-book"></i> গাইড
         </a>
         <a href="https://wa.me/8801339221633" target="_blank" class="nav-item">
             <i class="fa-solid fa-phone"></i> যোগাযোগ
@@ -1229,7 +1493,7 @@
         const DAILY_SPIN_TIMESTAMP_KEY = 'vicoShopDailySpinTimestamp';
         const SPIN_COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24 ঘণ্টা
         
-        // ** UPDATED: স্পিন লজিক কনফিগারেশন **
+        // ** UPDATED: স্পিন বোনাস লজিক কনফিগারেশন **
         const SPIN_BONUS_TIER_1_MIN_PRICE = 50; 
         const SPIN_BONUS_TIER_1_MAX_PRICE = 599; 
         const SPIN_BONUS_TIER_1_COUNT = 1;
@@ -1301,6 +1565,7 @@
              // গ্রাহকের তথ্য
             const customerName = document.getElementById('customer-name').value.trim();
             const customerWhatsapp = document.getElementById('customer-whatsapp').value.trim(); 
+            const customerEmail = document.getElementById('customer-email').value.trim();
             const transactionId = document.getElementById('transaction-id').value.trim();
             const gameUid = document.getElementById('game-uid').value.trim(); 
             const customPriceValue = document.getElementById('custom-price').value.trim();
@@ -1340,6 +1605,15 @@
             document.getElementById('modal-customer-whatsapp').innerText = customerWhatsapp;
             document.getElementById('modal-final-amount').innerText = currentFinalAmount.toFixed(2).toLocaleString('bn-BD') + ' BDT';
             
+            // ইমেইল row
+            if (customerEmail) {
+                document.getElementById('modal-email-row').style.display = 'block';
+                document.getElementById('modal-customer-email').innerText = customerEmail;
+            } else {
+                 document.getElementById('modal-email-row').style.display = 'none';
+                 document.getElementById('modal-customer-email').innerText = 'N/A';
+            }
+            
             // UID এবং Transaction ID এর দৃশ্যমানতা নিয়ন্ত্রণ
             if (gameUid && !isCustomAccountOrder) {
                 document.getElementById('modal-uid-row').style.display = 'block';
@@ -1378,6 +1652,7 @@
             const customerName = document.getElementById('customer-name').value.trim();
             const customerWhatsapp = document.getElementById('customer-whatsapp').value.trim(); 
             const customerAddress = document.getElementById('customer-address').value.trim() || 'প্রদান করা হয়নি (ঐচ্ছিক)';
+            const customerEmail = document.getElementById('customer-email').value.trim() || 'প্রদান করা হয়নি (ঐচ্ছিক)';
             const orderCodeInput = document.getElementById('order-code-input').value.trim() || 'প্রদান করা হয়নি (ঐচ্ছিক)'; // Coupon Code
             
             // পেমেন্ট তথ্য
@@ -1412,7 +1687,7 @@
                 // সাকসেস পেজে স্পিন বোনাস বার্তা দেখানো
                 const spinBonusInfo = document.getElementById('spin-bonus-info');
                 spinBonusInfo.style.display = 'block';
-                spinBonusInfo.innerHTML = `<i class="fa-solid fa-gift"></i> অভিনন্দন! আপনি এই অর্ডারের জন্য অতিরিক্ত **${bonusSpins}টি** লাকি স্পিন বোনাস পেয়েছেন! স্পিন করতে **"স্পিন"** ট্যাবে যান।`;
+                spinBonusInfo.innerHTML = `<i class="fa-solid fa-gift"></i> অভিনন্দন! আপনি এই অর্ডারের জন্য অতিরিক্ত **${bonusSpins}টি** লাকি স্পিন বোনাস পেয়েছেন! স্পিন করতে **"প্রোফাইল"** বাটন থেকে **"স্পিন"** ট্যাবে যান।`;
             } else {
                 document.getElementById('spin-bonus-info').style.display = 'none';
             }
@@ -1437,6 +1712,7 @@ Vico Shop: নতুন ডিপোজিট রিকোয়েস্ট!
 অর্ডার নাম্বার: ${lastGeneratedOrderNumber}
 গ্রাহকের নাম: ${customerName}
 হোয়াটসঅ্যাপ নম্বর: ${customerWhatsapp}
+ইমেইল: ${customerEmail}
 ঠিকানা: ${customerAddress}
 ডিসকাউন্ট/কুপন কোড (ইনপুট): ${orderCodeInput}
 -----------------------------------
@@ -1465,6 +1741,7 @@ ${uidInfo}
             document.getElementById('customer-name').value = '';
             document.getElementById('customer-whatsapp').value = '';
             document.getElementById('customer-address').value = '';
+            document.getElementById('customer-email').value = '';
             document.getElementById('transaction-id').value = '';
             document.getElementById('game-uid').value = '';
             document.getElementById('screenshot-link').value = '';
@@ -1494,6 +1771,7 @@ ${uidInfo}
                 document.querySelector('.discount-details').style.display = 'none';
                 document.querySelector('.detail-row:nth-child(1)').style.display = 'none'; 
                 document.getElementById('coupon-discount-row').style.display = 'none'; // কুপন রো হাইড
+                document.getElementById('payment-section').style.display = 'none';
             } else {
                 // ১. সাইট ডিসকাউন্ট (২০%) গণনা
                 currentSiteDiscountAmount = currentOriginalAmount * GLOBAL_DISCOUNT_PERCENT;
@@ -1516,6 +1794,7 @@ ${uidInfo}
                 // ডিসপ্লে সেটিংস
                 document.querySelector('.discount-details').style.display = 'block';
                 document.querySelector('.detail-row:nth-child(1)').style.display = 'flex';
+                document.getElementById('payment-section').style.display = 'block';
             }
 
             // পেমেন্ট পেজে ডিসপ্লে আপডেট করা
@@ -1545,7 +1824,7 @@ ${uidInfo}
         window.onclick = function(event) {
             if (!event.target.matches('.dot-menu-btn') && !event.target.matches('.dot-menu-btn i')) {
                 const dropdowns = document.getElementsByClassName("dropdown-menu");
-                for (let i = 0; i in dropdowns.length; i++) {
+                for (let i = 0; i < dropdowns.length; i++) { // লুপ ফিক্স করা হয়েছে
                     const openDropdown = dropdowns[i];
                     if (openDropdown.classList.contains('show')) {
                         openDropdown.classList.remove('show');
@@ -1696,11 +1975,16 @@ ${uidInfo}
 
         // পেজ পরিবর্তন ফাংশন - পেমেন্ট পেজের দৃশ্যমানতা নিয়ন্ত্রণ করা হলো
         function showPage(pageId) {
+            // সমস্ত পেজ হাইড করা
             document.getElementById('home-page').style.display = 'none';
             document.getElementById('payment-page').style.display = 'none';
             document.getElementById('guide-page').style.display = 'none';
             document.getElementById('success-page').style.display = 'none'; 
             document.getElementById('spin-page').style.display = 'none'; 
+            document.getElementById('profile-page').style.display = 'none'; // নতুন ড্যাশবোর্ড
+            document.getElementById('track-page').style.display = 'none'; // নতুন ট্র্যাকিং পেজ
+            
+            // নির্বাচিত পেজ প্রদর্শন
             document.getElementById(pageId).style.display = 'block';
             
             if (pageId === 'home-page') {
@@ -1749,8 +2033,10 @@ ${uidInfo}
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             if (pageId === 'home-page') {
                 document.querySelector('.bottom-nav a:first-child').classList.add('active');
-            } else if (pageId === 'guide-page') {
+            } else if (pageId === 'profile-page') {
                  document.querySelector('.bottom-nav a:nth-child(2)').classList.add('active');
+                 // প্রোফাইল পেজের জন্য স্পিন কাউন্ট আপডেট করা
+                 document.getElementById('dashboard-spin-count').innerText = getSpins();
             } else if (pageId === 'spin-page') {
                  document.querySelector('.bottom-nav a:nth-child(3)').classList.add('active');
                  if (document.getElementById('spin-wheel').childElementCount === 0) {
@@ -1763,6 +2049,8 @@ ${uidInfo}
                  // স্পিন বাটন স্ট্যাটাস চেক করা এবং টাইমার শুরু করা
                  checkSpinButtonStatus(); 
                  updateSpinMessage(); // স্পিন মেসেজ আপডেট করা
+            } else if (pageId === 'guide-page') {
+                 document.querySelector('.bottom-nav a:nth-child(4)').classList.add('active');
             }
         }
 
@@ -2130,6 +2418,49 @@ Vico Shop: নতুন স্পিন পুরস্কার!
                 startSpinCountdown(); // টাইমার চালু করা
             }
         }
+        
+        // ** NEW: ডামি অর্ডার ট্র্যাকিং ফাংশন **
+        function trackOrder() {
+            const orderInput = document.getElementById('order-track-input').value.trim().toUpperCase();
+            const resultBox = document.getElementById('track-result-box');
+            const orderNumberDisplay = document.getElementById('track-order-number');
+            const itemNameDisplay = document.getElementById('track-item-name');
+            const statusDisplay = document.getElementById('track-status');
+            const timeDisplay = document.getElementById('track-time');
+
+            // সহজ ডামি লজিক
+            if (orderInput.startsWith('ORD-') && orderInput.length === 10) {
+                const lastDigit = parseInt(orderInput.slice(-1));
+                orderNumberDisplay.innerText = orderInput;
+                
+                // ডামি ডেটা
+                if (lastDigit % 3 === 0) {
+                     itemNameDisplay.innerText = 'Free Fire 240 Diamonds';
+                     statusDisplay.innerText = 'সফলভাবে ডেলিভারি হয়েছে';
+                     statusDisplay.style.color = '#4CAF50';
+                     timeDisplay.innerText = '৫ মিনিট আগে';
+                } else if (lastDigit % 3 === 1) {
+                     itemNameDisplay.innerText = 'Netflix Premium Account';
+                     statusDisplay.innerText = 'প্রসেসিং চলছে';
+                     statusDisplay.style.color = '#ffc107';
+                     timeDisplay.innerText = '২ মিনিট আগে';
+                } else {
+                     itemNameDisplay.innerText = 'PUBG 660 UC';
+                     statusDisplay.innerText = 'পেমেন্ট যাচাই করা হচ্ছে';
+                     statusDisplay.style.color = '#7f00ff';
+                     timeDisplay.innerText = '১০ মিনিট আগে';
+                }
+                
+                resultBox.style.display = 'block';
+            } else {
+                orderNumberDisplay.innerText = orderInput || 'N/A';
+                itemNameDisplay.innerText = 'অজানা অর্ডার';
+                statusDisplay.innerText = 'অর্ডার খুঁজে পাওয়া যায়নি';
+                statusDisplay.style.color = '#e53935';
+                timeDisplay.innerText = 'N/A';
+                resultBox.style.display = 'block';
+            }
+        }
 
 
         // ৬. স্প্ল্যাশ স্ক্রিন এবং পেজ লোড লজিক 
@@ -2151,4 +2482,4 @@ Vico Shop: নতুন স্পিন পুরস্কার!
         });
     </script>
 </body>
-                                                                  </html>
+                        </html>
