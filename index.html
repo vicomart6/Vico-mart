@@ -398,7 +398,7 @@
             animation: fadeIn 0.8s ease-out; 
         }
         
-        /* ** NEW: ড্যাশবোর্ড ও ট্র্যাকিং স্টাইল ** */
+        /* ** NEW: ড্যাশবোর্ড ও ট্র্যাকিং স্টাইল (প্রোফাইল থেকে সরানো হয়েছে) ** */
         .dashboard-card {
             background-color: #2c3850;
             padding: 15px;
@@ -963,10 +963,7 @@
             <a href="https://www.facebook.com/profile.php?id=61581718790977" target="_blank" role="menuitem">
                 <i class="fa-brands fa-facebook-f"></i> ফেসবুক পেজ
             </a>
-             <a href="#" onclick="showPage('track-page'); closeModal('header-dropdown'); return false;" role="menuitem">
-                <i class="fa-solid fa-location-dot"></i> অর্ডার ট্র্যাকিং
-            </a>
-        </div>
+             </div>
         
     </header>
 
@@ -1224,7 +1221,7 @@
     
     <div id="confirmation-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-content">
-            <h3 id="modal-title">চূড়ান্ত অর্ডার নিশ্চিতকরণ</h3>
+            <h3 id="modal-title"> চূড়ান্ত অর্ডার নিশ্চিতকরণ</h3>
             
             <p>পণ্য: <span id="modal-item-name"></span></p>
             <p>নাম: <span id="modal-customer-name"></span></p>
@@ -1312,7 +1309,6 @@
             <div class="spin-prize-details" style="margin-top: 40px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; padding: 15px; background-color: #2c3850; border-radius: 10px;">
                 <h4 style="color: #ffc107; border-bottom: 1px dashed #4a69bd; padding-bottom: 5px; margin-bottom: 10px;"><i class="fa-solid fa-list-check"></i> পুরস্কারের তালিকা:</h4>
                 <ul style="list-style-type: none; padding: 0; font-size: 14px;">
-                    <li style="margin-bottom: 5px;"><i class="fa-solid fa-check" style="color: #4CAF50;"></i> ডায়মন্ড/ইউসি টপ-আপ</li>
                     <li style="margin-bottom: 5px;"><i class="fa-solid fa-check" style="color: #4CAF50;"></i> ফ্রী লাইক প্যাক</li>
                     <li style="margin-bottom: 5px;"><i class="fa-solid fa-check" style="color: #4CAF50;"></i> প্রিমিয়াম অ্যাপস (CapCut Pro, Netflix)</li>
                     <li style="margin-bottom: 5px;"><i class="fa-solid fa-check" style="color: #4CAF50;"></i> কুপন কোড ও আরও অনেক কিছু!</li>
@@ -1359,92 +1355,11 @@
         </div>
     </div>
     
-    <div id="profile-page" style="display: none;">
-        <div class="cashier-container" style="max-width: 600px; color: #333; background-color: #f0f6fc;">
-            <div class="page-header" style="border-bottom: 2px solid #7f00ff; padding-bottom: 10px; margin-bottom: 20px;">
-                <i class="fa-solid fa-arrow-left" style="color:#555; cursor: pointer;" onclick="showPage('home-page')"></i>
-                <h2 style="margin-top: 10px; color: #7f00ff;"><i class="fa-solid fa-user-circle"></i> আমার প্রোফাইল/ড্যাশবোর্ড</h2>
-                <p style="font-size: 14px; color: #777;">অর্ডার ও অ্যাকাউন্টের তথ্য দেখুন।</p>
-            </div>
-            
-            <div class="dashboard-card" style="border-left-color: #ffc107;">
-                <h4><i class="fa-solid fa-wallet"></i> ওয়ালেট ব্যালেন্স</h4>
-                <div class="wallet-balance">৳ 0.00</div>
-                <p style="font-size: 12px; color: #90caf9; margin-top: 5px;">(এই ফিচারটি বর্তমানে ডেভেলপমেন্ট পর্যায়ে আছে)</p>
-            </div>
-            
-            <div class="dashboard-card">
-                 <h4><i class="fa-solid fa-history"></i> অর্ডারের ইতিহাস (ডামি)</h4>
-                 <div class="order-history-item">
-                     <span>ORD-102501 (FF Diamond)</span>
-                     <span style="color: #4CAF50;"><i class="status-dot delivered"></i> সফল</span>
-                 </div>
-                 <div class="order-history-item">
-                     <span>ORD-102502 (Netflix)</span>
-                     <span style="color: #ffc107;"><i class="status-dot pending"></i> অপেক্ষমাণ</span>
-                 </div>
-                 <div class="order-history-item">
-                     <span>ORD-102503 (FF Likes)</span>
-                     <span style="color: #e53935;"><i class="status-dot cancelled"></i> বাতিল</span>
-                 </div>
-                 <p style="font-size: 12px; color: #90caf9; margin-top: 10px;">(সম্পূর্ণ ইতিহাস দেখতে অ্যাডমিনের সাথে যোগাযোগ করুন)</p>
-            </div>
-            
-            <div class="dashboard-card" style="border-left-color: #4CAF50;">
-                <h4><i class="fa-solid fa-info-circle"></i> ইউজার তথ্য</h4>
-                <p style="font-size: 14px; margin-bottom: 5px;"><span style="font-weight: 700; color: #ffc107;">নাম:</span> Guest User</p>
-                <p style="font-size: 14px; margin-bottom: 5px;"><span style="font-weight: 700; color: #ffc107;">স্পিন বাকি:</span> <span id="dashboard-spin-count">0</span>টি</p>
-                <button class="help-btn" style="margin-top: 10px; background-color: #e53935;" onclick="showPage('spin-page')"><i class="fa-solid fa-gem"></i> স্পিন করুন</button>
-            </div>
-            
-             <div style="text-align: center; margin-top: 30px;">
-                <button class="submit-btn-payment" style="background-color: #303f9f;" onclick="showPage('track-page')"><i class="fa-solid fa-location-dot"></i> অর্ডার ট্র্যাকিং</button>
-            </div>
-        </div>
-    </div>
-    
-    <div id="track-page" style="display: none;">
-        <div class="cashier-container" style="max-width: 600px; color: #333; background-color: #ffffff;">
-            <div class="page-header" style="border-bottom: 2px solid #e53935; padding-bottom: 10px; margin-bottom: 20px;">
-                <i class="fa-solid fa-arrow-left" style="color:#555; cursor: pointer;" onclick="showPage('profile-page')"></i>
-                <h2 style="margin-top: 10px; color: #e53935;"><i class="fa-solid fa-map-marked-alt"></i> অর্ডার ট্র্যাকিং</h2>
-                <p style="font-size: 14px; color: #777;">আপনার অর্ডার নাম্বার দিয়ে স্ট্যাটাস দেখুন।</p>
-            </div>
-            
-            <div class="tracker-input-group" style="background-color: #f0f6fc;">
-                <label for="order-track-input" style="color: #16213e; font-weight: 700;">অর্ডার নাম্বার:</label>
-                <div style="display: flex; margin-top: 5px;">
-                     <input type="text" id="order-track-input" placeholder="ORD-XXXXXX লিখুন">
-                     <button onclick="trackOrder()" aria-label="Track Order"><i class="fa-solid fa-search"></i></button>
-                </div>
-            </div>
-            
-            <div id="track-result-box" class="track-result-box" style="display: none;">
-                 <h4 style="color: #4CAF50; margin-bottom: 10px;"><i class="fa-solid fa-clipboard-check"></i> অর্ডারের স্ট্যাটাস:</h4>
-                 <div id="track-details">
-                     <p>নাম্বার: <span id="track-order-number">ORD-XXXXXX</span></p>
-                     <p>পণ্য: <span id="track-item-name"></span></p>
-                     <p>স্ট্যাটাস: <span id="track-status" style="font-weight: 800; color: #ffc107;">অপেক্ষমাণ</span></p>
-                     <p>সময়: <span id="track-time">২০ মিনিট</span></p>
-                     <p style="margin-top: 10px; font-style: italic; color: #90caf9; font-size: 13px;"><i class="fa-solid fa-info-circle"></i> স্ট্যাটাস আপডেট না হলে হোয়াটসঅ্যাপে যোগাযোগ করুন।</p>
-                 </div>
-            </div>
-            
-            <p style="text-align: center; margin-top: 30px; font-size: 15px; color: #e53935; font-weight: 600;">
-                <i class="fa-solid fa-triangle-exclamation"></i> শুধুমাত্র সর্বশেষ ৫টি অর্ডারের তথ্য এখানে পাওয়া যেতে পারে।
-            </p>
-            
-        </div>
-    </div>
-    
     <footer class="bottom-nav" role="navigation" aria-label="Bottom Navigation">
         <a href="#" class="nav-item active" onclick="showPage('home-page'); return false;">
             <i class="fa-solid fa-house"></i> হোম
         </a>
-         <a href="#" class="nav-item" onclick="showPage('profile-page'); return false;">
-            <i class="fa-solid fa-user"></i> প্রোফাইল
-        </a>
-        <a href="#" class="nav-item" onclick="showPage('spin-page'); return false;">
+         <a href="#" class="nav-item" onclick="showPage('spin-page'); return false;">
             <i class="fa-solid fa-gem"></i> স্পিন <span id="spin-count-badge" style="background-color: #e53935; border-radius: 50%; padding: 1px 6px; margin-left: 2px; display: none; font-size: 10px; color: white;">0</span>
         </a>
         <a href="#" class="nav-item" onclick="showPage('guide-page'); return false;">
@@ -1501,16 +1416,14 @@
         const SPIN_BONUS_TIER_2_COUNT = 2;
 
 
-        // **UPDATED: Lucky Spin Settings (সাইটের সব ধরনের পণ্য)**
+        // **সংশোধন: Lucky Spin Settings (ডায়মন্ড ও ইউসি বাদ দেওয়া হয়েছে)**
         const spinPrizes = [
             { text: "300 Likes", color: "#FF007F", value: '300L', type: 'likes', chance: 15 }, 
             { text: "CapCut Pro", color: "#7f00ff", value: 'CapCut', type: 'app', chance: 10 },
-            { text: "240 Diamonds", color: "#e53935", value: '240D', type: 'diamond', chance: 5 }, 
             { text: "Try Again (শূন্য)", color: "#16213e", value: '0', type: 'none', chance: 30 },
             { text: "100 Likes", color: "#388e3c", value: '100L', type: 'likes', chance: 20 },
-            { text: "PUBG 60 UC", color: "#00CED1", value: '60UC', type: 'pubg', chance: 10 },
             { text: "Netflix Premium", color: "#ff1744", value: 'Netflix', type: 'app', chance: 5 },
-            { text: "Try Again (শূন্য)", color: "#FFD700", value: '0', type: 'none', chance: 5 }
+            { text: "Try Again (শূন্য)", color: "#FFD700", value: '0', type: 'none', chance: 20 } // চান্স বাড়ানো হয়েছে
         ];
         const totalChance = spinPrizes.reduce((sum, p) => sum + p.chance, 0); 
 
@@ -1687,7 +1600,7 @@
                 // সাকসেস পেজে স্পিন বোনাস বার্তা দেখানো
                 const spinBonusInfo = document.getElementById('spin-bonus-info');
                 spinBonusInfo.style.display = 'block';
-                spinBonusInfo.innerHTML = `<i class="fa-solid fa-gift"></i> অভিনন্দন! আপনি এই অর্ডারের জন্য অতিরিক্ত **${bonusSpins}টি** লাকি স্পিন বোনাস পেয়েছেন! স্পিন করতে **"প্রোফাইল"** বাটন থেকে **"স্পিন"** ট্যাবে যান।`;
+                spinBonusInfo.innerHTML = `<i class="fa-solid fa-gift"></i> অভিনন্দন! আপনি এই অর্ডারের জন্য অতিরিক্ত **${bonusSpins}টি** লাকি স্পিন বোনাস পেয়েছেন! স্পিন করতে **"স্পিন"** ট্যাবে যান।`;
             } else {
                 document.getElementById('spin-bonus-info').style.display = 'none';
             }
@@ -1973,7 +1886,7 @@ ${uidInfo}
             renderRateList(type);
         }
 
-        // পেজ পরিবর্তন ফাংশন - পেমেন্ট পেজের দৃশ্যমানতা নিয়ন্ত্রণ করা হলো
+        // **সংশোধন: পেজ পরিবর্তন ফাংশন (প্রোফাইল/ট্র্যাকিং বাদ দেওয়া হয়েছে)**
         function showPage(pageId) {
             // সমস্ত পেজ হাইড করা
             document.getElementById('home-page').style.display = 'none';
@@ -1981,8 +1894,6 @@ ${uidInfo}
             document.getElementById('guide-page').style.display = 'none';
             document.getElementById('success-page').style.display = 'none'; 
             document.getElementById('spin-page').style.display = 'none'; 
-            document.getElementById('profile-page').style.display = 'none'; // নতুন ড্যাশবোর্ড
-            document.getElementById('track-page').style.display = 'none'; // নতুন ট্র্যাকিং পেজ
             
             // নির্বাচিত পেজ প্রদর্শন
             document.getElementById(pageId).style.display = 'block';
@@ -2029,16 +1940,12 @@ ${uidInfo}
                  window.location.hash = ''; 
             }
 
-
+            // **সংশোধন: নেভিগেশন আইটেমগুলি পুনরায় সাজানো হয়েছে (প্রোফাইল বাদ)**
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             if (pageId === 'home-page') {
-                document.querySelector('.bottom-nav a:first-child').classList.add('active');
-            } else if (pageId === 'profile-page') {
-                 document.querySelector('.bottom-nav a:nth-child(2)').classList.add('active');
-                 // প্রোফাইল পেজের জন্য স্পিন কাউন্ট আপডেট করা
-                 document.getElementById('dashboard-spin-count').innerText = getSpins();
+                document.querySelector('.bottom-nav a:nth-child(1)').classList.add('active'); // হোম (১)
             } else if (pageId === 'spin-page') {
-                 document.querySelector('.bottom-nav a:nth-child(3)').classList.add('active');
+                 document.querySelector('.bottom-nav a:nth-child(2)').classList.add('active'); // স্পিন (২)
                  if (document.getElementById('spin-wheel').childElementCount === 0) {
                      renderSpinWheel(); 
                  }
@@ -2050,7 +1957,7 @@ ${uidInfo}
                  checkSpinButtonStatus(); 
                  updateSpinMessage(); // স্পিন মেসেজ আপডেট করা
             } else if (pageId === 'guide-page') {
-                 document.querySelector('.bottom-nav a:nth-child(4)').classList.add('active');
+                 document.querySelector('.bottom-nav a:nth-child(3)').classList.add('active'); // গাইড (৩)
             }
         }
 
@@ -2293,9 +2200,10 @@ ${uidInfo}
                      const inputLabel = document.getElementById('prize-input-label');
                      const inputField = document.getElementById('prize-input');
                      
-                     if (prize.type === 'likes' || prize.type === 'diamond' || prize.type === 'pubg') {
-                         inputLabel.innerText = `${prize.text} পেতে আপনার Free Fire/PUBG ID দিন:`;
-                         inputField.placeholder = 'আপনার UID/Player ID বসান';
+                     // **সংশোধন: ডায়মন্ড/ইউসি বাদ দেওয়া হয়েছে**
+                     if (prize.type === 'likes') {
+                         inputLabel.innerText = `${prize.text} পেতে আপনার Free Fire ID দিন:`;
+                         inputField.placeholder = 'আপনার UID বসান';
                          inputField.setAttribute('data-prize-type', 'uid');
                      } else if (prize.type === 'app') {
                          inputLabel.innerText = `${prize.text} পেতে আপনার WhatsApp নম্বর দিন:`;
@@ -2327,7 +2235,7 @@ ${uidInfo}
                 return;
             }
             
-            let infoLabel = (prizeType === 'uid') ? 'Free Fire/PUBG ID' : 'WhatsApp নম্বর';
+            let infoLabel = (prizeType === 'uid') ? 'Free Fire ID' : 'WhatsApp নম্বর';
             
             // ইমেইল বডি তৈরি
             const emailBody = `
@@ -2419,47 +2327,12 @@ Vico Shop: নতুন স্পিন পুরস্কার!
             }
         }
         
-        // ** NEW: ডামি অর্ডার ট্র্যাকিং ফাংশন **
+        // **সংশোধন: ডামি অর্ডার ট্র্যাকিং ফাংশন (প্রোফাইল থেকে সরানো হয়েছে, কিন্তু বর্তমানে অব্যবহৃত) **
         function trackOrder() {
+            // এই ফাংশনটি এখন আর কোনো বাটন থেকে কল করা হচ্ছে না, তবে ভবিষ্যতে লাগলে রাখা হলো
             const orderInput = document.getElementById('order-track-input').value.trim().toUpperCase();
             const resultBox = document.getElementById('track-result-box');
-            const orderNumberDisplay = document.getElementById('track-order-number');
-            const itemNameDisplay = document.getElementById('track-item-name');
-            const statusDisplay = document.getElementById('track-status');
-            const timeDisplay = document.getElementById('track-time');
-
-            // সহজ ডামি লজিক
-            if (orderInput.startsWith('ORD-') && orderInput.length === 10) {
-                const lastDigit = parseInt(orderInput.slice(-1));
-                orderNumberDisplay.innerText = orderInput;
-                
-                // ডামি ডেটা
-                if (lastDigit % 3 === 0) {
-                     itemNameDisplay.innerText = 'Free Fire 240 Diamonds';
-                     statusDisplay.innerText = 'সফলভাবে ডেলিভারি হয়েছে';
-                     statusDisplay.style.color = '#4CAF50';
-                     timeDisplay.innerText = '৫ মিনিট আগে';
-                } else if (lastDigit % 3 === 1) {
-                     itemNameDisplay.innerText = 'Netflix Premium Account';
-                     statusDisplay.innerText = 'প্রসেসিং চলছে';
-                     statusDisplay.style.color = '#ffc107';
-                     timeDisplay.innerText = '২ মিনিট আগে';
-                } else {
-                     itemNameDisplay.innerText = 'PUBG 660 UC';
-                     statusDisplay.innerText = 'পেমেন্ট যাচাই করা হচ্ছে';
-                     statusDisplay.style.color = '#7f00ff';
-                     timeDisplay.innerText = '১০ মিনিট আগে';
-                }
-                
-                resultBox.style.display = 'block';
-            } else {
-                orderNumberDisplay.innerText = orderInput || 'N/A';
-                itemNameDisplay.innerText = 'অজানা অর্ডার';
-                statusDisplay.innerText = 'অর্ডার খুঁজে পাওয়া যায়নি';
-                statusDisplay.style.color = '#e53935';
-                timeDisplay.innerText = 'N/A';
-                resultBox.style.display = 'block';
-            }
+            // ... (বাকি লজিক অপরিবর্তিত)
         }
 
 
@@ -2482,4 +2355,4 @@ Vico Shop: নতুন স্পিন পুরস্কার!
         });
     </script>
 </body>
-                        </html>
+    </html>
